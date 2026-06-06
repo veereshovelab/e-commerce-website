@@ -16,7 +16,7 @@ const Header = () => {
 
   const { user, isAuthenticated, logout } = useAuth();
   const { getCartItemsCount, wishlist } = useCart();
-  const { isDarkMode, toggleTheme } = useTheme();
+  const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
   const isActive = (path) => location.pathname === path;
@@ -159,17 +159,6 @@ const Header = () => {
 
           {/* Right Action Icons */}
           <div className="flex items-center space-x-3 sm:space-x-4">
-            {/* Theme Toggle */}
-            <motion.button
-              whileTap={{ scale: 0.9 }}
-              onClick={toggleTheme}
-              className={`p-2 rounded-full border transition-colors ${
-                isDarkMode ? 'border-zinc-800 hover:bg-zinc-900 text-amber-400' : 'border-zinc-200 hover:bg-zinc-100 text-zinc-600'
-              }`}
-              title="Toggle Theme"
-            >
-              {isDarkMode ? <FiSun size={17} /> : <FiMoon size={17} />}
-            </motion.button>
 
             {/* Wishlist Link */}
             <Link to="/wishlist" className={`relative p-2 rounded-full border hidden sm:block ${
