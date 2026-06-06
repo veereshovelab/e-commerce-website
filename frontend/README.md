@@ -13,7 +13,7 @@ npm install
 
 3. Start development server:
 ```bash
-npm start
+npm run dev
 ```
 
 Application opens at `http://localhost:3000`
@@ -50,8 +50,8 @@ npm run build
 ## Environment Variables
 
 ```
-REACT_APP_API_URL=http://localhost:5000/api
-REACT_APP_GOOGLE_CLIENT_ID=your_google_client_id
+VITE_API_URL=http://localhost:5000/api
+VITE_GOOGLE_CLIENT_ID=your_google_client_id
 ```
 
 ## Project Structure
@@ -64,16 +64,14 @@ src/
 ├── hooks/        # Custom React hooks
 ├── utils/        # Helper functions
 ├── assets/       # Images and static files
-├── App.js        # Main app component
-└── index.js      # Entry point
+├── App.jsx        # Main app component
+└── index.jsx      # Entry point
 ```
 
 ## Available Scripts
 
-- `npm start` - Start development server
+- `npm run dev` - Start development server
 - `npm run build` - Build for production
-- `npm test` - Run tests
-- `npm run eject` - Eject from Create React App (cannot be reversed)
 
 ## Deployment
 
@@ -87,6 +85,6 @@ npm run build
 ## Notes
 
 - Ensure backend API is running on the URL specified in `.env`
-- Update `REACT_APP_API_URL` if backend URL changes
+- Update `VITE_API_URL` if backend URL changes
 - Cart and wishlist are stored in localStorage
 - Theme preference is saved in localStorage
