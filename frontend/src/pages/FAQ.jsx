@@ -49,41 +49,54 @@ const FAQ = () => {
   ];
 
   const categories = [
-    { title: 'Ordering', faqs: faqs.slice(0, 3) },
-    { title: 'Shipping & Delivery', faqs: faqs.slice(3, 6) },
-    { title: 'Account & Security', faqs: faqs.slice(6, 10) }
+    { title: 'Ordering & Operations', faqs: faqs.slice(0, 3) },
+    { title: 'Shipping & Logistical Details', faqs: faqs.slice(3, 6) },
+    { title: 'Account Security & Support', faqs: faqs.slice(6, 10) }
   ];
 
   return (
     <div className="min-h-screen">
-      {/* Hero */}
-      <section className={`${isDarkMode ? 'bg-gradient-to-r from-gray-800 to-gray-900' : 'bg-gradient-to-r from-blue-600 to-blue-700'} text-white py-16`}>
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Frequently Asked Questions</h1>
-          <p className="text-xl opacity-90">Find answers to common questions about shopping with ShopSphere</p>
+      {/* Hero Section */}
+      <section className={`relative py-24 px-4 sm:px-6 lg:px-8 border-b ${
+        isDarkMode ? 'bg-zinc-950 border-zinc-900' : 'bg-zinc-50 border-zinc-200'
+      }`}>
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full bg-brand-500/10 blur-[100px] pointer-events-none" />
+
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <span className="text-xs uppercase tracking-widest font-semibold text-brand-500">FAQ Directory</span>
+          <h1 className="text-4xl sm:text-5xl font-display font-bold tracking-tight text-zinc-900 dark:text-white mt-3 mb-6">
+            Frequently Asked Questions
+          </h1>
+          <p className="text-base sm:text-lg leading-relaxed text-zinc-500 dark:text-zinc-400 max-w-xl mx-auto">
+            Find answers to operations, safety, configurations, and general queries.
+          </p>
         </div>
       </section>
 
-      {/* FAQ Content */}
-      <div className="max-w-4xl mx-auto px-4 py-16">
+      {/* FAQ content */}
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         {categories.map((category, index) => (
-          <div key={index} className="mb-16">
-            <h2 className="text-2xl font-bold mb-8">{category.title}</h2>
+          <div key={index} className="mb-16 last:mb-0">
+            <h2 className="text-lg font-display font-bold text-zinc-800 dark:text-white mb-6 uppercase tracking-wider">
+              {category.title}
+            </h2>
             <Accordion items={category.faqs} />
           </div>
         ))}
 
-        {/* Help Section */}
-        <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-blue-50 border-blue-200'} border rounded-lg p-8 mt-12 text-center`}>
-          <h3 className="text-2xl font-bold mb-4">Didn't find your answer?</h3>
-          <p className={`mb-6 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-            Our support team is here to help you 24/7
+        {/* Support CTA Callout */}
+        <div className={`p-8 rounded-3xl border text-center shadow-premium mt-16 ${
+          isDarkMode ? 'bg-zinc-900/40 border-zinc-850' : 'bg-white border-zinc-200'
+        }`}>
+          <h3 className="font-display font-bold text-xl text-zinc-900 dark:text-white mb-2">Still need help?</h3>
+          <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mb-6 max-w-sm mx-auto">
+            If you could not find the answer to your questions, our support team is available 24/7.
           </p>
           <a
             href="/contact"
-            className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold"
+            className="inline-block bg-brand-500 hover:bg-brand-600 text-white text-xs font-semibold px-6 py-3 rounded-full shadow-glow-primary transition"
           >
-            Contact Support
+            Contact Customer Support
           </a>
         </div>
       </div>
