@@ -38,11 +38,11 @@ const ProductCard = ({ product }) => {
   return (
     <>
       <motion.div
-        whileHover={{ y: -6 }}
+        whileHover={{ y: -8 }}
         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
         className={`group relative rounded-2xl overflow-hidden border ${
-          isDarkMode ? 'bg-zinc-900 border-zinc-800/80' : 'bg-white border-zinc-200'
-        } shadow-premium hover:shadow-premium-hover flex flex-col h-full`}
+          isDarkMode ? 'bg-darkCard/40 border-white/5 backdrop-blur-md shadow-glass-dark hover:border-white/10 hover:shadow-glow-purple' : 'bg-white border-zinc-200 shadow-premium hover:shadow-premium-hover'
+        } flex flex-col h-full`}
       >
         {/* Wishlist Button (Floating) */}
         <motion.button
@@ -51,8 +51,8 @@ const ProductCard = ({ product }) => {
           className={`absolute top-3 right-3 z-10 p-2.5 rounded-full backdrop-blur-md shadow-sm border ${
             isInWishlist(product._id)
               ? 'bg-red-500/10 border-red-500/20 text-red-500'
-              : `border-zinc-200/50 dark:border-zinc-800/50 ${
-                  isDarkMode ? 'bg-zinc-900/60 text-zinc-400 hover:text-white' : 'bg-white/60 text-zinc-500 hover:text-zinc-900'
+              : `border-zinc-200/50 dark:border-white/5 ${
+                  isDarkMode ? 'bg-darkDeep/60 text-zinc-400 hover:text-white hover:border-white/15' : 'bg-white/60 text-zinc-500 hover:text-zinc-900'
                 }`
           } transition-all duration-300`}
         >
@@ -109,7 +109,7 @@ const ProductCard = ({ product }) => {
             <p className="text-[10px] font-semibold tracking-widest text-zinc-400 dark:text-zinc-500 uppercase mb-1.5">
               {product.brand || 'Premium Brand'}
             </p>
-            <h3 className="font-display font-medium text-sm text-zinc-800 dark:text-zinc-200 line-clamp-1 group-hover:text-brand-500 transition-colors duration-300 mb-1">
+            <h3 className="font-display font-medium text-sm text-zinc-800 dark:text-white line-clamp-1 group-hover:text-brand-500 dark:group-hover:text-brand-400 transition-colors duration-300 mb-1">
               {product.name}
             </h3>
 
@@ -122,7 +122,7 @@ const ProductCard = ({ product }) => {
                   </span>
                 ))}
               </div>
-              <span className="text-[10px] text-zinc-400 dark:text-zinc-500">
+              <span className="text-[10px] text-zinc-400 dark:text-zinc-400">
                 ({product.reviewCount || 0})
               </span>
             </div>
@@ -132,13 +132,13 @@ const ProductCard = ({ product }) => {
           <div className="flex items-baseline space-x-2 mt-2">
             {product.discountPrice ? (
               <>
-                <span className="text-base font-bold text-brand-500">${product.discountPrice}</span>
-                <span className={`text-xs line-through ${isDarkMode ? 'text-zinc-600' : 'text-zinc-400'}`}>
+                <span className="text-base font-bold text-brand-500 dark:text-brand-400">${product.discountPrice}</span>
+                <span className={`text-xs line-through ${isDarkMode ? 'text-zinc-500' : 'text-zinc-400'}`}>
                   ${product.price}
                 </span>
               </>
             ) : (
-              <span className="text-base font-bold text-zinc-800 dark:text-zinc-200">${product.price}</span>
+              <span className="text-base font-bold text-zinc-800 dark:text-white">${product.price}</span>
             )}
           </div>
         </Link>

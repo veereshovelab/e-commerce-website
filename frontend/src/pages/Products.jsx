@@ -141,27 +141,27 @@ const Products = () => {
             value={filters.search}
             onChange={(e) => handleFilterChange('search', e.target.value)}
             placeholder="Search keywords..."
-            className={`w-full pl-3 pr-10 py-2 text-sm rounded-xl outline-none border focus:ring-1 focus:ring-brand-500 ${
+            className={`w-full pl-3 pr-10 py-2.5 text-sm rounded-xl outline-none border transition-all focus:ring-1 focus:ring-brand-500/50 ${
               isDarkMode 
-                ? 'bg-zinc-900 border-zinc-800 text-white placeholder-zinc-600 focus:border-zinc-700' 
+                ? 'bg-darkDeep border-white/10 text-white placeholder-zinc-500 focus:border-brand-500' 
                 : 'bg-white border-zinc-200 text-zinc-900 placeholder-zinc-400 focus:border-zinc-300'
             }`}
           />
-          <FiSearch className="absolute right-3.5 top-3 text-zinc-400" size={14} />
+          <FiSearch className="absolute right-3.5 top-3.5 text-zinc-400" size={14} />
         </div>
       </div>
 
       {/* Category Filter */}
       <div>
-        <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-2">
+        <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-550 mb-2">
           Category
         </label>
         <select
           value={filters.category}
           onChange={(e) => handleFilterChange('category', e.target.value)}
-          className={`w-full px-3 py-2 text-sm rounded-xl outline-none border focus:ring-1 focus:ring-brand-500 ${
+          className={`w-full px-3 py-2.5 text-sm rounded-xl outline-none border transition-all focus:ring-1 focus:ring-brand-500/50 ${
             isDarkMode 
-              ? 'bg-zinc-900 border-zinc-800 text-white focus:border-zinc-700' 
+              ? 'bg-darkDeep border-white/10 text-white focus:border-brand-500' 
               : 'bg-white border-zinc-200 text-zinc-900 focus:border-zinc-300'
           }`}
         >
@@ -174,15 +174,15 @@ const Products = () => {
 
       {/* Brand Filter */}
       <div>
-        <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-2">
+        <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-550 mb-2">
           Brand
         </label>
         <select
           value={filters.brand}
           onChange={(e) => handleFilterChange('brand', e.target.value)}
-          className={`w-full px-3 py-2 text-sm rounded-xl outline-none border focus:ring-1 focus:ring-brand-500 ${
+          className={`w-full px-3 py-2.5 text-sm rounded-xl outline-none border transition-all focus:ring-1 focus:ring-brand-500/50 ${
             isDarkMode 
-              ? 'bg-zinc-900 border-zinc-800 text-white focus:border-zinc-700' 
+              ? 'bg-darkDeep border-white/10 text-white focus:border-brand-500' 
               : 'bg-white border-zinc-200 text-zinc-900 focus:border-zinc-300'
           }`}
         >
@@ -195,7 +195,7 @@ const Products = () => {
 
       {/* Price Range Filter */}
       <div>
-        <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-2">
+        <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-550 mb-2">
           Price Range
         </label>
         <div className="grid grid-cols-2 gap-3">
@@ -204,9 +204,9 @@ const Products = () => {
             placeholder="Min"
             value={filters.minPrice}
             onChange={(e) => handleFilterChange('minPrice', e.target.value)}
-            className={`w-full px-3 py-2 text-sm rounded-xl outline-none border focus:ring-1 focus:ring-brand-500 ${
+            className={`w-full px-3 py-2.5 text-sm rounded-xl outline-none border transition-all focus:ring-1 focus:ring-brand-500/50 ${
               isDarkMode 
-                ? 'bg-zinc-900 border-zinc-800 text-white placeholder-zinc-600 focus:border-zinc-700' 
+                ? 'bg-darkDeep border-white/10 text-white placeholder-zinc-500 focus:border-brand-500' 
                 : 'bg-white border-zinc-200 text-zinc-900 placeholder-zinc-400 focus:border-zinc-300'
             }`}
           />
@@ -215,9 +215,9 @@ const Products = () => {
             placeholder="Max"
             value={filters.maxPrice}
             onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
-            className={`w-full px-3 py-2 text-sm rounded-xl outline-none border focus:ring-1 focus:ring-brand-500 ${
+            className={`w-full px-3 py-2.5 text-sm rounded-xl outline-none border transition-all focus:ring-1 focus:ring-brand-500/50 ${
               isDarkMode 
-                ? 'bg-zinc-900 border-zinc-800 text-white placeholder-zinc-600 focus:border-zinc-700' 
+                ? 'bg-darkDeep border-white/10 text-white placeholder-zinc-500 focus:border-brand-500' 
                 : 'bg-white border-zinc-200 text-zinc-900 placeholder-zinc-400 focus:border-zinc-300'
             }`}
           />
@@ -226,15 +226,15 @@ const Products = () => {
 
       {/* Sort Filter */}
       <div>
-        <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-2">
+        <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-550 mb-2">
           Sort By
         </label>
         <select
           value={filters.sort}
           onChange={(e) => handleFilterChange('sort', e.target.value)}
-          className={`w-full px-3 py-2 text-sm rounded-xl outline-none border focus:ring-1 focus:ring-brand-500 ${
+          className={`w-full px-3 py-2.5 text-sm rounded-xl outline-none border transition-all focus:ring-1 focus:ring-brand-500/50 ${
             isDarkMode 
-              ? 'bg-zinc-900 border-zinc-800 text-white focus:border-zinc-700' 
+              ? 'bg-darkDeep border-white/10 text-white focus:border-brand-500' 
               : 'bg-white border-zinc-200 text-zinc-900 focus:border-zinc-300'
           }`}
         >
@@ -276,8 +276,8 @@ const Products = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-10">
         {/* Desktop Filters Panel */}
-        <aside className={`hidden lg:block lg:col-span-1 p-6 rounded-2xl border sticky top-24 h-fit max-h-[85vh] overflow-y-auto shadow-premium ${
-          isDarkMode ? 'bg-zinc-900/40 border-zinc-850' : 'bg-white border-zinc-200'
+        <aside className={`hidden lg:block lg:col-span-1 p-6 rounded-2xl border sticky top-24 h-fit max-h-[85vh] overflow-y-auto transition-all ${
+          isDarkMode ? 'bg-darkCard/40 border-white/5 backdrop-blur-md shadow-glass-dark' : 'bg-white border-zinc-200 shadow-premium'
         }`}>
           {filterSidebarContent}
         </aside>
@@ -301,8 +301,8 @@ const Products = () => {
                 animate="open"
                 exit="closed"
                 variants={sidebarVariants}
-                className={`fixed top-0 left-0 bottom-0 w-80 max-w-[85vw] p-6 z-50 overflow-y-auto lg:hidden shadow-2xl border-r ${
-                  isDarkMode ? 'bg-zinc-900 border-zinc-850 text-white' : 'bg-white border-zinc-200 text-zinc-950'
+                className={`fixed top-0 left-0 bottom-0 w-80 max-w-[85vw] p-6 z-50 overflow-y-auto lg:hidden border-r backdrop-blur-lg transition-all ${
+                  isDarkMode ? 'bg-darkCardLt/95 border-white/10 text-white shadow-2xl' : 'bg-white border-zinc-200 text-zinc-950 shadow-2xl'
                 }`}
               >
                 <button

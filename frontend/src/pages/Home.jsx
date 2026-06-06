@@ -67,12 +67,13 @@ const Home = () => {
       {/* Hero Section */}
       <section className={`relative min-h-[90vh] flex items-center justify-center py-24 px-4 sm:px-6 lg:px-8 border-b ${
         isDarkMode 
-          ? 'bg-zinc-950 border-zinc-900' 
+          ? 'bg-transparent border-white/5' 
           : 'bg-zinc-50 border-zinc-200'
       }`}>
         {/* Glow Spheres (Ambient Background Effects) */}
-        <div className="absolute top-1/4 left-1/4 w-80 h-80 rounded-full bg-brand-500/15 blur-[100px] pointer-events-none" />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-indigo-500/15 blur-[100px] pointer-events-none" />
+        <div className="absolute top-1/4 left-1/4 w-[450px] h-[450px] rounded-full bg-brand-500/10 dark:bg-brand-500/5 blur-[120px] pointer-events-none animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-[450px] h-[450px] rounded-full bg-indigo-500/10 dark:bg-indigo-500/5 blur-[120px] pointer-events-none animate-pulse" />
+        <div className="hero-glow-sphere w-[500px] h-[350px] top-1/4 left-1/3 opacity-30 dark:opacity-40" />
 
         <div className="max-w-7xl mx-auto w-full relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -84,13 +85,13 @@ const Home = () => {
             >
               <span className={`inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider mb-6 border ${
                 isDarkMode 
-                  ? 'bg-zinc-900 border-zinc-800 text-brand-400' 
+                  ? 'bg-zinc-900/60 border-white/10 text-brand-400' 
                   : 'bg-white border-zinc-200 text-brand-600'
               }`}>
                 <span>🚀 Introducing ShopSphere 2.0</span>
               </span>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6 leading-[1.08] text-zinc-950 dark:text-white">
-                Next-Gen <span className="text-gradient">E-Commerce</span> Experience.
+                Next-<span className="text-gradient font-extrabold">Gen</span> E-<span className="text-gradient font-extrabold">Commerce</span> Experience.
               </h1>
               <p className="text-base sm:text-lg mb-10 leading-relaxed text-zinc-500 dark:text-zinc-400 max-w-lg">
                 Discover a curated universe of premium products from elite brands. Immerse yourself in Stripe-like speed and Apple-grade precision.
@@ -98,7 +99,7 @@ const Home = () => {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
                   to="/products"
-                  className="inline-flex items-center justify-center space-x-2 bg-brand-500 hover:bg-brand-600 text-white px-7 py-3.5 rounded-full font-medium shadow-glow-primary hover:shadow-lg hover:shadow-brand-500/25 transition duration-300"
+                  className="inline-flex items-center justify-center space-x-2 bg-brand-500 hover:bg-brand-600 text-white px-7 py-3.5 rounded-full font-medium shadow-glow-primary hover:shadow-lg hover:shadow-brand-500/25 transition duration-300 dark:btn-glow-primary"
                 >
                   <span>Explore Catalog</span>
                   <FiArrowRight size={16} />
@@ -107,8 +108,8 @@ const Home = () => {
                   to="/about"
                   className={`inline-flex items-center justify-center border px-7 py-3.5 rounded-full font-medium transition duration-300 ${
                     isDarkMode 
-                      ? 'border-zinc-850 hover:bg-zinc-900 hover:text-white' 
-                      : 'border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900'
+                      ? 'btn-glass-secondary border-white/10 text-zinc-350' 
+                      : 'border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900 text-zinc-700'
                   }`}
                 >
                   <span>Learn Our Philosophy</span>
@@ -124,9 +125,9 @@ const Home = () => {
               className="relative flex items-center justify-center"
             >
               {/* Vercel/Linear style grid overlay card */}
-              <div className={`relative p-6 sm:p-8 rounded-3xl w-full max-w-[460px] border shadow-premium backdrop-blur-md ${
+              <div className={`relative p-6 sm:p-8 rounded-3xl w-full max-w-[460px] border shadow-premium backdrop-blur-md transition-all ${
                 isDarkMode 
-                  ? 'bg-zinc-900/60 border-zinc-800' 
+                  ? 'bg-darkCard/50 border-white/5 shadow-glass-dark' 
                   : 'bg-white/60 border-zinc-150'
               }`}>
                 <div className="absolute top-4 right-4 flex space-x-1">
@@ -137,7 +138,7 @@ const Home = () => {
                 <img
                   src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=600&auto=format&fit=crop"
                   alt="Modern Storefront Analytics mockup"
-                  className="rounded-2xl shadow-sm border border-zinc-200 dark:border-zinc-850 w-full mb-6 filter dark:brightness-90"
+                  className="rounded-2xl shadow-sm border border-zinc-200 dark:border-white/5 w-full mb-6 filter dark:brightness-90"
                 />
                 <div>
                   <p className="text-xs font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest mb-1">Elite Standard</p>
@@ -153,15 +154,15 @@ const Home = () => {
       </section>
 
       {/* Trust & Features Statistics */}
-      <section className={`py-12 border-b ${isDarkMode ? 'bg-zinc-950/40 border-zinc-900' : 'bg-white border-zinc-100'}`}>
+      <section className={`py-12 border-b ${isDarkMode ? 'bg-transparent border-white/5' : 'bg-white border-zinc-100'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {stats.map((stat, idx) => {
               const Icon = stat.icon;
               return (
                 <div key={idx} className="flex items-start space-x-4">
-                  <div className={`p-3 rounded-xl border flex-shrink-0 ${
-                    isDarkMode ? 'bg-zinc-900 border-zinc-850 text-brand-400' : 'bg-zinc-50 border-zinc-200 text-brand-600'
+                  <div className={`p-3 rounded-xl border flex-shrink-0 transition-all ${
+                    isDarkMode ? 'bg-darkCard/40 border-white/5 text-brand-400 shadow-sm' : 'bg-zinc-50 border-zinc-200 text-brand-600'
                   }`}>
                     <Icon size={20} />
                   </div>
@@ -201,7 +202,7 @@ const Home = () => {
                   to={`/products?category=${cat.name}`}
                   className={`block p-8 rounded-2xl border text-center transition-all duration-300 shadow-premium hover:shadow-premium-hover ${
                     isDarkMode 
-                      ? 'bg-zinc-900/40 border-zinc-850 hover:border-zinc-700' 
+                      ? 'bg-darkCard/30 border-white/5 hover:border-white/15 hover:shadow-glow-purple shadow-glass-dark' 
                       : 'bg-white border-zinc-200 hover:border-zinc-300'
                   }`}
                 >
@@ -209,7 +210,7 @@ const Home = () => {
                     {cat.icon}
                   </div>
                   <p className="font-display font-semibold text-sm text-zinc-800 dark:text-white">{cat.name}</p>
-                  <p className="text-[10px] text-zinc-400 dark:text-zinc-500 mt-1 uppercase tracking-wider">{cat.count}</p>
+                  <p className="text-[10px] text-zinc-400 dark:text-zinc-400 mt-1 uppercase tracking-wider">{cat.count}</p>
                 </Link>
               </motion.div>
             ))}
@@ -218,7 +219,7 @@ const Home = () => {
       </section>
 
       {/* Featured Products */}
-      <section className={`py-20 border-t border-b ${isDarkMode ? 'bg-zinc-900/20 border-zinc-900' : 'bg-zinc-50 border-zinc-200'}`}>
+      <section className={`py-20 border-t border-b ${isDarkMode ? 'bg-transparent border-white/5' : 'bg-zinc-50 border-zinc-200'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-end mb-12">
             <div>
@@ -258,9 +259,9 @@ const Home = () => {
       {/* Interactive Promotional Banner */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className={`relative overflow-hidden rounded-3xl p-8 md:p-12 lg:p-16 border shadow-premium ${
+          <div className={`relative overflow-hidden rounded-3xl p-8 md:p-12 lg:p-16 border shadow-premium transition-all ${
             isDarkMode 
-              ? 'bg-zinc-950 border-zinc-900 text-white' 
+              ? 'bg-gradient-to-br from-darkCardLt to-darkDeep border-white/10 shadow-glass-dark text-white' 
               : 'bg-zinc-900 border-zinc-800 text-white'
           }`}>
             {/* Ambient visual overlay */}
@@ -271,18 +272,18 @@ const Home = () => {
               <h2 className="text-3xl sm:text-4xl font-display font-bold tracking-tight mt-3 mb-4 leading-tight">
                 Enhance Your Style.<br />Get 20% Off Everything.
               </h2>
-              <p className="text-xs sm:text-sm text-zinc-400 mb-8 leading-relaxed">
+              <p className="text-xs sm:text-sm text-zinc-450 dark:text-zinc-350 mb-8 leading-relaxed">
                 Applies automatically to select checkout amounts. Browse premium products from high-end electronics to active outdoor gear.
               </p>
               <div className="flex flex-wrap items-center gap-4">
                 <Link
                   to="/products"
-                  className="bg-brand-500 hover:bg-brand-600 text-white px-6 py-3 rounded-full text-xs font-semibold shadow-glow-primary hover:shadow-lg transition"
+                  className="bg-brand-500 hover:bg-brand-600 text-white px-6 py-3 rounded-full text-xs font-semibold shadow-glow-primary hover:shadow-lg transition dark:btn-glow-primary"
                 >
                   Shop the Sale
                 </Link>
                 <div className="text-xs font-mono text-zinc-400 dark:text-zinc-500">
-                  Use Code: <span className="text-white bg-zinc-800 dark:bg-zinc-900 border border-zinc-700 px-2 py-1 rounded">SPHERE20</span>
+                  Use Code: <span className="text-white bg-zinc-800 dark:bg-darkDeep/80 border border-zinc-700 dark:border-white/10 px-2 py-1 rounded">SPHERE20</span>
                 </div>
               </div>
             </div>
@@ -291,7 +292,7 @@ const Home = () => {
       </section>
 
       {/* Trending Now Section */}
-      <section className={`py-20 border-t ${isDarkMode ? 'bg-zinc-900/20 border-zinc-900' : 'bg-zinc-50 border-zinc-200'}`}>
+      <section className={`py-20 border-t ${isDarkMode ? 'bg-transparent border-white/5' : 'bg-zinc-50 border-zinc-200'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-end mb-12">
             <div>
@@ -361,19 +362,21 @@ const Home = () => {
             ].map((test, index) => (
               <div
                 key={index}
-                className={`p-8 rounded-2xl border shadow-premium flex flex-col justify-between ${
-                  isDarkMode ? 'bg-zinc-900/60 border-zinc-850' : 'bg-white border-zinc-200'
+                className={`p-8 rounded-2xl border shadow-premium flex flex-col justify-between transition-all ${
+                  isDarkMode 
+                    ? 'bg-darkCard/40 border-white/5 backdrop-blur-md shadow-glass-dark hover:border-white/10' 
+                    : 'bg-white border-zinc-200'
                 }`}
               >
                 <div>
                   <div className="flex text-yellow-400 mb-4">
                     {[...Array(5)].map((_, i) => <span key={i} className="text-sm">★</span>)}
                   </div>
-                  <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-zinc-400' : 'text-zinc-600'}`}>
+                  <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-zinc-300' : 'text-zinc-600'}`}>
                     "{test.text}"
                   </p>
                 </div>
-                <div className="mt-6 border-t dark:border-zinc-800 border-zinc-100 pt-4 flex items-center space-x-3">
+                <div className="mt-6 border-t dark:border-white/5 border-zinc-100 pt-4 flex items-center space-x-3">
                   <div className="w-9 h-9 rounded-full bg-brand-500/10 flex items-center justify-center font-bold text-xs text-brand-500">
                     {test.author.charAt(0)}
                   </div>

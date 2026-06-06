@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FiMenu, FiX, FiSearch, FiShoppingCart, FiUser, FiLogOut, FiMoon, FiSun, FiHeart } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../hooks/useAuth';
@@ -18,6 +18,8 @@ const Header = () => {
   const { getCartItemsCount, wishlist } = useCart();
   const { isDarkMode, toggleTheme } = useTheme();
   const navigate = useNavigate();
+  const location = useLocation();
+  const isActive = (path) => location.pathname === path;
 
   // Handle Search Suggestions
   useEffect(() => {
@@ -72,10 +74,10 @@ const Header = () => {
   };
 
   return (
-    <header className={`sticky top-0 z-50 w-full border-b backdrop-blur-md transition-colors duration-300 ${
+    <header className={`sticky top-0 z-50 w-full border-b backdrop-blur-lg transition-all duration-300 ${
       isDarkMode 
-        ? 'bg-zinc-950/80 border-zinc-900 text-white' 
-        : 'bg-white/80 border-zinc-200 text-zinc-900'
+        ? 'bg-darkDeep/60 border-white/5 text-white shadow-glass-dark' 
+        : 'bg-white/80 border-zinc-200 text-zinc-900 shadow-premium'
     }`}>
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
@@ -124,7 +126,7 @@ const Header = () => {
                         key={item._id}
                         onClick={() => handleSuggestionClick(item._id)}
                         className={`flex items-center space-x-3 px-4 py-2.5 cursor-pointer transition-colors duration-200 ${
-                          isDarkMode ? 'hover:bg-zinc-800' : 'hover:bg-zinc-50'
+                          isDarkMode ? 'hover:bg-zinc-850/60' : 'hover:bg-zinc-50'
                         }`}
                       >
                         <img
@@ -149,10 +151,10 @@ const Header = () => {
 
           {/* Desktop Navigation Links */}
           <div className="hidden lg:flex items-center space-x-6">
-            <Link to="/products" className="text-sm font-medium nav-link-hover text-zinc-600 dark:text-zinc-300 hover:text-brand-500 dark:hover:text-brand-400">Products</Link>
-            <Link to="/about" className="text-sm font-medium nav-link-hover text-zinc-600 dark:text-zinc-300 hover:text-brand-500 dark:hover:text-brand-400">About</Link>
-            <Link to="/faq" className="text-sm font-medium nav-link-hover text-zinc-600 dark:text-zinc-300 hover:text-brand-500 dark:hover:text-brand-400">FAQ</Link>
-            <Link to="/contact" className="text-sm font-medium nav-link-hover text-zinc-600 dark:text-zinc-300 hover:text-brand-500 dark:hover:text-brand-400">Contact</Link>
+            <Link to="/products" className={`text-sm font-medium nav-link-hover ${isActive('/products') ? 'nav-link-active text-brand-500 dark:text-brand-400 font-semibold' : 'text-zinc-650 dark:text-zinc-350 hover:text-brand-500 dark:hover:text-brand-400'}`}>Products</Link>
+            <Link to="/about" className={`text-sm font-medium nav-link-hover ${isActive('/about') ? 'nav-link-active text-brand-500 dark:text-brand-400 font-semibold' : 'text-zinc-655 dark:text-zinc-355 hover:text-brand-500 dark:hover:text-brand-400'}`}>About</Link>
+            <Link to="/faq" className={`text-sm font-medium nav-link-hover ${isActive('/faq') ? 'nav-link-active text-brand-500 dark:text-brand-400 font-semibold' : 'text-zinc-650 dark:text-zinc-350 hover:text-brand-500 dark:hover:text-brand-400'}`}>FAQ</Link>
+            <Link to="/contact" className={`text-sm font-medium nav-link-hover ${isActive('/contact') ? 'nav-link-active text-brand-500 dark:text-brand-400 font-semibold' : 'text-zinc-650 dark:text-zinc-355 hover:text-brand-500 dark:hover:text-brand-400'}`}>Contact</Link>
           </div>
 
           {/* Right Action Icons */}
@@ -222,10 +224,10 @@ const Header = () => {
               </div>
             ) : (
               <div className="hidden sm:flex items-center space-x-2">
-                <Link to="/login" className="text-xs font-semibold px-4 py-2 hover:text-brand-500">
+                <Link to="/login" className="text-xs font-semibold px-4 py-2 hover:text-brand-500 dark:text-zinc-350 dark:hover:text-brand-400">
                   Login
                 </Link>
-                <Link to="/register" className="text-xs font-semibold px-4 py-2 bg-brand-500 text-white rounded-full hover:bg-brand-600 shadow-glow-primary transition">
+                <Link to="/register" className="text-xs font-semibold px-5 py-2.5 bg-brand-500 text-white rounded-full hover:bg-brand-600 dark:btn-glow-primary shadow-glow-primary transition">
                   Sign Up
                 </Link>
               </div>

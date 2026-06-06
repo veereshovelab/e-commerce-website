@@ -203,8 +203,7 @@ const ProductDetails = () => {
               </div>
             </div>
 
-            {/* Dynamic Tab Body Content */}
-            <div className="min-h-[120px] text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 mb-8">
+            <div className="min-h-[120px] text-sm leading-relaxed text-zinc-650 dark:text-zinc-350 mb-8">
               {activeTab === 'description' && (
                 <p>{product.description || 'Elevate your performance and comfort levels with this state-of-the-art item. Designed for premium styling, daily durability, and ease of use.'}</p>
               )}
@@ -212,13 +211,13 @@ const ProductDetails = () => {
               {activeTab === 'specifications' && (
                 <div>
                   {product.specifications && Object.keys(product.specifications).length > 0 ? (
-                    <div className={`rounded-xl border p-4 ${isDarkMode ? 'bg-zinc-900/40 border-zinc-850' : 'bg-zinc-50 border-zinc-200'}`}>
+                    <div className={`rounded-xl border p-4 ${isDarkMode ? 'bg-darkCard/40 border-white/5 shadow-glass-dark backdrop-blur-md' : 'bg-zinc-50 border-zinc-200'}`}>
                       <ul className="space-y-2.5 font-medium">
                         {Object.entries(product.specifications).map(([key, value]) => (
                           value && (
                             <li key={key} className="flex justify-between text-xs">
-                              <span className="capitalize text-zinc-400 dark:text-zinc-500">{key}:</span>
-                              <span className="text-zinc-800 dark:text-zinc-200">{value}</span>
+                              <span className="capitalize text-zinc-400 dark:text-zinc-400">{key}:</span>
+                              <span className="text-zinc-800 dark:text-white">{value}</span>
                             </li>
                           )
                         ))}
@@ -234,15 +233,15 @@ const ProductDetails = () => {
                 <div className="space-y-4">
                   {product.reviews && product.reviews.length > 0 ? (
                     product.reviews.map((rev, idx) => (
-                      <div key={idx} className="border-b border-zinc-200 dark:border-zinc-800/80 pb-3 last:border-b-0">
+                      <div key={idx} className="border-b border-zinc-200 dark:border-white/5 pb-3 last:border-b-0">
                         <div className="flex justify-between items-center mb-1">
-                          <h4 className="font-semibold text-xs text-zinc-800 dark:text-zinc-200">{rev.userName || 'Verified Buyer'}</h4>
-                          <span className="text-[10px] text-zinc-400">{new Date(rev.createdAt).toLocaleDateString()}</span>
+                          <h4 className="font-semibold text-xs text-zinc-800 dark:text-white">{rev.userName || 'Verified Buyer'}</h4>
+                          <span className="text-[10px] text-zinc-400 dark:text-zinc-400">{new Date(rev.createdAt).toLocaleDateString()}</span>
                         </div>
                         <div className="flex text-yellow-400 text-xs mb-1.5">
                           {[...Array(5)].map((_, i) => <span key={i}>{i < rev.rating ? '★' : '☆'}</span>)}
                         </div>
-                        <p className="text-xs text-zinc-500">{rev.comment}</p>
+                        <p className="text-xs text-zinc-500 dark:text-zinc-300">{rev.comment}</p>
                       </div>
                     ))
                   ) : (
@@ -254,12 +253,12 @@ const ProductDetails = () => {
           </div>
 
           {/* Action configurations */}
-          <div className="space-y-5 pt-6 border-t border-zinc-200 dark:border-zinc-800">
+          <div className="space-y-5 pt-6 border-t border-zinc-200 dark:border-white/5">
             {product.stock > 0 && (
               <div className="flex items-center space-x-4">
                 <span className="text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">Qty:</span>
                 <div className={`flex items-center border rounded-xl overflow-hidden ${
-                  isDarkMode ? 'border-zinc-800 bg-zinc-900/60' : 'border-zinc-200 bg-zinc-50'
+                  isDarkMode ? 'border-white/5 bg-darkDeep/40' : 'border-zinc-200 bg-zinc-50'
                 }`}>
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -289,7 +288,7 @@ const ProductDetails = () => {
                 whileTap={{ scale: 0.98 }}
                 onClick={handleAddToCart}
                 disabled={product.stock === 0}
-                className="flex-1 bg-brand-500 hover:bg-brand-600 disabled:bg-zinc-700 disabled:text-zinc-400 disabled:cursor-not-allowed text-white py-3.5 rounded-xl font-semibold shadow-glow-primary hover:shadow-lg transition duration-300 flex items-center justify-center space-x-2 text-sm"
+                className="flex-1 bg-brand-500 hover:bg-brand-600 dark:btn-glow-primary disabled:bg-zinc-800 disabled:text-zinc-500 disabled:cursor-not-allowed text-white py-3.5 rounded-xl font-semibold shadow-glow-primary hover:shadow-lg transition duration-300 flex items-center justify-center space-x-2 text-sm"
               >
                 <FiShoppingCart size={18} />
                 <span>Add to Shopping Cart</span>
@@ -300,7 +299,7 @@ const ProductDetails = () => {
                 className={`p-3.5 rounded-xl border text-sm transition ${
                   isInWishlist(product._id) 
                     ? 'border-red-500 bg-red-500/10 text-red-500' 
-                    : `border-zinc-300 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-900`
+                    : `border-zinc-300 dark:border-white/10 dark:btn-glass-secondary`
                 }`}
               >
                 <FiHeart fill={isInWishlist(product._id) ? 'currentColor' : 'none'} size={18} />

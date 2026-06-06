@@ -12,6 +12,10 @@ module.exports = {
         accent: "#EF4444",
         light: "#F9FAFB",
         dark: "#111827",
+        darkDeep: "#050816",
+        darkCard: "rgba(10, 15, 31, 0.7)",
+        darkCardLt: "rgba(17, 24, 39, 0.95)",
+        darkBorder: "rgba(255, 255, 255, 0.08)",
         brand: {
           50: '#f5f3ff',
           100: '#ede9fe',
@@ -46,8 +50,10 @@ module.exports = {
         'premium': '0 4px 30px rgba(0, 0, 0, 0.03)',
         'premium-hover': '0 20px 40px rgba(0, 0, 0, 0.08)',
         'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.08)',
+        'glass-dark': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
         'glow-primary': '0 0 20px rgba(139, 92, 246, 0.15)',
         'glow-secondary': '0 0 20px rgba(59, 130, 246, 0.15)',
+        'glow-purple': '0 0 25px rgba(139, 92, 246, 0.35)',
       }
     }
   },
