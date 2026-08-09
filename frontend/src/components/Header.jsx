@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { FiMenu, FiX, FiSearch, FiShoppingCart, FiUser, FiLogOut, FiMoon, FiSun, FiHeart } from 'react-icons/fi';
+import { FiMenu, FiX, FiSearch, FiShoppingCart, FiUser, FiLogOut, FiMoon, FiSun, FiHeart, FiSliders } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../hooks/useAuth';
 import { useCart } from '../hooks/useCart';
 import { useTheme } from '../hooks/useTheme';
+import { useCompare } from '../hooks/useCompare';
 import apiClient from '../utils/api';
 
 const Header = () => {
@@ -16,7 +17,8 @@ const Header = () => {
 
   const { user, isAuthenticated, logout } = useAuth();
   const { getCartItemsCount, wishlist } = useCart();
-  const { isDarkMode } = useTheme();
+  const { isDarkMode, toggleTheme } = useTheme();
+  const { compareList, openCompareModal } = useCompare();
   const navigate = useNavigate();
   const location = useLocation();
   const isActive = (path) => location.pathname === path;
@@ -159,6 +161,37 @@ const Header = () => {
 
           {/* Right Action Icons */}
           <div className="flex items-center space-x-3 sm:space-x-4">
+
+            {/* Theme Toggle Button */}
+            <motion.button
+              whileTap={{ scale: 0.85, rotate: 15 }}
+              onClick={toggleTheme}
+              className={`p-2 rounded-full border transition-colors duration-300 ${
+                isDarkMode 
+                  ? 'border-zinc-800 hover:bg-zinc-900 text-yellow-400' 
+                  : 'border-zinc-200 hover:bg-zinc-100 text-zinc-700'
+              }`}
+              title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            >
+              {isDarkMode ? <FiSun size={17} /> : <FiMoon size={17} />}
+            </motion.button>
+
+            {/* Compare Drawer Modal Button */}
+            <motion.button
+              whileTap={{ scale: 0.9 }}
+              onClick={openCompareModal}
+              className={`relative p-2 rounded-full border hidden sm:block ${
+                isDarkMode ? 'border-zinc-800 hover:bg-zinc-900 text-zinc-400 hover:text-white' : 'border-zinc-200 hover:bg-zinc-100 text-zinc-600 hover:text-zinc-900'
+              }`}
+              title="Compare Products"
+            >
+              <FiSliders size={17} />
+              {compareList.length > 0 && (
+                <span className="absolute -top-1 -right-1 bg-indigo-500 text-white text-[9px] font-bold rounded-full w-4.5 h-4.5 flex items-center justify-center shadow-glow-primary">
+                  {compareList.length}
+                </span>
+              )}
+            </motion.button>
 
             {/* Wishlist Link */}
             <Link to="/wishlist" className={`relative p-2 rounded-full border hidden sm:block ${

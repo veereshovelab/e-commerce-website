@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FiShoppingCart, FiHeart, FiEye } from 'react-icons/fi';
+import { FiShoppingCart, FiHeart, FiEye, FiSliders } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 import { useCart } from '../hooks/useCart';
 import { useTheme } from '../hooks/useTheme';
+import { useCompare } from '../hooks/useCompare';
 import { toast } from 'react-toastify';
 import QuickViewModal from './QuickViewModal';
 
 const ProductCard = ({ product }) => {
   const { addToCart, addToWishlist, removeFromWishlist, isInWishlist } = useCart();
+  const { addToCompare, removeFromCompare, isInCompare } = useCompare();
   const { isDarkMode } = useTheme();
   const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
 
@@ -31,6 +33,22 @@ const ProductCard = ({ product }) => {
     }
   };
 
+  const handleCompare = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (isInCompare(product._id)) {
+      removeFromCompare(product._id);
+      toast.info('Removed from comparison list');
+    } else {
+      const res = addToCompare(product);
+      if (res.success) {
+        toast.success('Added to comparison list!');
+      } else if (res.reason === 'limit_reached') {
+        toast.warning('Maximum 4 products can be compared at once.');
+      }
+    }
+  };
+
   const discountPercent = product.discountPrice
     ? Math.round(((product.price - product.discountPrice) / product.price) * 100)
     : 0;
@@ -44,20 +62,38 @@ const ProductCard = ({ product }) => {
           isDarkMode ? 'bg-darkCard/40 border-white/5 backdrop-blur-md shadow-glass-dark hover:border-white/10 hover:shadow-glow-purple' : 'bg-white border-zinc-200 shadow-premium hover:shadow-premium-hover'
         } flex flex-col h-full`}
       >
-        {/* Wishlist Button (Floating) */}
-        <motion.button
-          whileTap={{ scale: 0.8 }}
-          onClick={handleWishlist}
-          className={`absolute top-3 right-3 z-10 p-2.5 rounded-full backdrop-blur-md shadow-sm border ${
-            isInWishlist(product._id)
-              ? 'bg-red-500/10 border-red-500/20 text-red-500'
-              : `border-zinc-200/50 dark:border-white/5 ${
-                  isDarkMode ? 'bg-darkDeep/60 text-zinc-400 hover:text-white hover:border-white/15' : 'bg-white/60 text-zinc-500 hover:text-zinc-900'
-                }`
-          } transition-all duration-300`}
-        >
-          <FiHeart fill={isInWishlist(product._id) ? 'currentColor' : 'none'} size={16} />
-        </motion.button>
+        {/* Wishlist & Compare Buttons (Floating) */}
+        <div className="absolute top-3 right-3 z-10 flex items-center space-x-1.5">
+          <motion.button
+            whileTap={{ scale: 0.8 }}
+            onClick={handleCompare}
+            className={`p-2.5 rounded-full backdrop-blur-md shadow-sm border ${
+              isInCompare(product._id)
+                ? 'bg-indigo-500/20 border-indigo-500/30 text-indigo-400 font-bold'
+                : `border-zinc-200/50 dark:border-white/5 ${
+                    isDarkMode ? 'bg-darkDeep/60 text-zinc-400 hover:text-white hover:border-white/15' : 'bg-white/60 text-zinc-500 hover:text-zinc-900'
+                  }`
+            } transition-all duration-300`}
+            title={isInCompare(product._id) ? 'Remove from compare' : 'Compare product'}
+          >
+            <FiSliders size={15} />
+          </motion.button>
+
+          <motion.button
+            whileTap={{ scale: 0.8 }}
+            onClick={handleWishlist}
+            className={`p-2.5 rounded-full backdrop-blur-md shadow-sm border ${
+              isInWishlist(product._id)
+                ? 'bg-red-500/10 border-red-500/20 text-red-500'
+                : `border-zinc-200/50 dark:border-white/5 ${
+                    isDarkMode ? 'bg-darkDeep/60 text-zinc-400 hover:text-white hover:border-white/15' : 'bg-white/60 text-zinc-500 hover:text-zinc-900'
+                  }`
+            } transition-all duration-300`}
+            title="Wishlist"
+          >
+            <FiHeart fill={isInWishlist(product._id) ? 'currentColor' : 'none'} size={15} />
+          </motion.button>
+        </div>
 
         {/* Image Container */}
         <div className="relative overflow-hidden bg-zinc-50 dark:bg-zinc-950 aspect-[4/3]">

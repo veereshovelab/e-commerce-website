@@ -8,10 +8,13 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import { ThemeProvider } from './context/ThemeContext';
+import { CompareProvider } from './context/CompareContext';
 
 // Components
 import Header from './components/Header';
 import Footer from './components/Footer';
+import CompareDrawer from './components/CompareDrawer';
+import CompareModal from './components/CompareModal';
 
 // Pages
 import Home from './pages/Home';
@@ -74,27 +77,31 @@ function App() {
     <ThemeProvider>
       <AuthProvider>
         <CartProvider>
-          <Router>
-            <div className="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col font-sans transition-colors duration-300">
-              <Header />
-              <main className="flex-grow">
-                <AnimatedRoutes />
-              </main>
-              <Footer />
-            </div>
-            <ToastContainer
-              position="bottom-right"
-              autoClose={2500}
-              hideProgressBar={false}
-              newestOnTop
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              theme="colored"
-            />
-          </Router>
+          <CompareProvider>
+            <Router>
+              <div className="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col font-sans transition-colors duration-300">
+                <Header />
+                <main className="flex-grow">
+                  <AnimatedRoutes />
+                </main>
+                <Footer />
+                <CompareDrawer />
+                <CompareModal />
+              </div>
+              <ToastContainer
+                position="bottom-right"
+                autoClose={2500}
+                hideProgressBar={false}
+                newestOnTop
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+              />
+            </Router>
+          </CompareProvider>
         </CartProvider>
       </AuthProvider>
     </ThemeProvider>
