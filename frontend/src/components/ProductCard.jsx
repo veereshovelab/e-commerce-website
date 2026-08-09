@@ -110,6 +110,13 @@ const ProductCard = ({ product }) => {
             </div>
           )}
 
+          {product.stock > 0 && product.stock <= 5 && (
+            <div className="absolute bottom-3 left-3 bg-amber-500/90 backdrop-blur-md text-white px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wider z-10 flex items-center space-x-1 shadow-md">
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
+              <span>Only {product.stock} left!</span>
+            </div>
+          )}
+
           {product.stock === 0 && (
             <div className="absolute inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center z-10">
               <span className="text-white text-xs font-bold uppercase tracking-wider bg-zinc-900/80 px-3 py-1.5 rounded-lg border border-zinc-700">

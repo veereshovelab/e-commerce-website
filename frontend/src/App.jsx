@@ -15,6 +15,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import CompareDrawer from './components/CompareDrawer';
 import CompareModal from './components/CompareModal';
+import ScrollToTop from './components/ScrollToTop';
 
 // Pages
 import Home from './pages/Home';
@@ -87,6 +88,7 @@ function App() {
                 <Footer />
                 <CompareDrawer />
                 <CompareModal />
+                <ScrollToTop />
               </div>
               <ToastContainer
                 position="bottom-right"
