@@ -194,7 +194,7 @@ const Header = () => {
             </motion.button>
 
             {/* Wishlist Link */}
-            <Link to="/wishlist" className={`relative p-2 rounded-full border hidden sm:block ${
+            <Link to="/wishlist" title="Wishlist" aria-label="Wishlist" className={`relative p-2 rounded-full border hidden sm:block ${
               isDarkMode ? 'border-zinc-800 hover:bg-zinc-900 text-zinc-400 hover:text-white' : 'border-zinc-200 hover:bg-zinc-100 text-zinc-600 hover:text-zinc-900'
             }`}>
               <FiHeart size={17} />
@@ -206,7 +206,7 @@ const Header = () => {
             </Link>
 
             {/* Cart Link */}
-            <Link to="/cart" className={`relative p-2 rounded-full border ${
+            <Link to="/cart" title="Shopping Cart" aria-label="Shopping Cart" className={`relative p-2 rounded-full border ${
               isDarkMode ? 'border-zinc-800 hover:bg-zinc-900 text-zinc-400 hover:text-white' : 'border-zinc-200 hover:bg-zinc-100 text-zinc-600 hover:text-zinc-900'
             }`}>
               <FiShoppingCart size={17} />
