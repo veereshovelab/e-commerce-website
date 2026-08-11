@@ -206,7 +206,7 @@ const Footer = () => {
 
         {/* Bottom Credits */}
         <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 text-[11px] font-medium text-zinc-400 dark:text-zinc-500">
-          <p>&copy; {currentYear} ShopSphere. Made with excellence by Antigravity.</p>
+          <p>&copy; {currentYear} ShopSphere Inc. All rights reserved.</p>
           <div className="flex space-x-6">
             <a href="#" className="hover:text-zinc-850 dark:hover:text-white transition">Privacy Policy</a>
             <a href="#" className="hover:text-zinc-850 dark:hover:text-white transition">Terms of Service</a>
