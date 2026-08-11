@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiArrowUp } from 'react-icons/fi';
 import { useTheme } from '../hooks/useTheme';
@@ -6,6 +7,12 @@ import { useTheme } from '../hooks/useTheme';
 const ScrollToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
   const { isDarkMode } = useTheme();
+  const { pathname } = useLocation();
+
+  // Reset window scroll position on route change
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   useEffect(() => {
     const toggleVisibility = () => {
@@ -37,6 +44,7 @@ const ScrollToTop = () => {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={scrollToTop}
+          aria-label="Scroll to top"
           className={`fixed bottom-6 right-6 z-40 p-3 rounded-full shadow-2xl border backdrop-blur-md transition-colors ${
             isDarkMode
               ? 'bg-zinc-800/90 border-zinc-700 text-brand-400 hover:bg-zinc-700 shadow-glow-purple'
