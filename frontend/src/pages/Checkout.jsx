@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiArrowLeft } from 'react-icons/fi';
+import { FiArrowLeft, FiCreditCard, FiSmartphone, FiGlobe, FiPocket, FiLock, FiCheck } from 'react-icons/fi';
 import apiClient from '../utils/api';
 import { useCart } from '../hooks/useCart';
 import { useAuth } from '../hooks/useAuth';
@@ -24,7 +24,16 @@ const Checkout = () => {
       zipCode: '',
       country: 'US'
     },
-    paymentMethod: 'card'
+    paymentMethod: 'card',
+    paymentDetails: {
+      cardNumber: '',
+      cardExpiry: '',
+      cardCvv: '',
+      cardHolder: user?.name || '',
+      upiId: '',
+      selectedBank: 'HDFC Bank',
+      selectedWallet: 'paytm'
+    }
   });
 
   if (!isAuthenticated) {
@@ -65,6 +74,17 @@ const Checkout = () => {
         [name]: value
       }
     });
+  };
+
+  const handlePaymentDetailChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      paymentDetails: {
+        ...prev.paymentDetails,
+        [name]: value
+      }
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -222,21 +242,183 @@ const Checkout = () => {
 
             {/* Payment Method */}
             <div className={`${isDarkMode ? 'bg-zinc-850 border-zinc-800' : 'bg-white border-zinc-200'} border rounded-2xl p-6 shadow-sm`}>
-              <h2 className="text-xl font-bold mb-4 font-display">Payment Method</h2>
-              <div className="space-y-3">
-                {['card', 'upi', 'netbanking', 'wallet'].map((method) => (
-                  <label key={method} className="flex items-center space-x-3 cursor-pointer p-3 rounded-xl border dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold font-display">Payment Method</h2>
+                <span className="flex items-center space-x-1 text-xs font-semibold text-emerald-500 bg-emerald-500/10 px-2.5 py-1 rounded-full">
+                  <FiLock size={12} />
+                  <span>256-Bit Encrypted</span>
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+                {[
+                  { id: 'card', label: 'Credit / Debit Card', icon: FiCreditCard },
+                  { id: 'upi', label: 'UPI / Instant Pay', icon: FiSmartphone },
+                  { id: 'netbanking', label: 'Net Banking', icon: FiGlobe },
+                  { id: 'wallet', label: 'Digital Wallet', icon: FiPocket }
+                ].map(({ id, label, icon: Icon }) => (
+                  <label
+                    key={id}
+                    onClick={() => setFormData({ ...formData, paymentMethod: id })}
+                    className={`flex items-center space-x-3 p-3.5 rounded-xl border cursor-pointer transition ${
+                      formData.paymentMethod === id
+                        ? 'border-brand-500 bg-brand-500/5 ring-1 ring-brand-500'
+                        : isDarkMode ? 'border-zinc-800 hover:bg-zinc-800/50' : 'border-zinc-200 hover:bg-zinc-50'
+                    }`}
+                  >
                     <input
                       type="radio"
                       name="paymentMethod"
-                      value={method}
-                      checked={formData.paymentMethod === method}
+                      value={id}
+                      checked={formData.paymentMethod === id}
                       onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value })}
                       className="w-4 h-4 text-brand-500 focus:ring-brand-500"
                     />
-                    <span className="capitalize text-sm font-semibold">{method}</span>
+                    <Icon size={18} className={formData.paymentMethod === id ? 'text-brand-500' : 'text-zinc-400'} />
+                    <span className="text-xs font-semibold">{label}</span>
                   </label>
                 ))}
+              </div>
+
+              {/* Method Details Sub-panel */}
+              <div className={`p-4 rounded-xl border ${isDarkMode ? 'bg-zinc-900/60 border-zinc-800' : 'bg-zinc-50 border-zinc-200'}`}>
+                {formData.paymentMethod === 'card' && (
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-xs font-semibold mb-1 text-zinc-500 dark:text-zinc-400">Cardholder Name</label>
+                      <input
+                        type="text"
+                        name="cardHolder"
+                        placeholder="John Doe"
+                        value={formData.paymentDetails.cardHolder}
+                        onChange={handlePaymentDetailChange}
+                        className={`w-full px-3 py-2 rounded-lg text-sm border ${isDarkMode ? 'bg-zinc-900 border-zinc-700' : 'bg-white border-zinc-300'} outline-none focus:border-brand-500`}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold mb-1 text-zinc-500 dark:text-zinc-400">Card Number</label>
+                      <input
+                        type="text"
+                        name="cardNumber"
+                        placeholder="4532 •••• •••• 8892"
+                        maxLength="19"
+                        value={formData.paymentDetails.cardNumber}
+                        onChange={handlePaymentDetailChange}
+                        className={`w-full px-3 py-2 rounded-lg text-sm border font-mono ${isDarkMode ? 'bg-zinc-900 border-zinc-700' : 'bg-white border-zinc-300'} outline-none focus:border-brand-500`}
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-xs font-semibold mb-1 text-zinc-500 dark:text-zinc-400">Expiry (MM/YY)</label>
+                        <input
+                          type="text"
+                          name="cardExpiry"
+                          placeholder="12/28"
+                          maxLength="5"
+                          value={formData.paymentDetails.cardExpiry}
+                          onChange={handlePaymentDetailChange}
+                          className={`w-full px-3 py-2 rounded-lg text-sm border font-mono ${isDarkMode ? 'bg-zinc-900 border-zinc-700' : 'bg-white border-zinc-300'} outline-none focus:border-brand-500`}
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold mb-1 text-zinc-500 dark:text-zinc-400">CVV</label>
+                        <input
+                          type="password"
+                          name="cardCvv"
+                          placeholder="•••"
+                          maxLength="4"
+                          value={formData.paymentDetails.cardCvv}
+                          onChange={handlePaymentDetailChange}
+                          className={`w-full px-3 py-2 rounded-lg text-sm border font-mono ${isDarkMode ? 'bg-zinc-900 border-zinc-700' : 'bg-white border-zinc-300'} outline-none focus:border-brand-500`}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {formData.paymentMethod === 'upi' && (
+                  <div>
+                    <label className="block text-xs font-semibold mb-1 text-zinc-500 dark:text-zinc-400">Virtual Payment Address (UPI ID)</label>
+                    <input
+                      type="text"
+                      name="upiId"
+                      placeholder="username@okaxis / mobile@paytm"
+                      value={formData.paymentDetails.upiId}
+                      onChange={handlePaymentDetailChange}
+                      className={`w-full px-3 py-2 rounded-lg text-sm border ${isDarkMode ? 'bg-zinc-900 border-zinc-700' : 'bg-white border-zinc-300'} outline-none focus:border-brand-500`}
+                    />
+                    <div className="flex items-center space-x-1.5 mt-3">
+                      <span className="text-[10px] text-zinc-400 font-semibold">Quick handles:</span>
+                      {['@okaxis', '@ybl', '@paytm', '@gpay'].map(handle => (
+                        <button
+                          key={handle}
+                          type="button"
+                          onClick={() => setFormData(prev => ({
+                            ...prev,
+                            paymentDetails: {
+                              ...prev.paymentDetails,
+                              upiId: (prev.paymentDetails.upiId.split('@')[0] || 'user') + handle
+                            }
+                          }))}
+                          className="text-[10px] bg-zinc-200 dark:bg-zinc-800 px-2 py-0.5 rounded-md hover:bg-brand-500 hover:text-white transition font-mono"
+                        >
+                          {handle}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {formData.paymentMethod === 'netbanking' && (
+                  <div>
+                    <label className="block text-xs font-semibold mb-2 text-zinc-500 dark:text-zinc-400">Select Preferred Bank</label>
+                    <select
+                      name="selectedBank"
+                      value={formData.paymentDetails.selectedBank}
+                      onChange={handlePaymentDetailChange}
+                      className={`w-full px-3 py-2 rounded-lg text-sm border ${isDarkMode ? 'bg-zinc-900 border-zinc-700' : 'bg-white border-zinc-300'} outline-none focus:border-brand-500`}
+                    >
+                      <option value="HDFC Bank">HDFC Bank</option>
+                      <option value="State Bank of India">State Bank of India (SBI)</option>
+                      <option value="ICICI Bank">ICICI Bank</option>
+                      <option value="Axis Bank">Axis Bank</option>
+                      <option value="Kotak Mahindra Bank">Kotak Mahindra Bank</option>
+                      <option value="Chase Bank">Chase Bank</option>
+                      <option value="Bank of America">Bank of America</option>
+                    </select>
+                  </div>
+                )}
+
+                {formData.paymentMethod === 'wallet' && (
+                  <div>
+                    <label className="block text-xs font-semibold mb-2 text-zinc-500 dark:text-zinc-400">Choose Wallet Provider</label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {[
+                        { id: 'paytm', name: 'Paytm Wallet' },
+                        { id: 'phonepe', name: 'PhonePe' },
+                        { id: 'amazonpay', name: 'Amazon Pay' },
+                        { id: 'paypal', name: 'PayPal' }
+                      ].map(w => (
+                        <button
+                          key={w.id}
+                          type="button"
+                          onClick={() => setFormData(prev => ({
+                            ...prev,
+                            paymentDetails: { ...prev.paymentDetails, selectedWallet: w.id }
+                          }))}
+                          className={`px-3 py-2 text-xs font-semibold rounded-lg border text-left flex items-center justify-between transition ${
+                            formData.paymentDetails.selectedWallet === w.id
+                              ? 'border-brand-500 bg-brand-500/10 text-brand-500 font-bold'
+                              : 'border-zinc-300 dark:border-zinc-700 text-zinc-600 dark:text-zinc-300'
+                          }`}
+                        >
+                          <span>{w.name}</span>
+                          {formData.paymentDetails.selectedWallet === w.id && <FiCheck size={14} />}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
