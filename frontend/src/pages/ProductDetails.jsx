@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiShoppingCart, FiHeart, FiChevronRight, FiPlus, FiMinus, FiStar } from 'react-icons/fi';
+import { FiShoppingCart, FiHeart, FiChevronRight, FiPlus, FiMinus, FiStar, FiSliders, FiTruck, FiShield, FiRotateCcw, FiShare2, FiClock } from 'react-icons/fi';
 import apiClient from '../utils/api';
 import { useCart } from '../hooks/useCart';
 import { useTheme } from '../hooks/useTheme';
+import { useCompare } from '../hooks/useCompare';
 import { toast } from 'react-toastify';
 
 const ProductDetails = () => {
@@ -15,8 +16,24 @@ const ProductDetails = () => {
   const [selectedImage, setSelectedImage] = useState(0);
   const [activeTab, setActiveTab] = useState('description'); // description | specs | reviews
   const [loading, setLoading] = useState(true);
+  const [recentlyViewed, setRecentlyViewed] = useState([]);
+  const [timeLeft, setTimeLeft] = useState({ hours: 4, minutes: 25, seconds: 40 });
   const { addToCart, addToWishlist, removeFromWishlist, isInWishlist } = useCart();
+  const { addToCompare, removeFromCompare, isInCompare } = useCompare();
   const { isDarkMode } = useTheme();
+
+  // Countdown timer for express dispatch guarantee
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft(prev => {
+        if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
+        if (prev.minutes > 0) return { ...prev, minutes: 59, seconds: 59 };
+        if (prev.hours > 0) return { hours: prev.hours - 1, minutes: 59, seconds: 59 };
+        return { hours: 5, minutes: 45, seconds: 0 };
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -34,6 +51,38 @@ const ProductDetails = () => {
 
     fetchProduct();
   }, [id, navigate]);
+
+  // Track recently viewed products in localStorage
+  useEffect(() => {
+    if (product) {
+      try {
+        const stored = JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
+        const filtered = stored.filter(item => item._id !== product._id);
+        const updated = [product, ...filtered].slice(0, 6);
+        localStorage.setItem('recentlyViewed', JSON.stringify(updated));
+        setRecentlyViewed(updated.filter(item => item._id !== product._id));
+      } catch (err) {
+        console.error('Failed to update recently viewed:', err);
+      }
+    }
+  }, [product]);
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: product.name,
+          text: `Check out ${product.name} on ShopSphere!`,
+          url: window.location.href,
+        });
+      } catch (err) {
+        // User cancelled or share unsupported
+      }
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      toast.success('Product link copied to clipboard!');
+    }
+  };
 
   if (loading) {
     return (
@@ -67,6 +116,20 @@ const ProductDetails = () => {
     } else {
       addToWishlist(product);
       toast.success('Added to wishlist!');
+    }
+  };
+
+  const handleCompare = () => {
+    if (isInCompare(product._id)) {
+      removeFromCompare(product._id);
+      toast.info('Removed from comparison list');
+    } else {
+      const res = addToCompare(product);
+      if (res.success) {
+        toast.success('Added to comparison list!');
+      } else if (res.reason === 'limit_reached') {
+        toast.warning('Maximum 4 products can be compared at once.');
+      }
     }
   };
 
@@ -283,7 +346,7 @@ const ProductDetails = () => {
               </div>
             )}
 
-            <div className="flex space-x-4">
+            <div className="flex space-x-3">
               <motion.button
                 whileTap={{ scale: 0.98 }}
                 onClick={handleAddToCart}
@@ -295,19 +358,108 @@ const ProductDetails = () => {
               </motion.button>
               <motion.button
                 whileTap={{ scale: 0.95 }}
+                onClick={handleCompare}
+                className={`p-3.5 rounded-xl border text-sm transition flex items-center justify-center ${
+                  isInCompare(product._id)
+                    ? 'border-indigo-500 bg-indigo-500/10 text-indigo-400 font-bold'
+                    : 'border-zinc-300 dark:border-white/10 dark:btn-glass-secondary'
+                }`}
+                title={isInCompare(product._id) ? 'Remove from compare' : 'Compare product'}
+              >
+                <FiSliders size={18} />
+              </motion.button>
+              <motion.button
+                whileTap={{ scale: 0.95 }}
                 onClick={handleWishlist}
-                className={`p-3.5 rounded-xl border text-sm transition ${
+                className={`p-3.5 rounded-xl border text-sm transition flex items-center justify-center ${
                   isInWishlist(product._id) 
                     ? 'border-red-500 bg-red-500/10 text-red-500' 
-                    : `border-zinc-300 dark:border-white/10 dark:btn-glass-secondary`
+                    : 'border-zinc-300 dark:border-white/10 dark:btn-glass-secondary'
                 }`}
+                title={isInWishlist(product._id) ? 'Remove from wishlist' : 'Add to wishlist'}
               >
                 <FiHeart fill={isInWishlist(product._id) ? 'currentColor' : 'none'} size={18} />
               </motion.button>
+              <motion.button
+                whileTap={{ scale: 0.95 }}
+                onClick={handleShare}
+                className="p-3.5 rounded-xl border border-zinc-300 dark:border-white/10 dark:btn-glass-secondary text-zinc-600 dark:text-zinc-300 hover:text-brand-500 transition flex items-center justify-center"
+                title="Share product link"
+              >
+                <FiShare2 size={18} />
+              </motion.button>
+            </div>
+
+            {/* Delivery Perks & Express Dispatch Urgency Box */}
+            <div className={`rounded-2xl border p-4 space-y-3 ${isDarkMode ? 'bg-zinc-900/40 border-zinc-800' : 'bg-zinc-50/80 border-zinc-200'}`}>
+              <div className="flex items-center space-x-2 text-xs font-semibold text-amber-500 dark:text-amber-400">
+                <FiClock className="animate-pulse" size={16} />
+                <span>
+                  Order within <strong className="font-mono text-sm">{String(timeLeft.hours).padStart(2, '0')}h {String(timeLeft.minutes).padStart(2, '0')}m {String(timeLeft.seconds).padStart(2, '0')}s</strong> for Express Dispatch!
+                </span>
+              </div>
+              <div className="grid grid-cols-3 gap-2 pt-2 border-t border-zinc-200 dark:border-zinc-800 text-[11px]">
+                <div className="flex flex-col items-center text-center p-2 rounded-xl bg-white/50 dark:bg-zinc-850/50">
+                  <FiTruck size={16} className="text-brand-500 mb-1" />
+                  <span className="font-semibold">Free Express Shipping</span>
+                  <span className="text-[9px] text-zinc-400">Orders over $50</span>
+                </div>
+                <div className="flex flex-col items-center text-center p-2 rounded-xl bg-white/50 dark:bg-zinc-850/50">
+                  <FiRotateCcw size={16} className="text-emerald-500 mb-1" />
+                  <span className="font-semibold">30-Day Returns</span>
+                  <span className="text-[9px] text-zinc-400">Hassle free policy</span>
+                </div>
+                <div className="flex flex-col items-center text-center p-2 rounded-xl bg-white/50 dark:bg-zinc-850/50">
+                  <FiShield size={16} className="text-indigo-500 mb-1" />
+                  <span className="font-semibold">2-Year Warranty</span>
+                  <span className="text-[9px] text-zinc-400">Full coverage</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Recently Viewed Products Section */}
+      {recentlyViewed.length > 0 && (
+        <div className="mt-16 pt-10 border-t border-zinc-200 dark:border-zinc-800">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <span className="text-xs uppercase font-semibold text-brand-500 tracking-wider">Browsing History</span>
+              <h2 className="text-xl sm:text-2xl font-bold font-display text-zinc-900 dark:text-white mt-0.5">Recently Viewed Products</h2>
+            </div>
+            <Link to="/products" className="text-xs font-semibold text-brand-500 hover:underline">
+              View All Products &rarr;
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+            {recentlyViewed.map(item => (
+              <Link
+                key={item._id}
+                to={`/products/${item._id}`}
+                className={`p-3 rounded-2xl border transition group hover:-translate-y-1 ${
+                  isDarkMode ? 'bg-zinc-900/40 border-zinc-800 hover:border-brand-500/50' : 'bg-white border-zinc-200 hover:border-brand-500/50 shadow-sm'
+                }`}
+              >
+                <div className="aspect-square rounded-xl overflow-hidden mb-2.5 bg-zinc-100 dark:bg-zinc-950">
+                  <img
+                    src={item.thumbnail || item.images?.[0]}
+                    alt={item.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                  />
+                </div>
+                <p className="text-[10px] text-zinc-400 uppercase font-semibold">{item.brand || 'ShopSphere'}</p>
+                <h4 className="text-xs font-semibold truncate text-zinc-800 dark:text-zinc-200 group-hover:text-brand-500 transition">
+                  {item.name}
+                </h4>
+                <p className="text-xs font-bold text-brand-500 mt-1">
+                  ${item.discountPrice || item.price}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

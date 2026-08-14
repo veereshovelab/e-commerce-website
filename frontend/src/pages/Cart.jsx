@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FiTrash2, FiArrowLeft, FiTag, FiCheck, FiX } from 'react-icons/fi';
+import { FiTrash2, FiArrowLeft, FiTag, FiCheck, FiX, FiTruck, FiGift } from 'react-icons/fi';
 import { useCart } from '../hooks/useCart';
 import { useTheme } from '../hooks/useTheme';
 import { toast } from 'react-toastify';
@@ -143,6 +143,35 @@ const Cart = () => {
         <div className="space-y-4">
           <div className={`${isDarkMode ? 'bg-zinc-850 border-zinc-800' : 'bg-zinc-50 border-zinc-200'} border rounded-2xl p-6 shadow-sm`}>
             <h2 className="text-xl font-bold mb-4 font-display">Order Summary</h2>
+
+            {/* Free Shipping Progress Bar */}
+            <div className={`p-4 rounded-xl mb-6 border ${isDarkMode ? 'bg-zinc-900/80 border-zinc-800' : 'bg-white border-zinc-200 shadow-xs'}`}>
+              <div className="flex items-center justify-between text-xs font-semibold mb-2">
+                <div className="flex items-center space-x-1.5">
+                  {subtotal >= 100 ? (
+                    <FiGift className="text-emerald-500 animate-bounce" size={16} />
+                  ) : (
+                    <FiTruck className="text-brand-500" size={16} />
+                  )}
+                  <span>
+                    {subtotal >= 100 ? (
+                      <span className="text-emerald-500 font-bold">You unlocked FREE Express Shipping! 🎉</span>
+                    ) : (
+                      <span>Add <strong className="text-brand-500">${(100 - subtotal).toFixed(2)}</strong> more for <strong>Free Shipping</strong></span>
+                    )}
+                  </span>
+                </div>
+                <span className="text-[10px] text-zinc-400 font-mono">{Math.min(100, Math.round((subtotal / 100) * 100))}%</span>
+              </div>
+              <div className="w-full bg-zinc-200 dark:bg-zinc-800 h-2 rounded-full overflow-hidden">
+                <div
+                  className={`h-full transition-all duration-500 rounded-full ${
+                    subtotal >= 100 ? 'bg-emerald-500' : 'bg-gradient-to-r from-brand-500 to-indigo-500'
+                  }`}
+                  style={{ width: `${Math.min(100, (subtotal / 100) * 100)}%` }}
+                />
+              </div>
+            </div>
 
             {/* Promo Code Input Box */}
             <div className="mb-6">
