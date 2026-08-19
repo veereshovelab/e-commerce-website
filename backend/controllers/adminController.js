@@ -7,7 +7,17 @@ exports.createProduct = async (req, res) => {
   try {
     const { name, description, category, brand, price, discountPrice, stock, images, specifications } = req.body;
 
-    if (!name || !description || !category || !brand || !price || !stock) {
+    const hasInvalidNumericValue = [price, stock].some(
+      (value) => value === undefined || value === null || value === '' || !Number.isFinite(Number(value)) || Number(value) < 0
+    );
+
+    if (
+      !name?.trim() ||
+      !description?.trim() ||
+      !category?.trim() ||
+      !brand?.trim() ||
+      hasInvalidNumericValue
+    ) {
       return res.status(400).json({ 
         success: false, 
         message: 'Please provide all required fields' 
