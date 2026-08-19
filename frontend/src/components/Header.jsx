@@ -259,6 +259,9 @@ const Header = () => {
             <motion.button
               whileTap={{ scale: 0.9 }}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-navigation"
               className={`lg:hidden p-2 rounded-full border ${
                 isDarkMode ? 'border-zinc-800 hover:bg-zinc-900' : 'border-zinc-200 hover:bg-zinc-100'
               }`}
@@ -276,6 +279,7 @@ const Header = () => {
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.3 }}
+              id="mobile-navigation"
               className={`lg:hidden overflow-hidden pb-6 border-t ${
                 isDarkMode ? 'border-zinc-900' : 'border-zinc-100'
               }`}
