@@ -1,3 +1,7 @@
+/**
+ * Main Application Component
+ * Handles global routing, contextual state providers, dynamic page transitions, and toast notifications.
+ */
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
