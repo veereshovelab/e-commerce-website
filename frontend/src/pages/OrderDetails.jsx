@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiPackage, FiMapPin, FiCreditCard, FiCalendar } from 'react-icons/fi';
 import { useTheme } from '../hooks/useTheme';
 import LoadingSpinner from '../components/LoadingSpinner';
 import Badge from '../components/Badge';
+import OrderTrackingTimeline from '../components/OrderTrackingTimeline';
 
 const OrderDetails = () => {
   const { orderId } = useParams();
@@ -12,7 +13,7 @@ const OrderDetails = () => {
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  React.useEffect(() => {
+  useEffect(() => {
     // In a real app, fetch order details from API
     // For now, showing mock order
     setOrder({
@@ -77,40 +78,49 @@ const OrderDetails = () => {
     <div className="max-w-4xl mx-auto px-4 py-8">
       <button
         onClick={() => navigate('/dashboard')}
-        className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 mb-8"
+        className="flex items-center space-x-2 text-brand-500 hover:text-brand-600 font-medium mb-8 transition-colors"
       >
         <FiArrowLeft />
         <span>Back to Orders</span>
       </button>
 
       {/* Header */}
-      <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} border rounded-lg p-6 mb-6`}>
+      <div className={`${isDarkMode ? 'bg-zinc-900/60 border-zinc-800 backdrop-blur-md' : 'bg-white border-zinc-200'} border rounded-2xl p-6 mb-6 shadow-sm`}>
         <div className="flex justify-between items-start mb-4">
           <div>
-            <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>Order ID</p>
-            <p className="text-2xl font-bold">{order.orderId}</p>
+            <p className={`text-xs uppercase font-semibold tracking-wider ${isDarkMode ? 'text-zinc-400' : 'text-zinc-500'}`}>Order Reference</p>
+            <p className="text-2xl font-bold font-display">{order.orderId}</p>
           </div>
           <Badge variant={statusColors[order.orderStatus]}>{order.orderStatus.toUpperCase()}</Badge>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t border-zinc-200 dark:border-zinc-800">
           <div>
-            <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mb-1`}>Order Date</p>
-            <p className="font-semibold">{new Date(order.createdAt).toLocaleDateString()}</p>
+            <p className={`text-xs ${isDarkMode ? 'text-zinc-400' : 'text-zinc-500'} mb-1`}>Order Date</p>
+            <p className="font-semibold text-sm">{new Date(order.createdAt).toLocaleDateString()}</p>
           </div>
           <div>
-            <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mb-1`}>Total Amount</p>
-            <p className="font-semibold">${order.orderSummary.totalPrice.toFixed(2)}</p>
+            <p className={`text-xs ${isDarkMode ? 'text-zinc-400' : 'text-zinc-500'} mb-1`}>Total Amount</p>
+            <p className="font-semibold text-sm text-brand-500">${order.orderSummary.totalPrice.toFixed(2)}</p>
           </div>
           <div>
-            <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mb-1`}>Payment</p>
+            <p className={`text-xs ${isDarkMode ? 'text-zinc-400' : 'text-zinc-500'} mb-1`}>Payment</p>
             <Badge variant="success">{order.paymentStatus.toUpperCase()}</Badge>
           </div>
           <div>
-            <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mb-1`}>Tracking</p>
-            <p className="font-semibold text-blue-600">{order.trackingNumber}</p>
+            <p className={`text-xs ${isDarkMode ? 'text-zinc-400' : 'text-zinc-500'} mb-1`}>Tracking</p>
+            <p className="font-semibold text-sm text-brand-500 font-mono">{order.trackingNumber}</p>
           </div>
         </div>
+      </div>
+
+      {/* Visual Tracking Timeline */}
+      <div className="mb-6">
+        <OrderTrackingTimeline
+          orderStatus={order.orderStatus}
+          trackingNumber={order.trackingNumber}
+          estimatedDelivery={new Date(order.estimatedDelivery).toLocaleDateString()}
+        />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -192,5 +202,4 @@ const OrderDetails = () => {
   );
 };
 
-const useState = React.useState;
 export default OrderDetails;
