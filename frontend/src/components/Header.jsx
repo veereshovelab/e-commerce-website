@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { FiMenu, FiX, FiSearch, FiShoppingCart, FiUser, FiLogOut, FiMoon, FiSun, FiHeart, FiSliders } from 'react-icons/fi';
+import { 
+  FiMenu, FiX, FiSearch, FiShoppingCart, FiUser, FiLogOut, 
+  FiMoon, FiSun, FiHeart, FiSliders, FiClock, FiTrendingUp, FiLoader, FiTrash2 
+} from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../hooks/useAuth';
 import { useCart } from '../hooks/useCart';
@@ -8,12 +11,19 @@ import { useTheme } from '../hooks/useTheme';
 import { useCompare } from '../hooks/useCompare';
 import apiClient from '../utils/api';
 
+const POPULAR_CATEGORIES = ['Electronics', 'Clothing', 'Footwear', 'Accessories'];
+
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [recentSearches, setRecentSearches] = useState([]);
+
   const searchRef = useRef(null);
+  const mobileSearchRef = useRef(null);
 
   const { user, isAuthenticated, logout } = useAuth();
   const { getCartItemsCount, wishlist } = useCart();
@@ -23,30 +33,87 @@ const Header = () => {
   const location = useLocation();
   const isActive = (path) => location.pathname === path;
 
-  // Handle Search Suggestions
+  // Load Recent Searches from LocalStorage
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('recent_searches');
+      if (saved) {
+        setRecentSearches(JSON.parse(saved));
+      }
+    } catch (e) {
+      console.error('Failed to load recent searches', e);
+    }
+  }, []);
+
+  const saveRecentSearch = (queryText) => {
+    const trimmed = queryText.trim();
+    if (!trimmed) return;
+    setRecentSearches((prev) => {
+      const updated = [trimmed, ...prev.filter((item) => item.toLowerCase() !== trimmed.toLowerCase())].slice(0, 5);
+      try {
+        localStorage.setItem('recent_searches', JSON.stringify(updated));
+      } catch (e) {
+        console.error('Failed to save recent search', e);
+      }
+      return updated;
+    });
+  };
+
+  const removeRecentSearch = (e, itemToRemove) => {
+    e.stopPropagation();
+    setRecentSearches((prev) => {
+      const updated = prev.filter((item) => item !== itemToRemove);
+      try {
+        localStorage.setItem('recent_searches', JSON.stringify(updated));
+      } catch (e) {
+        console.error('Failed to remove recent search', e);
+      }
+      return updated;
+    });
+  };
+
+  const clearAllRecentSearches = (e) => {
+    e.stopPropagation();
+    setRecentSearches([]);
+    try {
+      localStorage.removeItem('recent_searches');
+    } catch (e) {
+      console.error('Failed to clear recent searches', e);
+    }
+  };
+
+  // Handle Search Suggestions API
   useEffect(() => {
     if (searchQuery.trim().length > 1) {
+      setIsLoading(true);
       const delayDebounceFn = setTimeout(async () => {
         try {
           const response = await apiClient.get(`/products?search=${encodeURIComponent(searchQuery)}`);
           setSuggestions(response.data.products?.slice(0, 5) || []);
           setShowSuggestions(true);
+          setSelectedIndex(-1);
         } catch (error) {
           console.error('Error fetching suggestions:', error);
+          setSuggestions([]);
+        } finally {
+          setIsLoading(false);
         }
       }, 300);
 
       return () => clearTimeout(delayDebounceFn);
     } else {
       setSuggestions([]);
-      setShowSuggestions(false);
+      setIsLoading(false);
+      setSelectedIndex(-1);
     }
   }, [searchQuery]);
 
   // Close suggestions when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (searchRef.current && !searchRef.current.contains(event.target)) {
+      const isOutsideDesktop = searchRef.current && !searchRef.current.contains(event.target);
+      const isOutsideMobile = mobileSearchRef.current && !mobileSearchRef.current.contains(event.target);
+      if (isOutsideDesktop && isOutsideMobile) {
         setShowSuggestions(false);
       }
     };
@@ -54,19 +121,63 @@ const Header = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
-      setSearchQuery('');
+  const handleKeyDown = (e) => {
+    if (!showSuggestions) return;
+
+    if (searchQuery.trim().length > 1 && suggestions.length > 0) {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        setSelectedIndex((prev) => (prev < suggestions.length - 1 ? prev + 1 : 0));
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        setSelectedIndex((prev) => (prev > 0 ? prev - 1 : suggestions.length - 1));
+      } else if (e.key === 'Enter') {
+        if (selectedIndex >= 0 && selectedIndex < suggestions.length) {
+          e.preventDefault();
+          const selected = suggestions[selectedIndex];
+          handleSuggestionClick(selected);
+        }
+      } else if (e.key === 'Escape') {
+        setShowSuggestions(false);
+        setSelectedIndex(-1);
+      }
+    } else if (e.key === 'Escape') {
       setShowSuggestions(false);
     }
   };
 
-  const handleSuggestionClick = (productId) => {
-    navigate(`/products/${productId}`);
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      saveRecentSearch(searchQuery.trim());
+      navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery('');
+      setShowSuggestions(false);
+      setIsMenuOpen(false);
+    }
+  };
+
+  const handleSuggestionClick = (item) => {
+    saveRecentSearch(item.name);
+    navigate(`/products/${item._id}`);
     setSearchQuery('');
     setShowSuggestions(false);
+    setIsMenuOpen(false);
+  };
+
+  const handleRecentClick = (queryText) => {
+    setSearchQuery(queryText);
+    saveRecentSearch(queryText);
+    navigate(`/products?search=${encodeURIComponent(queryText)}`);
+    setShowSuggestions(false);
+    setIsMenuOpen(false);
+  };
+
+  const handleCategoryClick = (categoryName) => {
+    navigate(`/products?category=${encodeURIComponent(categoryName)}`);
+    setSearchQuery('');
+    setShowSuggestions(false);
+    setIsMenuOpen(false);
   };
 
   const handleLogout = () => {
@@ -74,6 +185,147 @@ const Header = () => {
     navigate('/');
     setIsMenuOpen(false);
   };
+
+  const highlightMatch = (text, query) => {
+    if (!query.trim()) return text;
+    const parts = text.split(new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'));
+    return parts.map((part, i) =>
+      part.toLowerCase() === query.toLowerCase() ? (
+        <mark key={i} className="bg-brand-500/20 text-brand-500 font-semibold rounded px-0.5">
+          {part}
+        </mark>
+      ) : (
+        part
+      )
+    );
+  };
+
+  const renderSuggestionsDropdown = () => (
+    <AnimatePresence>
+      {showSuggestions && (
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 8 }}
+          transition={{ duration: 0.2 }}
+          className={`absolute left-0 right-0 mt-2 rounded-2xl shadow-premium border overflow-hidden backdrop-blur-md z-50 ${
+            isDarkMode ? 'bg-zinc-900/95 border-zinc-800 text-white' : 'bg-white/95 border-zinc-100 text-zinc-900'
+          }`}
+        >
+          {searchQuery.trim().length > 1 ? (
+            <div className="py-2">
+              {isLoading ? (
+                <div className="flex items-center justify-center py-6 space-x-2 text-zinc-400">
+                  <FiLoader className="animate-spin text-brand-500" size={18} />
+                  <span className="text-xs font-medium">Searching products...</span>
+                </div>
+              ) : suggestions.length > 0 ? (
+                <div>
+                  <div className="px-4 py-1.5 text-[11px] font-semibold tracking-wider text-zinc-400 uppercase">
+                    Products
+                  </div>
+                  {suggestions.map((item, index) => {
+                    const isSelected = selectedIndex === index;
+                    return (
+                      <div
+                        key={item._id}
+                        onClick={() => handleSuggestionClick(item)}
+                        className={`flex items-center space-x-3 px-4 py-2.5 cursor-pointer transition-colors duration-150 ${
+                          isSelected
+                            ? isDarkMode ? 'bg-zinc-800' : 'bg-brand-50/80'
+                            : isDarkMode ? 'hover:bg-zinc-850/60' : 'hover:bg-zinc-50'
+                        }`}
+                      >
+                        <img
+                          src={item.thumbnail || item.images?.[0]}
+                          alt={item.name}
+                          className="w-10 h-10 object-cover rounded-lg flex-shrink-0"
+                        />
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs font-semibold truncate text-zinc-800 dark:text-zinc-100">
+                            {highlightMatch(item.name, searchQuery)}
+                          </p>
+                          <p className="text-[10px] text-zinc-400 dark:text-zinc-500 uppercase">{item.brand}</p>
+                        </div>
+                        <span className="text-xs font-bold text-brand-500">
+                          ${item.discountPrice || item.price}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="px-4 py-6 text-center text-xs text-zinc-400">
+                  No products found for "<span className="font-semibold text-zinc-600 dark:text-zinc-300">{searchQuery}</span>"
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="p-4 space-y-4">
+              {recentSearches.length > 0 && (
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="flex items-center space-x-1.5 text-[11px] font-semibold tracking-wider text-zinc-400 uppercase">
+                      <FiClock size={12} />
+                      <span>Recent Searches</span>
+                    </span>
+                    <button
+                      onClick={clearAllRecentSearches}
+                      className="text-[11px] text-zinc-400 hover:text-red-500 transition-colors"
+                    >
+                      Clear All
+                    </button>
+                  </div>
+                  <div className="space-y-1">
+                    {recentSearches.map((term, i) => (
+                      <div
+                        key={i}
+                        onClick={() => handleRecentClick(term)}
+                        className={`flex items-center justify-between px-3 py-1.5 rounded-lg text-xs cursor-pointer transition-colors ${
+                          isDarkMode ? 'hover:bg-zinc-800' : 'hover:bg-zinc-100'
+                        }`}
+                      >
+                        <span className="text-zinc-700 dark:text-zinc-300 truncate">{term}</span>
+                        <button
+                          onClick={(e) => removeRecentSearch(e, term)}
+                          className="text-zinc-400 hover:text-red-500 p-0.5"
+                          title="Remove item"
+                        >
+                          <FiTrash2 size={12} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div>
+                <div className="flex items-center space-x-1.5 text-[11px] font-semibold tracking-wider text-zinc-400 uppercase mb-2">
+                  <FiTrendingUp size={12} />
+                  <span>Popular Categories</span>
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {POPULAR_CATEGORIES.map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => handleCategoryClick(cat)}
+                      className={`text-xs px-3 py-1 rounded-full border transition-all ${
+                        isDarkMode
+                          ? 'border-zinc-800 bg-zinc-850/60 hover:bg-zinc-800 hover:border-brand-500/50 text-zinc-300'
+                          : 'border-zinc-200 bg-zinc-50 hover:bg-zinc-100 hover:border-brand-500/50 text-zinc-700'
+                      }`}
+                    >
+                      {cat}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
 
   return (
     <header className={`sticky top-0 z-50 w-full border-b backdrop-blur-lg transition-all duration-300 ${
@@ -98,57 +350,38 @@ const Header = () => {
                 placeholder="Search products..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                onFocus={() => searchQuery.trim().length > 1 && setShowSuggestions(true)}
-                className={`w-full pl-4 pr-10 py-1.5 rounded-full text-sm font-sans transition-all duration-300 outline-none border focus:ring-1 focus:ring-brand-500 ${
+                onFocus={() => setShowSuggestions(true)}
+                onKeyDown={handleKeyDown}
+                className={`w-full pl-4 pr-16 py-1.5 rounded-full text-sm font-sans transition-all duration-300 outline-none border focus:ring-1 focus:ring-brand-500 ${
                   isDarkMode 
                     ? 'bg-zinc-900/60 border-zinc-800 text-white placeholder-zinc-500 focus:border-zinc-700' 
                     : 'bg-zinc-100/60 border-zinc-200 text-zinc-900 placeholder-zinc-400 focus:border-zinc-300'
                 }`}
               />
-              <button type="submit" className="absolute right-3.5 top-2 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 transition-colors">
-                <FiSearch size={16} />
-              </button>
+              <div className="absolute right-3.5 top-2 flex items-center space-x-1.5 text-zinc-400">
+                {isLoading && <FiLoader size={14} className="animate-spin text-brand-500" />}
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSearchQuery('');
+                      setSuggestions([]);
+                      setShowSuggestions(false);
+                    }}
+                    className="hover:text-zinc-600 dark:hover:text-zinc-200"
+                    title="Clear search"
+                  >
+                    <FiX size={14} />
+                  </button>
+                )}
+                <button type="submit" className="hover:text-zinc-600 dark:hover:text-zinc-200 transition-colors">
+                  <FiSearch size={15} />
+                </button>
+              </div>
             </form>
 
             {/* Suggestions Dropdown */}
-            <AnimatePresence>
-              {showSuggestions && suggestions.length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  transition={{ duration: 0.2 }}
-                  className={`absolute left-0 right-0 mt-2 rounded-2xl shadow-premium border overflow-hidden backdrop-blur-md z-50 ${
-                    isDarkMode ? 'bg-zinc-900/95 border-zinc-800' : 'bg-white/95 border-zinc-100'
-                  }`}
-                >
-                  <div className="py-2">
-                    {suggestions.map((item) => (
-                      <div
-                        key={item._id}
-                        onClick={() => handleSuggestionClick(item._id)}
-                        className={`flex items-center space-x-3 px-4 py-2.5 cursor-pointer transition-colors duration-200 ${
-                          isDarkMode ? 'hover:bg-zinc-850/60' : 'hover:bg-zinc-50'
-                        }`}
-                      >
-                        <img
-                          src={item.thumbnail || item.images?.[0]}
-                          alt={item.name}
-                          className="w-10 h-10 object-cover rounded-lg"
-                        />
-                        <div className="flex-1 min-w-0">
-                          <p className="text-xs font-semibold truncate text-zinc-800 dark:text-zinc-100">{item.name}</p>
-                          <p className="text-[10px] text-zinc-400 dark:text-zinc-500 uppercase">{item.brand}</p>
-                        </div>
-                        <span className="text-xs font-bold text-brand-500">
-                          ${item.discountPrice || item.price}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {renderSuggestionsDropdown()}
           </div>
 
           {/* Desktop Navigation Links */}
@@ -280,27 +513,51 @@ const Header = () => {
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.3 }}
               id="mobile-navigation"
-              className={`lg:hidden overflow-hidden pb-6 border-t ${
+              className={`lg:hidden overflow-visible pb-6 border-t ${
                 isDarkMode ? 'border-zinc-900' : 'border-zinc-100'
               }`}
             >
               {/* Mobile Search Input */}
-              <form onSubmit={handleSearchSubmit} className="mt-4 mb-4 relative">
-                <input
-                  type="text"
-                  placeholder="Search products..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className={`w-full pl-4 pr-10 py-2 rounded-xl text-sm transition-all duration-300 outline-none border ${
-                    isDarkMode 
-                      ? 'bg-zinc-900 border-zinc-850 text-white placeholder-zinc-500' 
-                      : 'bg-zinc-50 border-zinc-200 text-zinc-900 placeholder-zinc-400'
-                  }`}
-                />
-                <button type="submit" className="absolute right-3.5 top-2.5 text-zinc-400">
-                  <FiSearch size={16} />
-                </button>
-              </form>
+              <div ref={mobileSearchRef} className="mt-4 mb-4 relative">
+                <form onSubmit={handleSearchSubmit} className="relative">
+                  <input
+                    type="text"
+                    placeholder="Search products..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onFocus={() => setShowSuggestions(true)}
+                    onKeyDown={handleKeyDown}
+                    className={`w-full pl-4 pr-16 py-2 rounded-xl text-sm transition-all duration-300 outline-none border ${
+                      isDarkMode 
+                        ? 'bg-zinc-900 border-zinc-850 text-white placeholder-zinc-500' 
+                        : 'bg-zinc-50 border-zinc-200 text-zinc-900 placeholder-zinc-400'
+                    }`}
+                  />
+                  <div className="absolute right-3.5 top-2.5 flex items-center space-x-1.5 text-zinc-400">
+                    {isLoading && <FiLoader size={14} className="animate-spin text-brand-500" />}
+                    {searchQuery && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSearchQuery('');
+                          setSuggestions([]);
+                          setShowSuggestions(false);
+                        }}
+                        className="hover:text-zinc-600 dark:hover:text-zinc-200"
+                        title="Clear search"
+                      >
+                        <FiX size={14} />
+                      </button>
+                    )}
+                    <button type="submit" className="hover:text-zinc-600 dark:hover:text-zinc-200 transition-colors">
+                      <FiSearch size={15} />
+                    </button>
+                  </div>
+                </form>
+
+                {/* Mobile Suggestions Dropdown */}
+                {renderSuggestionsDropdown()}
+              </div>
 
               <div className="space-y-1">
                 <Link to="/products" onClick={() => setIsMenuOpen(false)} className="block px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-900">
@@ -358,3 +615,4 @@ const Header = () => {
 };
 
 export default Header;
+
