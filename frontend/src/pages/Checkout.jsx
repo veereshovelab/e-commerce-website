@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiArrowLeft, FiCreditCard, FiSmartphone, FiGlobe, FiPocket, FiLock, FiCheck } from 'react-icons/fi';
+import { FiArrowLeft, FiCreditCard, FiSmartphone, FiGlobe, FiPocket, FiLock, FiCheck, FiTag, FiX, FiPercent } from 'react-icons/fi';
 import apiClient from '../utils/api';
 import { useCart } from '../hooks/useCart';
 import { useAuth } from '../hooks/useAuth';
@@ -9,10 +9,23 @@ import { toast } from 'react-toastify';
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const { cart, getCartTotal, clearCart, appliedCoupon, getDiscountAmount, getFinalTotal } = useCart();
+  const { 
+    cart, 
+    getCartTotal, 
+    clearCart, 
+    appliedCoupon, 
+    applyCoupon, 
+    removeCoupon, 
+    getDiscountAmount, 
+    getSavingsTotal, 
+    getFinalTotal, 
+    VALID_COUPONS 
+  } = useCart();
   const { user, isAuthenticated } = useAuth();
   const { isDarkMode } = useTheme();
   const [loading, setLoading] = useState(false);
+  const [couponInput, setCouponInput] = useState('');
+
   const [formData, setFormData] = useState({
     shippingAddress: {
       fullName: user?.name || '',
@@ -35,6 +48,27 @@ const Checkout = () => {
       selectedWallet: 'paytm'
     }
   });
+
+  const handleApplyCoupon = (e) => {
+    e.preventDefault();
+    if (!couponInput.trim()) return;
+    const res = applyCoupon(couponInput);
+    if (res.success) {
+      toast.success(res.message);
+      setCouponInput('');
+    } else {
+      toast.error(res.message);
+    }
+  };
+
+  const handlePresetClick = (code) => {
+    const res = applyCoupon(code);
+    if (res.success) {
+      toast.success(res.message);
+    } else {
+      toast.error(res.message);
+    }
+  };
 
   if (!isAuthenticated) {
     return (
@@ -62,6 +96,7 @@ const Checkout = () => {
 
   const subtotal = getCartTotal();
   const discount = getDiscountAmount();
+  const totalSavings = getSavingsTotal();
   const tax = (subtotal - discount) * 0.1;
   const total = getFinalTotal();
 
@@ -436,13 +471,86 @@ const Checkout = () => {
         <div className={`${isDarkMode ? 'bg-zinc-850 border-zinc-800' : 'bg-zinc-50 border-zinc-200'} border rounded-2xl p-6 h-fit shadow-sm`}>
           <h2 className="text-xl font-bold mb-4 font-display">Order Summary</h2>
 
-          <div className="space-y-3 mb-4 max-h-64 overflow-y-auto pr-1">
+          {/* Total Savings Alert */}
+          {totalSavings > 0 && (
+            <div className="mb-4 p-3 rounded-xl bg-gradient-to-r from-emerald-500/15 to-teal-500/15 border border-emerald-500/30 flex items-center justify-between text-xs text-emerald-600 dark:text-emerald-400 font-semibold">
+              <div className="flex items-center space-x-1.5">
+                <FiPercent className="text-emerald-500 animate-pulse" size={15} />
+                <span>Total Order Savings</span>
+              </div>
+              <span className="font-bold font-mono text-sm">${totalSavings.toFixed(2)}</span>
+            </div>
+          )}
+
+          <div className="space-y-3 mb-4 max-h-56 overflow-y-auto pr-1">
             {cart.map((item) => (
               <div key={item._id} className="flex justify-between text-sm">
                 <span className="truncate max-w-[180px]">{item.name} <strong className="text-zinc-400">x{item.quantity}</strong></span>
                 <span className="font-medium">${((item.discountPrice || item.price) * item.quantity).toFixed(2)}</span>
               </div>
             ))}
+          </div>
+
+          {/* Checkout Promo Code Input Box */}
+          <div className="mb-4 border-t pt-4 dark:border-zinc-700">
+            <label className="block text-xs font-semibold text-zinc-500 dark:text-zinc-400 mb-2 uppercase tracking-wider">
+              Have a Promo Code?
+            </label>
+            {appliedCoupon ? (
+              <div className="flex items-center justify-between p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs font-semibold">
+                <div className="flex items-center space-x-1.5 truncate">
+                  <FiCheck size={15} />
+                  <span className="truncate">Coupon <strong>{appliedCoupon.code}</strong> Applied</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    removeCoupon();
+                    toast.info('Coupon removed');
+                  }}
+                  className="p-1 hover:bg-emerald-500/20 rounded-lg text-red-500"
+                  title="Remove Coupon"
+                >
+                  <FiX size={14} />
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleApplyCoupon} className="flex space-x-2">
+                <input
+                  type="text"
+                  placeholder="e.g. SUMMER30"
+                  value={couponInput}
+                  onChange={(e) => setCouponInput(e.target.value)}
+                  className={`flex-1 px-3 py-1.5 text-xs rounded-xl border outline-none font-mono uppercase ${
+                    isDarkMode ? 'bg-zinc-900 border-zinc-700 text-white' : 'bg-white border-zinc-300 text-zinc-900'
+                  }`}
+                />
+                <button
+                  type="submit"
+                  className="px-3 py-1.5 bg-zinc-900 hover:bg-black dark:bg-zinc-100 dark:hover:bg-white dark:text-zinc-900 text-white text-xs font-bold rounded-xl transition"
+                >
+                  Apply
+                </button>
+              </form>
+            )}
+
+            {/* Quick Coupons List */}
+            <div className="mt-2.5 flex flex-wrap gap-1">
+              {Object.keys(VALID_COUPONS).slice(0, 4).map((code) => (
+                <button
+                  key={code}
+                  type="button"
+                  onClick={() => handlePresetClick(code)}
+                  className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border transition ${
+                    appliedCoupon?.code === code
+                      ? 'bg-brand-500 text-white border-brand-500'
+                      : 'border-zinc-300 dark:border-zinc-700 hover:border-brand-500 text-zinc-600 dark:text-zinc-300'
+                  }`}
+                >
+                  {code}
+                </button>
+              ))}
+            </div>
           </div>
 
           <div className={`border-t ${isDarkMode ? 'border-zinc-700' : 'border-zinc-300'} pt-4 space-y-2 text-sm`}>
@@ -452,7 +560,7 @@ const Checkout = () => {
             </div>
 
             {discount > 0 && (
-              <div className="flex justify-between text-green-600 dark:text-green-400 font-semibold">
+              <div className="flex justify-between text-emerald-600 dark:text-emerald-400 font-semibold">
                 <span>Coupon ({appliedCoupon?.code})</span>
                 <span>-${discount.toFixed(2)}</span>
               </div>
@@ -474,3 +582,4 @@ const Checkout = () => {
 };
 
 export default Checkout;
+

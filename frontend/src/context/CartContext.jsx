@@ -10,10 +10,12 @@ export const CartProvider = ({ children }) => {
 
   // Available Coupons Dictionary
   const VALID_COUPONS = {
-    'SAVE10': { type: 'percent', value: 10, description: '10% OFF on all items' },
-    'WELCOME20': { type: 'percent', value: 20, description: '20% OFF Welcome Bonus' },
-    'FREESHIP': { type: 'fixed', value: 15, description: '$15 OFF Shipping Credit' },
-    'MEGA50': { type: 'fixed', value: 50, minTotal: 200, description: '$50 OFF Orders over $200' },
+    'SAVE10': { type: 'percent', value: 10, description: '10% OFF on all items', badge: 'Popular' },
+    'WELCOME20': { type: 'percent', value: 20, description: '20% OFF Welcome Bonus', badge: 'New User' },
+    'SUMMER30': { type: 'percent', value: 30, minTotal: 150, description: '30% OFF orders over $150', badge: 'Hot Deal' },
+    'FREESHIP': { type: 'fixed', value: 15, description: '$15 OFF Shipping Credit', badge: 'Express' },
+    'MEGA50': { type: 'fixed', value: 50, minTotal: 200, description: '$50 OFF Orders over $200', badge: 'Best Value' },
+    'SUPER100': { type: 'fixed', value: 100, minTotal: 400, description: '$100 OFF Orders over $400', badge: 'VIP' },
   };
 
   // Load from localStorage on mount
@@ -111,7 +113,7 @@ export const CartProvider = ({ children }) => {
     const cleanCode = code.trim().toUpperCase();
     const coupon = VALID_COUPONS[cleanCode];
     if (!coupon) {
-      return { success: false, message: 'Invalid coupon code. Try SAVE10, WELCOME20, or FREESHIP!' };
+      return { success: false, message: 'Invalid coupon code. Try SAVE10, WELCOME20, SUMMER30, or MEGA50!' };
     }
     const subtotal = getCartTotal();
     if (coupon.minTotal && subtotal < coupon.minTotal) {
@@ -135,6 +137,16 @@ export const CartProvider = ({ children }) => {
       return Math.min(appliedCoupon.value, subtotal);
     }
     return 0;
+  };
+
+  const getSavingsTotal = () => {
+    const itemDiscounts = cart.reduce((acc, item) => {
+      if (item.discountPrice && item.discountPrice < item.price) {
+        return acc + (item.price - item.discountPrice) * item.quantity;
+      }
+      return acc;
+    }, 0);
+    return itemDiscounts + getDiscountAmount();
   };
 
   const getFinalTotal = () => {
@@ -162,6 +174,7 @@ export const CartProvider = ({ children }) => {
         applyCoupon,
         removeCoupon,
         getDiscountAmount,
+        getSavingsTotal,
         getFinalTotal,
         VALID_COUPONS
       }}
@@ -170,4 +183,5 @@ export const CartProvider = ({ children }) => {
     </CartContext.Provider>
   );
 };
+
 

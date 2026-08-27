@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FiTrash2, FiArrowLeft, FiTag, FiCheck, FiX, FiTruck, FiGift } from 'react-icons/fi';
+import { FiTrash2, FiArrowLeft, FiTag, FiCheck, FiX, FiTruck, FiGift, FiCopy, FiPercent } from 'react-icons/fi';
 import { useCart } from '../hooks/useCart';
 import { useTheme } from '../hooks/useTheme';
 import { toast } from 'react-toastify';
@@ -17,6 +17,7 @@ const Cart = () => {
     applyCoupon,
     removeCoupon,
     getDiscountAmount,
+    getSavingsTotal,
     getFinalTotal,
     VALID_COUPONS
   } = useCart();
@@ -45,6 +46,12 @@ const Cart = () => {
     }
   };
 
+  const handleCopyCode = (e, code) => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(code);
+    toast.info(`Promo code "${code}" copied to clipboard!`);
+  };
+
   if (cart.length === 0) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-16 text-center">
@@ -59,6 +66,7 @@ const Cart = () => {
 
   const subtotal = getCartTotal();
   const discount = getDiscountAmount();
+  const totalSavings = getSavingsTotal();
   const tax = (subtotal - discount) * 0.1;
   const finalTotal = getFinalTotal();
 
@@ -144,6 +152,17 @@ const Cart = () => {
           <div className={`${isDarkMode ? 'bg-zinc-850 border-zinc-800' : 'bg-zinc-50 border-zinc-200'} border rounded-2xl p-6 shadow-sm`}>
             <h2 className="text-xl font-bold mb-4 font-display">Order Summary</h2>
 
+            {/* Total Savings Alert Banner */}
+            {totalSavings > 0 && (
+              <div className="mb-4 p-3 rounded-xl bg-gradient-to-r from-emerald-500/15 to-teal-500/15 border border-emerald-500/30 flex items-center justify-between text-xs text-emerald-600 dark:text-emerald-400 font-semibold">
+                <div className="flex items-center space-x-2">
+                  <FiPercent className="text-emerald-500 animate-pulse" size={16} />
+                  <span>Total Savings on Order</span>
+                </div>
+                <span className="font-bold font-mono text-sm">${totalSavings.toFixed(2)}</span>
+              </div>
+            )}
+
             {/* Free Shipping Progress Bar */}
             <div className={`p-4 rounded-xl mb-6 border ${isDarkMode ? 'bg-zinc-900/80 border-zinc-800' : 'bg-white border-zinc-200 shadow-xs'}`}>
               <div className="flex items-center justify-between text-xs font-semibold mb-2">
@@ -179,17 +198,17 @@ const Cart = () => {
                 Promo Code / Coupon
               </label>
               {appliedCoupon ? (
-                <div className="flex items-center justify-between p-3 rounded-xl bg-green-500/10 border border-green-500/30 text-green-600 dark:text-green-400 text-xs font-semibold">
+                <div className="flex items-center justify-between p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs font-semibold">
                   <div className="flex items-center space-x-2">
                     <FiCheck size={16} />
-                    <span>Coupon <strong>{appliedCoupon.code}</strong> Applied</span>
+                    <span>Coupon <strong>{appliedCoupon.code}</strong> Applied ({appliedCoupon.description})</span>
                   </div>
                   <button
                     onClick={() => {
                       removeCoupon();
                       toast.info('Coupon removed');
                     }}
-                    className="p-1 hover:bg-green-500/20 rounded-lg text-red-500"
+                    className="p-1 hover:bg-emerald-500/20 rounded-lg text-red-500"
                     title="Remove Coupon"
                   >
                     <FiX size={14} />
@@ -199,7 +218,7 @@ const Cart = () => {
                 <form onSubmit={handleApplyCoupon} className="flex space-x-2">
                   <input
                     type="text"
-                    placeholder="e.g. SAVE10"
+                    placeholder="e.g. SUMMER30"
                     value={couponInput}
                     onChange={(e) => setCouponInput(e.target.value)}
                     className={`flex-1 px-3 py-2 text-xs rounded-xl border outline-none font-mono uppercase ${
@@ -215,26 +234,56 @@ const Cart = () => {
                 </form>
               )}
 
-              {/* Available Coupons Chips */}
-              <div className="mt-3">
-                <p className="text-[10px] text-zinc-400 font-semibold mb-1.5 flex items-center space-x-1">
+              {/* Available Coupons Cards */}
+              <div className="mt-4 space-y-2">
+                <p className="text-[10px] text-zinc-400 font-semibold flex items-center space-x-1 uppercase tracking-wider">
                   <FiTag size={12} />
-                  <span>Available Promo Codes:</span>
+                  <span>Available Promo Codes</span>
                 </p>
-                <div className="flex flex-wrap gap-1.5">
-                  {Object.keys(VALID_COUPONS).map((code) => (
-                    <button
-                      key={code}
-                      onClick={() => handlePresetClick(code)}
-                      className={`text-[10px] font-mono font-bold px-2 py-1 rounded-md border transition ${
-                        appliedCoupon?.code === code
-                          ? 'bg-brand-500 text-white border-brand-500'
-                          : 'border-zinc-300 dark:border-zinc-700 hover:border-brand-500 text-zinc-600 dark:text-zinc-300'
-                      }`}
-                    >
-                      {code}
-                    </button>
-                  ))}
+                <div className="grid grid-cols-1 gap-2 max-h-48 overflow-y-auto pr-1">
+                  {Object.entries(VALID_COUPONS).map(([code, details]) => {
+                    const isApplied = appliedCoupon?.code === code;
+                    return (
+                      <div
+                        key={code}
+                        onClick={() => handlePresetClick(code)}
+                        className={`p-2.5 rounded-xl border text-left cursor-pointer transition flex items-center justify-between ${
+                          isApplied
+                            ? 'bg-brand-500/10 border-brand-500 ring-1 ring-brand-500'
+                            : isDarkMode ? 'bg-zinc-900/50 border-zinc-800 hover:border-zinc-700' : 'bg-white border-zinc-200 hover:border-zinc-300'
+                        }`}
+                      >
+                        <div className="min-w-0 flex-1 pr-2">
+                          <div className="flex items-center space-x-2">
+                            <span className="font-mono font-bold text-xs text-brand-500">{code}</span>
+                            {details.badge && (
+                              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-brand-500/10 text-brand-500">
+                                {details.badge}
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-[11px] text-zinc-500 dark:text-zinc-400 truncate mt-0.5">{details.description}</p>
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          <button
+                            type="button"
+                            onClick={(e) => handleCopyCode(e, code)}
+                            className="p-1 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200"
+                            title="Copy code"
+                          >
+                            <FiCopy size={13} />
+                          </button>
+                          <span className={`text-[10px] font-bold px-2 py-1 rounded-lg ${
+                            isApplied
+                              ? 'bg-brand-500 text-white'
+                              : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300'
+                          }`}>
+                            {isApplied ? 'Applied' : 'Apply'}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -247,7 +296,7 @@ const Cart = () => {
               </div>
 
               {discount > 0 && (
-                <div className="flex justify-between text-green-600 dark:text-green-400 font-semibold">
+                <div className="flex justify-between text-emerald-600 dark:text-emerald-400 font-semibold">
                   <span>Discount ({appliedCoupon?.code})</span>
                   <span>-${discount.toFixed(2)}</span>
                 </div>
@@ -255,7 +304,7 @@ const Cart = () => {
 
               <div className="flex justify-between">
                 <span className="text-zinc-500 dark:text-zinc-400">Estimated Shipping</span>
-                <span className="text-green-600 font-semibold">Free</span>
+                <span className="text-emerald-600 font-semibold">Free</span>
               </div>
 
               <div className="flex justify-between">
@@ -293,3 +342,4 @@ const Cart = () => {
 };
 
 export default Cart;
+
