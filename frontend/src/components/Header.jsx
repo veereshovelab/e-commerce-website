@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { 
   FiMenu, FiX, FiSearch, FiShoppingCart, FiUser, FiLogOut, 
-  FiMoon, FiSun, FiHeart, FiSliders, FiClock, FiTrendingUp, FiLoader, FiTrash2 
+  FiMoon, FiSun, FiHeart, FiSliders, FiClock, FiTrendingUp, FiLoader, FiTrash2, FiMonitor 
 } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../hooks/useAuth';
@@ -27,7 +27,7 @@ const Header = () => {
 
   const { user, isAuthenticated, logout } = useAuth();
   const { getCartItemsCount, wishlist } = useCart();
-  const { isDarkMode, toggleTheme } = useTheme();
+  const { themeMode, setThemeMode, isDarkMode, toggleTheme } = useTheme();
   const { compareList, openCompareModal } = useCompare();
   const navigate = useNavigate();
   const location = useLocation();
@@ -399,14 +399,32 @@ const Header = () => {
             <motion.button
               whileTap={{ scale: 0.85, rotate: 15 }}
               onClick={toggleTheme}
-              className={`p-2 rounded-full border transition-colors duration-300 ${
-                isDarkMode 
-                  ? 'border-zinc-800 hover:bg-zinc-900 text-yellow-400' 
-                  : 'border-zinc-200 hover:bg-zinc-100 text-zinc-700'
+              className={`relative p-2 rounded-full border transition-colors duration-300 flex items-center justify-center ${
+                themeMode === 'system'
+                  ? 'border-brand-500/50 bg-brand-500/10 text-brand-500 hover:bg-brand-500/20'
+                  : isDarkMode 
+                    ? 'border-zinc-800 hover:bg-zinc-900 text-amber-400' 
+                    : 'border-zinc-200 hover:bg-zinc-100 text-zinc-700'
               }`}
-              title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              title={`Current Mode: ${themeMode.toUpperCase()} (Click to toggle Light -> Dark -> System)`}
             >
-              {isDarkMode ? <FiSun size={17} /> : <FiMoon size={17} />}
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={themeMode}
+                  initial={{ y: -10, opacity: 0, rotate: -30 }}
+                  animate={{ y: 0, opacity: 1, rotate: 0 }}
+                  exit={{ y: 10, opacity: 0, rotate: 30 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {themeMode === 'system' ? (
+                    <FiMonitor size={17} />
+                  ) : isDarkMode ? (
+                    <FiSun size={17} />
+                  ) : (
+                    <FiMoon size={17} />
+                  )}
+                </motion.div>
+              </AnimatePresence>
             </motion.button>
 
             {/* Compare Drawer Modal Button */}
@@ -578,6 +596,53 @@ const Header = () => {
               </div>
 
               <div className={`my-3 border-t ${isDarkMode ? 'border-zinc-900' : 'border-zinc-100'}`} />
+
+              {/* Mobile Theme Mode Switcher Pill */}
+              <div className="px-4 py-2 my-1">
+                <div className="text-[11px] font-semibold tracking-wider text-zinc-400 uppercase mb-2 flex items-center justify-between">
+                  <span>Appearance</span>
+                  <span className="text-[10px] text-brand-500 font-mono capitalize">({themeMode})</span>
+                </div>
+                <div className={`grid grid-cols-3 gap-1.5 p-1 rounded-xl border ${
+                  isDarkMode ? 'bg-zinc-900/90 border-zinc-800' : 'bg-zinc-100 border-zinc-200'
+                }`}>
+                  <button
+                    onClick={() => setThemeMode('light')}
+                    className={`flex items-center justify-center space-x-1.5 py-1.5 rounded-lg text-xs font-semibold transition ${
+                      themeMode === 'light'
+                        ? 'bg-white text-zinc-900 shadow-sm'
+                        : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
+                    }`}
+                  >
+                    <FiSun size={13} className="text-amber-500" />
+                    <span>Light</span>
+                  </button>
+
+                  <button
+                    onClick={() => setThemeMode('dark')}
+                    className={`flex items-center justify-center space-x-1.5 py-1.5 rounded-lg text-xs font-semibold transition ${
+                      themeMode === 'dark'
+                        ? 'bg-zinc-800 text-white shadow-sm'
+                        : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
+                    }`}
+                  >
+                    <FiMoon size={13} className="text-indigo-400" />
+                    <span>Dark</span>
+                  </button>
+
+                  <button
+                    onClick={() => setThemeMode('system')}
+                    className={`flex items-center justify-center space-x-1.5 py-1.5 rounded-lg text-xs font-semibold transition ${
+                      themeMode === 'system'
+                        ? isDarkMode ? 'bg-zinc-800 text-white shadow-sm' : 'bg-white text-zinc-900 shadow-sm'
+                        : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
+                    }`}
+                  >
+                    <FiMonitor size={13} className="text-brand-500" />
+                    <span>System</span>
+                  </button>
+                </div>
+              </div>
 
               {isAuthenticated ? (
                 <div className="space-y-1">
