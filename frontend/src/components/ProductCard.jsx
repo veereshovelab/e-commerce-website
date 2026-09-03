@@ -56,8 +56,9 @@ const ProductCard = ({ product }) => {
   return (
     <>
       <motion.div
-        whileHover={{ y: -8 }}
-        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        whileHover={{ y: -8, scale: 1.015 }}
+        whileTap={{ scale: 0.985 }}
+        transition={{ type: 'spring', stiffness: 260, damping: 20 }}
         className={`group relative rounded-2xl overflow-hidden border ${
           isDarkMode ? 'bg-darkCard/40 border-white/5 backdrop-blur-md shadow-glass-dark hover:border-white/10 hover:shadow-glow-purple' : 'bg-white border-zinc-200 shadow-premium hover:shadow-premium-hover'
         } flex flex-col h-full`}
@@ -66,6 +67,7 @@ const ProductCard = ({ product }) => {
         <div className="absolute top-3 right-3 z-10 flex items-center space-x-1.5">
           <motion.button
             whileTap={{ scale: 0.8 }}
+            whileHover={{ scale: 1.1 }}
             onClick={handleCompare}
             className={`p-2.5 rounded-full backdrop-blur-md shadow-sm border ${
               isInCompare(product._id)
@@ -81,6 +83,7 @@ const ProductCard = ({ product }) => {
 
           <motion.button
             whileTap={{ scale: 0.8 }}
+            whileHover={{ scale: 1.1 }}
             onClick={handleWishlist}
             className={`p-2.5 rounded-full backdrop-blur-md shadow-sm border ${
               isInWishlist(product._id)
@@ -100,12 +103,12 @@ const ProductCard = ({ product }) => {
           <img
             src={product.thumbnail || product.images?.[0] || 'https://via.placeholder.com/300'}
             alt={product.name}
-            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-108"
             loading="lazy"
           />
 
           {discountPercent > 0 && (
-            <div className="absolute top-3 left-3 bg-brand-500 text-white px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wider shadow-glow-primary z-10">
+            <div className="absolute top-3 left-3 bg-brand-500 text-white px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wider shadow-glow-primary z-10 animate-pulse">
               -{discountPercent}% OFF
             </div>
           )}
@@ -126,22 +129,26 @@ const ProductCard = ({ product }) => {
           )}
 
           {/* Hover Overlay with Quick Actions */}
-          <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-2.5 z-10">
-            <button
+          <div className="absolute inset-0 bg-black/25 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-2.5 z-10 backdrop-blur-[2px]">
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
               onClick={() => setIsQuickViewOpen(true)}
               className="p-3 rounded-xl bg-white text-zinc-900 hover:bg-zinc-100 shadow-lg transition-transform duration-300 transform translate-y-4 group-hover:translate-y-0 flex items-center justify-center"
               title="Quick View"
             >
               <FiEye size={18} />
-            </button>
+            </motion.button>
             {product.stock > 0 && (
-              <button
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
                 onClick={handleAddToCart}
                 className="p-3 rounded-xl bg-brand-500 text-white hover:bg-brand-600 shadow-lg shadow-glow-primary transition-transform duration-300 transform translate-y-4 group-hover:translate-y-0 delay-75 flex items-center justify-center"
                 title="Add to Cart"
               >
                 <FiShoppingCart size={18} />
-              </button>
+              </motion.button>
             )}
           </div>
         </div>

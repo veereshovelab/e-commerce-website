@@ -72,7 +72,8 @@ const QuickViewModal = ({ product, isOpen, onClose }) => {
             } z-10`}
           >
             {/* Close Button */}
-            <button
+            <motion.button
+              whileTap={{ scale: 0.85, rotate: 90 }}
               onClick={onClose}
               className={`absolute top-4 right-4 p-2.5 rounded-full z-20 transition-colors ${
                 isDarkMode ? 'bg-zinc-800/80 hover:bg-zinc-700 text-zinc-400 hover:text-white' : 'bg-zinc-100/80 hover:bg-zinc-200 text-zinc-500 hover:text-zinc-900'
@@ -80,7 +81,7 @@ const QuickViewModal = ({ product, isOpen, onClose }) => {
               title="Close modal"
             >
               <FiX size={20} />
-            </button>
+            </motion.button>
 
             <div className="grid grid-cols-1 md:grid-cols-2">
               {/* Product Gallery Section */}

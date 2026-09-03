@@ -71,8 +71,24 @@ const Home = () => {
           : 'bg-zinc-50 border-zinc-200'
       }`}>
         {/* Glow Spheres (Ambient Background Effects) */}
-        <div className="absolute top-1/4 left-1/4 w-[450px] h-[450px] rounded-full bg-brand-500/10 dark:bg-brand-500/5 blur-[120px] pointer-events-none animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-[450px] h-[450px] rounded-full bg-indigo-500/10 dark:bg-indigo-500/5 blur-[120px] pointer-events-none animate-pulse" />
+        <motion.div
+          animate={{
+            scale: [1, 1.15, 1],
+            x: [0, 20, 0],
+            y: [0, -15, 0],
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute top-1/4 left-1/4 w-[450px] h-[450px] rounded-full bg-brand-500/10 dark:bg-brand-500/5 blur-[120px] pointer-events-none"
+        />
+        <motion.div
+          animate={{
+            scale: [1, 1.2, 1],
+            x: [0, -25, 0],
+            y: [0, 20, 0],
+          }}
+          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute bottom-1/4 right-1/4 w-[450px] h-[450px] rounded-full bg-indigo-500/10 dark:bg-indigo-500/5 blur-[120px] pointer-events-none"
+        />
         <div className="hero-glow-sphere w-[500px] h-[350px] top-1/4 left-1/3 opacity-30 dark:opacity-40" />
 
         <div className="max-w-7xl mx-auto w-full relative z-10">
@@ -97,32 +113,36 @@ const Home = () => {
                 Discover a curated universe of premium products from elite brands. Immerse yourself in Stripe-like speed and Apple-grade precision.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link
-                  to="/products"
-                  className="inline-flex items-center justify-center space-x-2 bg-brand-500 hover:bg-brand-600 text-white px-7 py-3.5 rounded-full font-medium shadow-glow-primary hover:shadow-lg hover:shadow-brand-500/25 transition duration-300 dark:btn-glow-primary"
-                >
-                  <span>Explore Catalog</span>
-                  <FiArrowRight size={16} />
-                </Link>
-                <Link
-                  to="/about"
-                  className={`inline-flex items-center justify-center border px-7 py-3.5 rounded-full font-medium transition duration-300 ${
-                    isDarkMode 
-                      ? 'btn-glass-secondary border-white/10 text-zinc-350' 
-                      : 'border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900 text-zinc-700'
-                  }`}
-                >
-                  <span>Learn Our Philosophy</span>
-                </Link>
+                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                  <Link
+                    to="/products"
+                    className="inline-flex items-center justify-center space-x-2 bg-brand-500 hover:bg-brand-600 text-white px-7 py-3.5 rounded-full font-medium shadow-glow-primary hover:shadow-lg hover:shadow-brand-500/25 transition duration-300 dark:btn-glow-primary w-full sm:w-auto"
+                  >
+                    <span>Explore Catalog</span>
+                    <FiArrowRight size={16} />
+                  </Link>
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                  <Link
+                    to="/about"
+                    className={`inline-flex items-center justify-center border px-7 py-3.5 rounded-full font-medium transition duration-300 w-full sm:w-auto ${
+                      isDarkMode 
+                        ? 'btn-glass-secondary border-white/10 text-zinc-350' 
+                        : 'border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900 text-zinc-700'
+                    }`}
+                  >
+                    <span>Learn Our Philosophy</span>
+                  </Link>
+                </motion.div>
               </div>
             </motion.div>
 
             {/* Right Graphics */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative flex items-center justify-center"
+              className="relative flex items-center justify-center animate-float-slow"
             >
               {/* Vercel/Linear style grid overlay card */}
               <div className={`relative p-6 sm:p-8 rounded-3xl w-full max-w-[460px] border shadow-premium backdrop-blur-md transition-all ${

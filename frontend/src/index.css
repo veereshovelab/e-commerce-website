@@ -198,3 +198,45 @@ button, a, input, select, textarea {
     opacity: 0.9;
   }
 }
+
+/* Floating element animation */
+.animate-float-slow {
+  animation: floatSlow 6s ease-in-out infinite;
+}
+
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(1deg);
+  }
+}
+
+/* Shimmer pulse highlight */
+.shimmer-glow {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-glow::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.15) 50%,
+    transparent 70%
+  );
+  transform: rotate(30deg) translateY(-100%);
+  transition: transform 0.8s ease-in-out;
+}
+
+.shimmer-glow:hover::after {
+  transform: rotate(30deg) translateY(100%);
+}
+
