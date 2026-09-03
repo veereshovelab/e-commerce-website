@@ -60,6 +60,7 @@ const ProductDetails = () => {
         const filtered = stored.filter(item => item._id !== product._id);
         const updated = [product, ...filtered].slice(0, 6);
         localStorage.setItem('recentlyViewed', JSON.stringify(updated));
+        window.dispatchEvent(new Event('recentlyViewedUpdated'));
         setRecentlyViewed(updated.filter(item => item._id !== product._id));
       } catch (err) {
         console.error('Failed to update recently viewed:', err);

@@ -19,6 +19,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import CompareDrawer from './components/CompareDrawer';
 import CompareModal from './components/CompareModal';
+import RecentlyViewedDrawer from './components/RecentlyViewedDrawer';
 import ScrollToTop from './components/ScrollToTop';
 
 // Pages
@@ -92,6 +93,7 @@ function App() {
                 <Footer />
                 <CompareDrawer />
                 <CompareModal />
+                <RecentlyViewedDrawer />
                 <ScrollToTop />
               </div>
               <ToastContainer
