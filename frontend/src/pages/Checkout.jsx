@@ -37,6 +37,7 @@ const Checkout = () => {
       zipCode: '',
       country: 'US'
     },
+    orderNotes: '',
     paymentMethod: 'card',
     paymentDetails: {
       cardNumber: '',
@@ -137,6 +138,7 @@ const Checkout = () => {
         })),
         shippingAddress: formData.shippingAddress,
         billingAddress: formData.shippingAddress,
+        notes: formData.orderNotes,
         orderSummary: {
           subtotal,
           discount,
@@ -271,6 +273,18 @@ const Checkout = () => {
                     <option value="CA">Canada</option>
                     <option value="UK">United Kingdom</option>
                   </select>
+                </div>
+
+                <div className="col-span-2">
+                  <label className="block text-sm font-medium mb-2">Order Notes / Delivery Instructions (Optional)</label>
+                  <textarea
+                    name="orderNotes"
+                    rows="3"
+                    placeholder="e.g. Special instructions for delivery, gate code, leave at door..."
+                    value={formData.orderNotes}
+                    onChange={(e) => setFormData(prev => ({ ...prev, orderNotes: e.target.value }))}
+                    className={`w-full px-4 py-2 rounded-xl border ${isDarkMode ? 'bg-zinc-900 border-zinc-700 text-white' : 'bg-zinc-50 border-zinc-300 text-zinc-900'} focus:outline-none focus:ring-1 focus:ring-brand-500`}
+                  />
                 </div>
               </div>
             </div>

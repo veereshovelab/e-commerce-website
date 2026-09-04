@@ -5,7 +5,7 @@ const User = require('../models/User');
 // Create order
 exports.createOrder = async (req, res) => {
   try {
-    const { products, shippingAddress, billingAddress, orderSummary, paymentMethod } = req.body;
+    const { products, shippingAddress, billingAddress, orderSummary, paymentMethod, notes, orderNotes } = req.body;
 
     if (!products || !shippingAddress || !orderSummary) {
       return res.status(400).json({ 
@@ -32,7 +32,8 @@ exports.createOrder = async (req, res) => {
       shippingAddress,
       billingAddress: billingAddress || shippingAddress,
       orderSummary,
-      paymentMethod
+      paymentMethod,
+      notes: notes || orderNotes || ''
     });
 
     // Reduce stock
