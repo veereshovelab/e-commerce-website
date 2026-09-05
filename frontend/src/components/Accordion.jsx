@@ -42,6 +42,7 @@ const Accordion = ({ items }) => {
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                  className="transform-gpu overflow-hidden"
                 >
                   <div className={`p-5 text-sm leading-relaxed border-t ${
                     isDarkMode ? 'bg-zinc-900/80 border-zinc-850 text-zinc-400' : 'bg-white border-zinc-100 text-zinc-550'

@@ -11,8 +11,6 @@ const CompareModal = () => {
   const { addToCart } = useCart();
   const { isDarkMode } = useTheme();
 
-  if (!isCompareModalOpen) return null;
-
   const handleAddToCart = (product) => {
     addToCart(product, 1);
     toast.success(`Added ${product.name} to cart!`);
@@ -20,18 +18,25 @@ const CompareModal = () => {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
+      {isCompareModalOpen && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.95 }}
-          transition={{ duration: 0.2 }}
-          className={`w-full max-w-5xl rounded-3xl border shadow-2xl overflow-hidden my-8 ${
-            isDarkMode
-              ? 'bg-zinc-900 border-zinc-800 text-white'
-              : 'bg-white border-zinc-200 text-zinc-900'
-          }`}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto transform-gpu"
         >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 15 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 15 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className={`w-full max-w-5xl rounded-3xl border shadow-2xl overflow-hidden my-8 ${
+              isDarkMode
+                ? 'bg-zinc-900 border-zinc-800 text-white'
+                : 'bg-white border-zinc-200 text-zinc-900'
+            }`}
+          >
           {/* Header */}
           <div className={`flex items-center justify-between p-6 border-b ${
             isDarkMode ? 'border-zinc-800' : 'border-zinc-100'
@@ -159,7 +164,8 @@ const CompareModal = () => {
             </div>
           )}
         </motion.div>
-      </div>
+        </motion.div>
+      )}
     </AnimatePresence>
   );
 };

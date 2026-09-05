@@ -8,17 +8,16 @@ const CompareDrawer = () => {
   const { compareList, removeFromCompare, clearCompare, openCompareModal } = useCompare();
   const { isDarkMode } = useTheme();
 
-  if (compareList.length === 0) return null;
-
   return (
     <AnimatePresence>
-      <motion.div
-        initial={{ y: 100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        exit={{ y: 100, opacity: 0 }}
-        transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-        className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-40 w-11/12 max-w-3xl"
-      >
+      {compareList.length > 0 && (
+        <motion.div
+          initial={{ y: 100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 100, opacity: 0 }}
+          transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+          className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-40 w-11/12 max-w-3xl transform-gpu"
+        >
         <div
           className={`p-3.5 sm:p-4 rounded-2xl shadow-2xl border backdrop-blur-xl flex flex-wrap items-center justify-between gap-3 ${
             isDarkMode
@@ -96,6 +95,7 @@ const CompareDrawer = () => {
           </div>
         </div>
       </motion.div>
+      )}
     </AnimatePresence>
   );
 };

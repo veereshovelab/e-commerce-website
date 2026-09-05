@@ -56,13 +56,11 @@ const RecentlyViewedDrawer = () => {
     toast.success(`Added ${item.name} to cart!`);
   };
 
-  if (items.length === 0) return null;
-
   return (
     <>
       {/* Floating Trigger Pill at Bottom Left */}
       <AnimatePresence>
-        {!isOpen && (
+        {!isOpen && items.length > 0 && (
           <motion.button
             initial={{ scale: 0.8, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}

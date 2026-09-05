@@ -204,11 +204,11 @@ const Header = () => {
     <AnimatePresence>
       {showSuggestions && (
         <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 8 }}
-          transition={{ duration: 0.2 }}
-          className={`absolute left-0 right-0 mt-2 rounded-2xl shadow-premium border overflow-hidden backdrop-blur-md z-50 ${
+          initial={{ opacity: 0, y: 10, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 10, scale: 0.98 }}
+          transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+          className={`absolute left-0 right-0 mt-2 rounded-2xl shadow-premium border overflow-hidden backdrop-blur-md z-50 transform-gpu ${
             isDarkMode ? 'bg-zinc-900/95 border-zinc-800 text-white' : 'bg-white/95 border-zinc-100 text-zinc-900'
           }`}
         >
@@ -529,9 +529,9 @@ const Header = () => {
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
               id="mobile-navigation"
-              className={`lg:hidden overflow-visible pb-6 border-t ${
+              className={`lg:hidden overflow-hidden pb-6 border-t transform-gpu ${
                 isDarkMode ? 'border-zinc-900' : 'border-zinc-100'
               }`}
             >

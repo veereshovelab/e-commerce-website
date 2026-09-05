@@ -56,10 +56,10 @@ const ProductCard = ({ product }) => {
   return (
     <>
       <motion.div
-        whileHover={{ y: -8, scale: 1.015 }}
+        whileHover={{ y: -5, scale: 1.01 }}
         whileTap={{ scale: 0.985 }}
-        transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-        className={`group relative rounded-2xl overflow-hidden border ${
+        transition={{ type: 'spring', stiffness: 320, damping: 28 }}
+        className={`group relative rounded-2xl overflow-hidden border transform-gpu ${
           isDarkMode ? 'bg-darkCard/40 border-white/5 backdrop-blur-md shadow-glass-dark hover:border-white/10 hover:shadow-glow-purple' : 'bg-white border-zinc-200 shadow-premium hover:shadow-premium-hover'
         } flex flex-col h-full`}
       >
@@ -129,22 +129,22 @@ const ProductCard = ({ product }) => {
           )}
 
           {/* Hover Overlay with Quick Actions */}
-          <div className="absolute inset-0 bg-black/25 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-2.5 z-10 backdrop-blur-[2px]">
+          <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-out flex items-center justify-center space-x-2.5 z-10 backdrop-blur-[3px]">
             <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.92 }}
               onClick={() => setIsQuickViewOpen(true)}
-              className="p-3 rounded-xl bg-white text-zinc-900 hover:bg-zinc-100 shadow-lg transition-transform duration-300 transform translate-y-4 group-hover:translate-y-0 flex items-center justify-center"
+              className="p-3 rounded-xl bg-white text-zinc-900 hover:bg-zinc-100 shadow-xl transition-all duration-300 transform translate-y-3 group-hover:translate-y-0 flex items-center justify-center"
               title="Quick View"
             >
               <FiEye size={18} />
             </motion.button>
             {product.stock > 0 && (
               <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
+                whileHover={{ scale: 1.08 }}
+                whileTap={{ scale: 0.92 }}
                 onClick={handleAddToCart}
-                className="p-3 rounded-xl bg-brand-500 text-white hover:bg-brand-600 shadow-lg shadow-glow-primary transition-transform duration-300 transform translate-y-4 group-hover:translate-y-0 delay-75 flex items-center justify-center"
+                className="p-3 rounded-xl bg-brand-500 text-white hover:bg-brand-600 shadow-xl shadow-glow-primary transition-all duration-300 transform translate-y-3 group-hover:translate-y-0 delay-75 flex items-center justify-center"
                 title="Add to Cart"
               >
                 <FiShoppingCart size={18} />

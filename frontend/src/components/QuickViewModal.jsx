@@ -63,11 +63,11 @@ const QuickViewModal = ({ product, isOpen, onClose }) => {
 
           {/* Modal Container */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.92, y: 20 }}
+            initial={{ opacity: 0, scale: 0.96, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.92, y: 20 }}
-            transition={{ type: 'spring', duration: 0.45 }}
-            className={`relative w-full max-w-3xl overflow-hidden rounded-3xl shadow-2xl ${
+            exit={{ opacity: 0, scale: 0.96, y: 15 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className={`relative w-full max-w-3xl overflow-hidden rounded-3xl shadow-2xl transform-gpu ${
               isDarkMode ? 'bg-zinc-900 border border-zinc-800 text-white' : 'bg-white text-zinc-950'
             } z-10`}
           >
