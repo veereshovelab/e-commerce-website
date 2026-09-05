@@ -125,6 +125,28 @@ const Checkout = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const { fullName, phoneNumber, addressLine1, city, state, zipCode } = formData.shippingAddress;
+    if (!fullName.trim() || !phoneNumber.trim() || !addressLine1.trim() || !city.trim() || !state.trim() || !zipCode.trim()) {
+      toast.error('Please fill in all required shipping address fields.');
+      return;
+    }
+
+    if (formData.paymentMethod === 'card') {
+      const { cardNumber, cardExpiry, cardCvv } = formData.paymentDetails;
+      const cleanNum = (cardNumber || '').replace(/\s+/g, '');
+      if (cleanNum.length < 12 || !(cardExpiry || '').trim() || !(cardCvv || '').trim()) {
+        toast.error('Please enter valid card details (Card Number, Expiry MM/YY, and CVV)');
+        return;
+      }
+    } else if (formData.paymentMethod === 'upi') {
+      const { upiId } = formData.paymentDetails;
+      if (!(upiId || '').trim() || !upiId.includes('@')) {
+        toast.error('Please enter a valid UPI VPA handle (e.g. username@okaxis)');
+        return;
+      }
+    }
+
     try {
       setLoading(true);
 
@@ -154,7 +176,7 @@ const Checkout = () => {
       clearCart();
       navigate('/dashboard');
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Order failed');
+      toast.error(error.response?.data?.message || 'Order failed to process. Please check details.');
     } finally {
       setLoading(false);
     }

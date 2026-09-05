@@ -97,6 +97,10 @@ export const CartProvider = ({ children }) => {
     );
   };
 
+  const clearWishlist = () => {
+    setWishlist([]);
+  };
+
   const isInWishlist = (productId) => {
     return wishlist.some(item => item._id === productId);
   };
@@ -168,6 +172,7 @@ export const CartProvider = ({ children }) => {
         clearCart,
         addToWishlist,
         removeFromWishlist,
+        clearWishlist,
         isInWishlist,
         getCartTotal,
         getCartItemsCount,
