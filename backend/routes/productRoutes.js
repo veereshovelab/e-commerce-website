@@ -6,7 +6,8 @@ const {
   getProductById,
   getProductBySlug,
   getCategories,
-  getBrands
+  getBrands,
+  getRelatedProducts
 } = require('../controllers/productController');
 
 const router = express.Router();
@@ -17,6 +18,7 @@ router.get('/trending', getTrendingProducts);
 router.get('/categories', getCategories);
 router.get('/brands', getBrands);
 router.get('/slug/:slug', getProductBySlug);
+router.get('/:id/related', getRelatedProducts);
 router.get('/:id', getProductById);
 
 module.exports = router;

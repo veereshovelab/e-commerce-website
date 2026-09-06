@@ -5,13 +5,15 @@ const {
   getUserOrders,
   getOrderById,
   updateOrderStatus,
-  cancelOrder
+  cancelOrder,
+  getOrderReceipt
 } = require('../controllers/orderController');
 
 const router = express.Router();
 
 router.post('/', protect, createOrder);
 router.get('/', protect, getUserOrders);
+router.get('/:id/receipt', protect, getOrderReceipt);
 router.get('/:id', protect, getOrderById);
 router.put('/:id/cancel', protect, cancelOrder);
 router.put('/:id/status', protect, updateOrderStatus); // Admin only

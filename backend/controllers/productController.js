@@ -136,3 +136,26 @@ exports.getBrands = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+// Get related products by category or brand
+exports.getRelatedProducts = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    
+    if (!product) {
+      return res.status(404).json({ success: false, message: 'Product not found' });
+    }
+
+    const relatedProducts = await Product.find({
+      _id: { $ne: product._id },
+      $or: [
+        { category: product.category },
+        { brand: product.brand }
+      ]
+    }).limit(6);
+
+    res.status(200).json({ success: true, products: relatedProducts });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};

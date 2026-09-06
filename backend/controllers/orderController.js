@@ -169,3 +169,47 @@ exports.cancelOrder = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+// Get order digital receipt & invoice metadata
+exports.getOrderReceipt = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id).populate('products.product user', 'name email');
+
+    if (!order) {
+      return res.status(404).json({ success: false, message: 'Order not found' });
+    }
+
+    if (order.user._id.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
+      return res.status(403).json({ success: false, message: 'Not authorized to view receipt' });
+    }
+
+    const invoiceNumber = `INV-${order.orderId || order._id.toString().slice(-8).toUpperCase()}`;
+
+    res.status(200).json({
+      success: true,
+      receipt: {
+        invoiceNumber,
+        orderId: order.orderId,
+        customer: {
+          name: order.shippingAddress?.fullName || order.user?.name,
+          email: order.user?.email,
+          phone: order.shippingAddress?.phoneNumber || ''
+        },
+        shippingAddress: order.shippingAddress,
+        items: order.products,
+        orderSummary: order.orderSummary,
+        paymentMethod: order.paymentMethod,
+        paymentStatus: order.paymentStatus,
+        orderStatus: order.orderStatus,
+        createdAt: order.createdAt,
+        storeInfo: {
+          name: 'ShopSphere E-Commerce Platform',
+          supportEmail: 'support@shopsphere.com',
+          taxId: 'US-TAX-982341'
+        }
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
