@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiShoppingCart, FiHeart, FiChevronRight, FiPlus, FiMinus, FiStar, FiSliders, FiTruck, FiShield, FiRotateCcw, FiShare2, FiClock } from 'react-icons/fi';
+import { FiShoppingCart, FiHeart, FiChevronRight, FiPlus, FiMinus, FiStar, FiSliders, FiTruck, FiShield, FiRotateCcw, FiShare2, FiClock, FiEdit3, FiCalendar } from 'react-icons/fi';
 import apiClient from '../utils/api';
 import { useCart } from '../hooks/useCart';
 import { useTheme } from '../hooks/useTheme';
@@ -21,6 +21,12 @@ const ProductDetails = () => {
   const { addToCart, addToWishlist, removeFromWishlist, isInWishlist } = useCart();
   const { addToCompare, removeFromCompare, isInCompare } = useCompare();
   const { isDarkMode } = useTheme();
+
+  const getEstimatedDeliveryDate = () => {
+    const date = new Date();
+    date.setDate(date.getDate() + 3);
+    return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+  };
 
   // Countdown timer for express dispatch guarantee
   useEffect(() => {
@@ -295,6 +301,19 @@ const ProductDetails = () => {
 
               {activeTab === 'reviews' && (
                 <div className="space-y-4">
+                  <div className="flex items-center justify-between pb-2 border-b dark:border-zinc-800">
+                    <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+                      Customer Ratings ({product.reviews?.length || 0})
+                    </span>
+                    <button
+                      onClick={() => navigate(`/write-review?product=${encodeURIComponent(product.name)}`)}
+                      className="text-xs font-semibold text-brand-500 hover:text-brand-600 flex items-center space-x-1.5 border border-brand-500/20 bg-brand-500/10 px-3 py-1 rounded-xl transition"
+                    >
+                      <FiEdit3 size={13} />
+                      <span>Write a Review</span>
+                    </button>
+                  </div>
+
                   {product.reviews && product.reviews.length > 0 ? (
                     product.reviews.map((rev, idx) => (
                       <div key={idx} className="border-b border-zinc-200 dark:border-white/5 pb-3 last:border-b-0">
@@ -309,7 +328,16 @@ const ProductDetails = () => {
                       </div>
                     ))
                   ) : (
-                    <p className="text-zinc-400">No customer reviews yet. Be the first to write one!</p>
+                    <div className="py-6 text-center">
+                      <p className="text-xs text-zinc-400 mb-3">No customer reviews yet. Be the first to share your experience!</p>
+                      <button
+                        onClick={() => navigate(`/write-review?product=${encodeURIComponent(product.name)}`)}
+                        className="bg-brand-500 hover:bg-brand-600 text-white text-xs font-semibold px-4 py-2 rounded-xl shadow-glow-primary transition inline-flex items-center space-x-1.5"
+                      >
+                        <FiEdit3 size={14} />
+                        <span>Write First Review</span>
+                      </button>
+                    </div>
                   )}
                 </div>
               )}
@@ -403,7 +431,7 @@ const ProductDetails = () => {
                 <div className="flex flex-col items-center text-center p-2 rounded-xl bg-white/50 dark:bg-zinc-850/50">
                   <FiTruck size={16} className="text-brand-500 mb-1" />
                   <span className="font-semibold">Free Express Shipping</span>
-                  <span className="text-[9px] text-zinc-400">Orders over $50</span>
+                  <span className="text-[9px] text-brand-500 font-bold">Est. {getEstimatedDeliveryDate()}</span>
                 </div>
                 <div className="flex flex-col items-center text-center p-2 rounded-xl bg-white/50 dark:bg-zinc-850/50">
                   <FiRotateCcw size={16} className="text-emerald-500 mb-1" />
