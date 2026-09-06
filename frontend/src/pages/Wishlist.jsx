@@ -6,7 +6,7 @@ import { useTheme } from '../hooks/useTheme';
 import { toast } from 'react-toastify';
 
 const Wishlist = () => {
-  const { wishlist, removeFromWishlist, clearWishlist, addToCart } = useCart();
+  const { wishlist, removeFromWishlist, clearWishlist, moveAllWishlistToCart, addToCart } = useCart();
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
 
@@ -53,16 +53,28 @@ const Wishlist = () => {
           </h1>
         </div>
 
-        <button
-          onClick={() => {
-            clearWishlist();
-            toast.info('Wishlist cleared');
-          }}
-          className="flex items-center space-x-1.5 px-4 py-2 rounded-xl border border-red-500/30 text-red-500 hover:bg-red-500/10 text-xs font-semibold transition"
-        >
-          <FiTrash2 size={14} />
-          <span>Clear Wishlist</span>
-        </button>
+        <div className="flex items-center space-x-3">
+          <button
+            onClick={() => {
+              moveAllWishlistToCart();
+              toast.success('All saved items moved to cart!');
+            }}
+            className="flex items-center space-x-1.5 px-4 py-2 rounded-xl bg-brand-500 hover:bg-brand-600 text-white text-xs font-semibold shadow-glow-primary transition"
+          >
+            <FiShoppingCart size={14} />
+            <span>Move All to Cart</span>
+          </button>
+          <button
+            onClick={() => {
+              clearWishlist();
+              toast.info('Wishlist cleared');
+            }}
+            className="flex items-center space-x-1.5 px-4 py-2 rounded-xl border border-red-500/30 text-red-500 hover:bg-red-500/10 text-xs font-semibold transition"
+          >
+            <FiTrash2 size={14} />
+            <span>Clear Wishlist</span>
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

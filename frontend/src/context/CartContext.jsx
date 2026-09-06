@@ -101,6 +101,25 @@ export const CartProvider = ({ children }) => {
     setWishlist([]);
   };
 
+  const moveAllWishlistToCart = () => {
+    setCart(prevCart => {
+      let updatedCart = [...prevCart];
+      wishlist.forEach(item => {
+        const existingIdx = updatedCart.findIndex(i => i._id === item._id);
+        if (existingIdx > -1) {
+          updatedCart[existingIdx] = {
+            ...updatedCart[existingIdx],
+            quantity: updatedCart[existingIdx].quantity + 1
+          };
+        } else {
+          updatedCart.push({ ...item, quantity: 1 });
+        }
+      });
+      return updatedCart;
+    });
+    setWishlist([]);
+  };
+
   const isInWishlist = (productId) => {
     return wishlist.some(item => item._id === productId);
   };
@@ -173,6 +192,7 @@ export const CartProvider = ({ children }) => {
         addToWishlist,
         removeFromWishlist,
         clearWishlist,
+        moveAllWishlistToCart,
         isInWishlist,
         getCartTotal,
         getCartItemsCount,
