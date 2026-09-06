@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiArrowLeft, FiCreditCard, FiSmartphone, FiGlobe, FiPocket, FiLock, FiCheck, FiTag, FiX, FiPercent } from 'react-icons/fi';
+import { FiArrowLeft, FiCreditCard, FiSmartphone, FiGlobe, FiPocket, FiLock, FiCheck, FiTag, FiX, FiPercent, FiMapPin } from 'react-icons/fi';
 import apiClient from '../utils/api';
 import { useCart } from '../hooks/useCart';
 import { useAuth } from '../hooks/useAuth';
@@ -29,13 +29,13 @@ const Checkout = () => {
   const [formData, setFormData] = useState({
     shippingAddress: {
       fullName: user?.name || '',
-      phoneNumber: '',
-      addressLine1: '',
-      addressLine2: '',
-      city: '',
-      state: '',
-      zipCode: '',
-      country: 'US'
+      phoneNumber: user?.phone || '',
+      addressLine1: user?.savedAddress?.addressLine1 || '',
+      addressLine2: user?.savedAddress?.addressLine2 || '',
+      city: user?.savedAddress?.city || '',
+      state: user?.savedAddress?.state || '',
+      zipCode: user?.savedAddress?.zipCode || '',
+      country: user?.savedAddress?.country || 'US'
     },
     orderNotes: '',
     paymentMethod: 'card',
@@ -197,7 +197,34 @@ const Checkout = () => {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Shipping Address */}
             <div className={`${isDarkMode ? 'bg-zinc-850 border-zinc-800' : 'bg-white border-zinc-200'} border rounded-2xl p-6 shadow-sm`}>
-              <h2 className="text-xl font-bold mb-4 font-display">Shipping Address</h2>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
+                <h2 className="text-xl font-bold font-display">Shipping Address</h2>
+                {user?.savedAddress?.addressLine1 && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setFormData(prev => ({
+                        ...prev,
+                        shippingAddress: {
+                          fullName: user.name || prev.shippingAddress.fullName,
+                          phoneNumber: user.phone || prev.shippingAddress.phoneNumber,
+                          addressLine1: user.savedAddress.addressLine1 || '',
+                          addressLine2: user.savedAddress.addressLine2 || '',
+                          city: user.savedAddress.city || '',
+                          state: user.savedAddress.state || '',
+                          zipCode: user.savedAddress.zipCode || '',
+                          country: user.savedAddress.country || 'US'
+                        }
+                      }));
+                      toast.info('Autofilled saved shipping address!');
+                    }}
+                    className="flex items-center space-x-1.5 text-xs font-semibold text-brand-500 bg-brand-500/10 border border-brand-500/20 px-3 py-1 rounded-xl hover:bg-brand-500 hover:text-white transition cursor-pointer"
+                  >
+                    <FiMapPin size={13} />
+                    <span>Autofill Saved Address</span>
+                  </button>
+                )}
+              </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="col-span-2">

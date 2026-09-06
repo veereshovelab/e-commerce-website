@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { FiLogOut, FiUser, FiShoppingBag, FiHeart, FiChevronRight, FiPackage, FiClock, FiShoppingCart } from 'react-icons/fi';
+import { FiLogOut, FiUser, FiShoppingBag, FiHeart, FiChevronRight, FiPackage, FiClock, FiShoppingCart, FiMapPin, FiSave } from 'react-icons/fi';
 import apiClient from '../utils/api';
 import { useAuth } from '../hooks/useAuth';
 import { useCart } from '../hooks/useCart';
@@ -8,13 +8,47 @@ import { useTheme } from '../hooks/useTheme';
 import { toast } from 'react-toastify';
 
 const UserDashboard = () => {
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user, isAuthenticated, logout, updateUser } = useAuth();
   const { wishlist, addToCart } = useCart();
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const [activeTab, setActiveTab] = useState('orders');
   const [loading, setLoading] = useState(true);
+
+  const [profileForm, setProfileForm] = useState({
+    name: user?.name || '',
+    phone: user?.phone || '',
+    savedAddress: user?.savedAddress || {
+      addressLine1: '',
+      city: '',
+      state: '',
+      zipCode: '',
+      country: 'US'
+    }
+  });
+
+  useEffect(() => {
+    if (user) {
+      setProfileForm({
+        name: user.name || '',
+        phone: user.phone || '',
+        savedAddress: user.savedAddress || {
+          addressLine1: '',
+          city: '',
+          state: '',
+          zipCode: '',
+          country: 'US'
+        }
+      });
+    }
+  }, [user]);
+
+  const handleProfileSubmit = (e) => {
+    e.preventDefault();
+    updateUser(profileForm);
+    toast.success('Profile and default address saved successfully!');
+  };
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -67,7 +101,7 @@ const UserDashboard = () => {
           <nav className="space-y-1.5 mb-6">
             {[
               { id: 'orders', label: 'My Orders', icon: FiShoppingBag },
-              { id: 'profile', label: 'Profile Settings', icon: FiUser },
+              { id: 'profile', label: 'Profile & Address', icon: FiUser },
               { id: 'wishlist', label: 'Saved Wishlist', icon: FiHeart }
             ].map(({ id, label, icon: Icon }) => (
               <button
@@ -201,31 +235,156 @@ const UserDashboard = () => {
           {/* Profile Tab */}
           {activeTab === 'profile' && (
             <div>
-              <h2 className="text-2xl font-bold font-display mb-6">Profile Settings</h2>
-              <div className={`border rounded-2xl p-6 shadow-premium ${
-                isDarkMode ? 'bg-darkCard/40 border-white/5 backdrop-blur-md' : 'bg-white border-zinc-200'
-              }`}>
-                <div className="space-y-4 max-w-lg">
-                  <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">Full Name</label>
-                    <p className="px-4 py-2.5 rounded-xl text-sm font-medium border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900">
-                      {user?.name}
-                    </p>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">Email Address</label>
-                    <p className="px-4 py-2.5 rounded-xl text-sm font-medium border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900">
-                      {user?.email}
-                    </p>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">Account Role</label>
-                    <p className="px-4 py-2.5 rounded-xl text-sm font-medium border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 capitalize">
-                      {user?.role || 'Customer'}
-                    </p>
-                  </div>
+              <div className="flex justify-between items-center mb-6">
+                <div>
+                  <h2 className="text-2xl font-bold font-display">Profile & Address Settings</h2>
+                  <p className="text-xs text-zinc-400 mt-0.5">Manage your personal details and default checkout shipping address</p>
                 </div>
               </div>
+
+              <form onSubmit={handleProfileSubmit} className="space-y-6">
+                {/* Personal Information */}
+                <div className={`border rounded-2xl p-6 shadow-premium ${
+                  isDarkMode ? 'bg-darkCard/40 border-white/5 backdrop-blur-md' : 'bg-white border-zinc-200'
+                }`}>
+                  <h3 className="text-base font-bold font-display mb-4 flex items-center space-x-2">
+                    <FiUser size={18} className="text-brand-500" />
+                    <span>Personal Information</span>
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">Full Name</label>
+                      <input
+                        type="text"
+                        value={profileForm.name}
+                        onChange={(e) => setProfileForm(prev => ({ ...prev, name: e.target.value }))}
+                        required
+                        className={`w-full px-4 py-2.5 rounded-xl text-sm border outline-none transition focus:ring-1 focus:ring-brand-500 ${
+                          isDarkMode ? 'bg-zinc-900 border-zinc-800 text-white' : 'bg-zinc-50 border-zinc-200 text-zinc-900'
+                        }`}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">Email Address (Read Only)</label>
+                      <input
+                        type="email"
+                        value={user?.email || ''}
+                        disabled
+                        className="w-full px-4 py-2.5 rounded-xl text-sm border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900/50 text-zinc-400 cursor-not-allowed"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">Phone Number</label>
+                      <input
+                        type="tel"
+                        placeholder="+1 (555) 000-0000"
+                        value={profileForm.phone}
+                        onChange={(e) => setProfileForm(prev => ({ ...prev, phone: e.target.value }))}
+                        className={`w-full px-4 py-2.5 rounded-xl text-sm border outline-none transition focus:ring-1 focus:ring-brand-500 ${
+                          isDarkMode ? 'bg-zinc-900 border-zinc-800 text-white' : 'bg-zinc-50 border-zinc-200 text-zinc-900'
+                        }`}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Default Shipping Address */}
+                <div className={`border rounded-2xl p-6 shadow-premium ${
+                  isDarkMode ? 'bg-darkCard/40 border-white/5 backdrop-blur-md' : 'bg-white border-zinc-200'
+                }`}>
+                  <h3 className="text-base font-bold font-display mb-4 flex items-center space-x-2">
+                    <FiMapPin size={18} className="text-brand-500" />
+                    <span>Default Shipping Address</span>
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="sm:col-span-2">
+                      <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">Street Address</label>
+                      <input
+                        type="text"
+                        placeholder="123 Innovation Way, Suite 400"
+                        value={profileForm.savedAddress?.addressLine1 || ''}
+                        onChange={(e) => setProfileForm(prev => ({
+                          ...prev,
+                          savedAddress: { ...prev.savedAddress, addressLine1: e.target.value }
+                        }))}
+                        className={`w-full px-4 py-2.5 rounded-xl text-sm border outline-none transition focus:ring-1 focus:ring-brand-500 ${
+                          isDarkMode ? 'bg-zinc-900 border-zinc-800 text-white' : 'bg-zinc-50 border-zinc-200 text-zinc-900'
+                        }`}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">City</label>
+                      <input
+                        type="text"
+                        placeholder="San Francisco"
+                        value={profileForm.savedAddress?.city || ''}
+                        onChange={(e) => setProfileForm(prev => ({
+                          ...prev,
+                          savedAddress: { ...prev.savedAddress, city: e.target.value }
+                        }))}
+                        className={`w-full px-4 py-2.5 rounded-xl text-sm border outline-none transition focus:ring-1 focus:ring-brand-500 ${
+                          isDarkMode ? 'bg-zinc-900 border-zinc-800 text-white' : 'bg-zinc-50 border-zinc-200 text-zinc-900'
+                        }`}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">State / Province</label>
+                      <input
+                        type="text"
+                        placeholder="CA"
+                        value={profileForm.savedAddress?.state || ''}
+                        onChange={(e) => setProfileForm(prev => ({
+                          ...prev,
+                          savedAddress: { ...prev.savedAddress, state: e.target.value }
+                        }))}
+                        className={`w-full px-4 py-2.5 rounded-xl text-sm border outline-none transition focus:ring-1 focus:ring-brand-500 ${
+                          isDarkMode ? 'bg-zinc-900 border-zinc-800 text-white' : 'bg-zinc-50 border-zinc-200 text-zinc-900'
+                        }`}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">ZIP / Postal Code</label>
+                      <input
+                        type="text"
+                        placeholder="94105"
+                        value={profileForm.savedAddress?.zipCode || ''}
+                        onChange={(e) => setProfileForm(prev => ({
+                          ...prev,
+                          savedAddress: { ...prev.savedAddress, zipCode: e.target.value }
+                        }))}
+                        className={`w-full px-4 py-2.5 rounded-xl text-sm border outline-none transition focus:ring-1 focus:ring-brand-500 ${
+                          isDarkMode ? 'bg-zinc-900 border-zinc-800 text-white' : 'bg-zinc-50 border-zinc-200 text-zinc-900'
+                        }`}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">Country</label>
+                      <select
+                        value={profileForm.savedAddress?.country || 'US'}
+                        onChange={(e) => setProfileForm(prev => ({
+                          ...prev,
+                          savedAddress: { ...prev.savedAddress, country: e.target.value }
+                        }))}
+                        className={`w-full px-4 py-2.5 rounded-xl text-sm border outline-none transition focus:ring-1 focus:ring-brand-500 ${
+                          isDarkMode ? 'bg-zinc-900 border-zinc-800 text-white' : 'bg-zinc-50 border-zinc-200 text-zinc-900'
+                        }`}
+                      >
+                        <option value="US">United States</option>
+                        <option value="CA">Canada</option>
+                        <option value="UK">United Kingdom</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  className="bg-brand-500 hover:bg-brand-600 text-white px-6 py-3 rounded-xl font-semibold shadow-glow-primary transition flex items-center space-x-2 text-xs"
+                >
+                  <FiSave size={16} />
+                  <span>Save Profile & Address</span>
+                </button>
+              </form>
             </div>
           )}
 
