@@ -26,10 +26,32 @@ const userSchema = new mongoose.Schema({
     enum: ['user', 'admin'],
     default: 'user'
   },
+  phone: {
+    type: String,
+    default: ''
+  },
+  savedAddress: {
+    addressLine1: String,
+    addressLine2: String,
+    city: String,
+    state: String,
+    zipCode: String,
+    country: String
+  },
   profileImage: {
     type: String,
     default: null
   },
+  cart: [{
+    product: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Product'
+    },
+    quantity: {
+      type: Number,
+      default: 1
+    }
+  }],
   addresses: [{
     _id: mongoose.Schema.Types.ObjectId,
     type: {

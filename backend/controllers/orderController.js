@@ -44,10 +44,13 @@ exports.createOrder = async (req, res) => {
       );
     }
 
-    // Add order to user
+    // Add order to user and clear cart
     await User.findByIdAndUpdate(
       req.user._id,
-      { $push: { orders: order._id } }
+      { 
+        $push: { orders: order._id },
+        $set: { cart: [] }
+      }
     );
 
     res.status(201).json({
@@ -76,7 +79,16 @@ exports.getUserOrders = async (req, res) => {
 // Get order by ID
 exports.getOrderById = async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id).populate('products.product');
+    const { id } = req.params;
+    const isMongoId = require('mongoose').Types.ObjectId.isValid(id);
+    let order;
+
+    if (isMongoId) {
+      order = await Order.findById(id).populate('products.product');
+    }
+    if (!order) {
+      order = await Order.findOne({ orderId: id }).populate('products.product');
+    }
 
     if (!order) {
       return res.status(404).json({ success: false, message: 'Order not found' });

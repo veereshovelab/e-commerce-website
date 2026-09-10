@@ -262,6 +262,38 @@ const seedDatabase = async () => {
     const products = await Product.insertMany(sampleProducts);
     console.log(`✓ Added ${products.length} products to database`);
 
+    // Seed Admin User
+    let admin = await User.findOne({ email: 'admin@shopsphere.com' });
+    if (!admin) {
+      admin = await User.create({
+        name: 'ShopSphere Admin',
+        email: 'admin@shopsphere.com',
+        password: 'adminpassword123',
+        role: 'admin'
+      });
+      console.log('✓ Seeded Admin User: admin@shopsphere.com / adminpassword123');
+    }
+
+    // Seed Demo Customer User
+    let customer = await User.findOne({ email: 'user@shopsphere.com' });
+    if (!customer) {
+      customer = await User.create({
+        name: 'Jane Customer',
+        email: 'user@shopsphere.com',
+        password: 'userpassword123',
+        role: 'user',
+        phone: '+1 (555) 234-5678',
+        savedAddress: {
+          addressLine1: '742 Evergreen Terrace',
+          city: 'Springfield',
+          state: 'OR',
+          zipCode: '97477',
+          country: 'US'
+        }
+      });
+      console.log('✓ Seeded Demo Customer User: user@shopsphere.com / userpassword123');
+    }
+
     console.log('✓ Database seeded successfully!');
     process.exit(0);
   } catch (error) {

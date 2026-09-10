@@ -13,6 +13,7 @@ const AdminDashboard = () => {
   const [analytics, setAnalytics] = useState(null);
   const [productsList, setProductsList] = useState([]);
   const [ordersList, setOrdersList] = useState([]);
+  const [usersList, setUsersList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('analytics');
   const [searchQuery, setSearchQuery] = useState('');
@@ -26,22 +27,24 @@ const AdminDashboard = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const [analyticsRes, productsRes, ordersRes] = await Promise.all([
+        const [analyticsRes, productsRes, ordersRes, usersRes] = await Promise.all([
           apiClient.get('/admin/analytics').catch(() => ({ data: { analytics: null } })),
           apiClient.get('/products').catch(() => ({ data: { products: [] } })),
-          apiClient.get('/orders').catch(() => ({ data: { orders: [] } }))
+          apiClient.get('/orders').catch(() => ({ data: { orders: [] } })),
+          apiClient.get('/admin/users').catch(() => ({ data: { users: [] } }))
         ]);
 
         setAnalytics(analyticsRes.data?.analytics || {
-          totalUsers: 142,
-          totalProducts: productsRes.data?.products?.length || 24,
-          totalOrders: ordersRes.data?.orders?.length || 18,
-          totalRevenue: 12450.80,
-          completedOrders: 15
+          totalUsers: usersRes.data?.users?.length || 1,
+          totalProducts: productsRes.data?.products?.length || 0,
+          totalOrders: ordersRes.data?.orders?.length || 0,
+          totalRevenue: 0,
+          completedOrders: 0
         });
 
         setProductsList(productsRes.data?.products || []);
         setOrdersList(ordersRes.data?.orders || []);
+        setUsersList(usersRes.data?.users || []);
       } catch (error) {
         console.error('Error fetching admin data:', error);
         toast.error('Failed to load admin data');
@@ -68,13 +71,6 @@ const AdminDashboard = () => {
     p.category?.toLowerCase().includes(searchQuery.toLowerCase()) ||
     p.brand?.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
-  const mockUsersList = [
-    { _id: '1', name: user.name, email: user.email, role: 'admin', createdAt: '2024-01-10', ordersCount: 5 },
-    { _id: '2', name: 'Sarah Jenkins', email: 'sarah@linear.app', role: 'customer', createdAt: '2024-02-14', ordersCount: 3 },
-    { _id: '3', name: 'Alex Rivers', email: 'alex@vercel.com', role: 'customer', createdAt: '2024-03-01', ordersCount: 2 },
-    { _id: '4', name: 'Marcus Chen', email: 'marcus@stripe.com', role: 'customer', createdAt: '2024-04-12', ordersCount: 4 }
-  ];
 
   if (loading) {
     return (
@@ -125,7 +121,7 @@ const AdminDashboard = () => {
             <span className="text-xs font-semibold uppercase tracking-wider text-zinc-400">Total Users</span>
             <div className="p-2 rounded-xl bg-blue-500/10 text-blue-500"><FiUsers size={18} /></div>
           </div>
-          <p className="text-2xl font-bold font-display">{analytics?.totalUsers || mockUsersList.length}</p>
+          <p className="text-2xl font-bold font-display">{usersList.length || analytics?.totalUsers || 0}</p>
         </div>
 
         <div className={`p-5 rounded-2xl border shadow-premium ${
@@ -167,7 +163,7 @@ const AdminDashboard = () => {
           { id: 'analytics', label: 'Analytics' },
           { id: 'products', label: `Products (${productsList.length})` },
           { id: 'orders', label: `Orders (${ordersList.length})` },
-          { id: 'users', label: `Users (${mockUsersList.length})` }
+          { id: 'users', label: `Users (${usersList.length})` }
         ].map((tab) => (
           <button
             key={tab.id}
@@ -335,7 +331,7 @@ const AdminDashboard = () => {
                 </tr>
               </thead>
               <tbody className="divide-y dark:divide-zinc-800">
-                {mockUsersList.map((u) => (
+                {usersList.map((u) => (
                   <tr key={u._id} className="hover:bg-zinc-500/5 transition">
                     <td className="py-3 pl-2 font-semibold text-zinc-800 dark:text-zinc-100">{u.name}</td>
                     <td className="py-3 text-zinc-400">{u.email}</td>

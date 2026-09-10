@@ -15,11 +15,19 @@ exports.getUserProfile = async (req, res) => {
 // Update user profile
 exports.updateUserProfile = async (req, res) => {
   try {
-    const { name, email, profileImage, newsletter } = req.body;
+    const { name, email, phone, savedAddress, profileImage, newsletter } = req.body;
+
+    const updateFields = { updatedAt: Date.now() };
+    if (name !== undefined) updateFields.name = name;
+    if (email !== undefined) updateFields.email = email;
+    if (phone !== undefined) updateFields.phone = phone;
+    if (savedAddress !== undefined) updateFields.savedAddress = savedAddress;
+    if (profileImage !== undefined) updateFields.profileImage = profileImage;
+    if (newsletter !== undefined) updateFields.newsletter = newsletter;
 
     const user = await User.findByIdAndUpdate(
       req.user._id,
-      { name, email, profileImage, newsletter, updatedAt: Date.now() },
+      updateFields,
       { new: true, runValidators: true }
     );
 
