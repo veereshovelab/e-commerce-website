@@ -106,8 +106,8 @@ npm install --prefix backend
 Create a `.env` file in the `backend/` directory:
 
 ```env
-PORT=5000
-MONGO_URI=mongodb://localhost:27017/shopsphere
+PORT=5001
+MONGODB_URI=mongodb://localhost:27017/shopsphere
 JWT_SECRET=your_jwt_secret_key_here
 CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
@@ -128,8 +128,8 @@ Run both backend and frontend servers simultaneously using concurrent execution:
 npm run dev
 ```
 
-* **Frontend App**: `http://localhost:5173` (or `http://localhost:3000`)
-* **Backend API**: `http://localhost:5000`
+* **Frontend App**: `http://localhost:3000` (Vite is configured for this port; `5173` is also allowed)
+* **Backend API**: `http://localhost:5001`
 
 ---
 
