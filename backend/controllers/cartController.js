@@ -60,7 +60,7 @@ exports.addToCart = async (req, res) => {
     res.status(200).json({ 
       success: true, 
       message: 'Item added to cart',
-      cart: cartItems
+      cart: cartItems,
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });

@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const User = require('../models/User');
 const Product = require('../models/Product');
 
@@ -47,7 +48,7 @@ exports.addAddress = async (req, res) => {
     const { type, fullName, phoneNumber, addressLine1, addressLine2, city, state, zipCode, country, isDefault } = req.body;
 
     const newAddress = {
-      _id: require('mongoose').Types.ObjectId(),
+      _id: new mongoose.Types.ObjectId(),
       type,
       fullName,
       phoneNumber,
@@ -82,18 +83,33 @@ exports.updateAddress = async (req, res) => {
     const { addressId } = req.params;
     const updateData = req.body;
 
+    if (!mongoose.isValidObjectId(addressId)) {
+      return res.status(400).json({ success: false, message: 'Invalid address ID' });
+    }
+
+    const addressObjectId = new mongoose.Types.ObjectId(addressId);
+
     const user = await User.findByIdAndUpdate(
       req.user._id,
       { 
         $set: { 
-          'addresses.$[elem]': { _id: require('mongoose').Types.ObjectId(addressId), ...updateData } 
+          'addresses.$[elem]': { ...updateData, _id: addressObjectId }
         } 
       },
       { 
         new: true,
-        arrayFilters: [{ 'elem._id': require('mongoose').Types.ObjectId(addressId) }]
+        arrayFilters: [{ 'elem._id': addressObjectId }]
       }
     );
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    const addressExists = user.addresses.some((address) => address._id.equals(addressObjectId));
+    if (!addressExists) {
+      return res.status(404).json({ success: false, message: 'Address not found' });
+    }
 
     res.status(200).json({
       success: true,
@@ -110,11 +126,21 @@ exports.deleteAddress = async (req, res) => {
   try {
     const { addressId } = req.params;
 
-    const user = await User.findByIdAndUpdate(
-      req.user._id,
-      { $pull: { addresses: { _id: require('mongoose').Types.ObjectId(addressId) } } },
+    if (!mongoose.isValidObjectId(addressId)) {
+      return res.status(400).json({ success: false, message: 'Invalid address ID' });
+    }
+
+    const addressObjectId = new mongoose.Types.ObjectId(addressId);
+
+    const user = await User.findOneAndUpdate(
+      { _id: req.user._id, 'addresses._id': addressObjectId },
+      { $pull: { addresses: { _id: addressObjectId } } },
       { new: true }
     );
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'Address not found' });
+    }
 
     res.status(200).json({
       success: true,
