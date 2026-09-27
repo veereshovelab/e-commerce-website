@@ -4,15 +4,18 @@ const Product = require('../models/Product');
 exports.getAllProducts = async (req, res) => {
   try {
     const { search, category, brand, minPrice, maxPrice, sort, page = 1, limit = 12 } = req.query;
+    const currentPage = Math.max(1, parseInt(page, 10) || 1);
+    const pageLimit = Math.min(100, Math.max(1, parseInt(limit, 10) || 12));
 
     let query = {};
 
     // Search
     if (search) {
+      const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       query.$or = [
-        { name: { $regex: search, $options: 'i' } },
-        { description: { $regex: search, $options: 'i' } },
-        { brand: { $regex: search, $options: 'i' } }
+        { name: { $regex: escapedSearch, $options: 'i' } },
+        { description: { $regex: escapedSearch, $options: 'i' } },
+        { brand: { $regex: escapedSearch, $options: 'i' } }
       ];
     }
 
@@ -48,7 +51,7 @@ exports.getAllProducts = async (req, res) => {
     }
 
     // Pagination
-    products = products.skip((page - 1) * limit).limit(parseInt(limit));
+    products = products.skip((currentPage - 1) * pageLimit).limit(pageLimit);
 
     const data = await products;
 
@@ -56,10 +59,10 @@ exports.getAllProducts = async (req, res) => {
       success: true,
       products: data,
       pagination: {
-        currentPage: parseInt(page),
-        totalPages: Math.ceil(totalProducts / limit),
+        currentPage,
+        totalPages: Math.ceil(totalProducts / pageLimit),
         totalProducts,
-        limit: parseInt(limit)
+        limit: pageLimit
       }
     });
   } catch (error) {
