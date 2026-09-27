@@ -166,10 +166,13 @@ const ProductCard = ({ product }) => {
             {/* Ratings */}
             <div className="flex items-center space-x-1.5 mb-3">
               <div className="flex text-yellow-400">
-                {[...Array(5)].map((_, i) => (
-                  <span key={i} className="text-xs">
-                    {i < Math.round(product.rating) ? '★' : '☆'}
-                  </span>
+                  {[...Array(5)].map((_, i) => (
+                    <FiStar
+                      key={i}
+                      size={12}
+                      fill={i < Math.round(product.rating) ? 'currentColor' : 'none'}
+                      aria-hidden="true"
+                    />
                 ))}
               </div>
               <span className="text-[10px] text-zinc-400 dark:text-zinc-400">
