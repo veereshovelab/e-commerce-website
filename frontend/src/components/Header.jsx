@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { 
   FiMenu, FiX, FiSearch, FiShoppingCart, FiUser, FiLogOut, 
-  FiMoon, FiSun, FiHeart, FiSliders, FiClock, FiTrendingUp, FiLoader, FiTrash2, FiMonitor 
+  FiMoon, FiSun, FiHeart, FiSliders, FiClock, FiTrendingUp, FiLoader, FiTrash2,
+  FiMonitor, FiShoppingBag
 } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../hooks/useAuth';
@@ -336,7 +337,10 @@ const Header = () => {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
+          <Link to="/" className="flex items-center space-x-2 group" aria-label="ShopSphere home">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-500 text-white shadow-glow-primary transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-105">
+              <FiShoppingBag size={18} />
+            </span>
             <span className="text-xl font-bold font-display tracking-tight bg-gradient-to-r from-brand-500 to-indigo-500 bg-clip-text text-transparent">
               ShopSphere
             </span>
