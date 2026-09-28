@@ -228,10 +228,14 @@ const Header = () => {
                   {suggestions.map((item, index) => {
                     const isSelected = selectedIndex === index;
                     return (
-                      <div
+                      <button
+                        type="button"
                         key={item._id}
                         onClick={() => handleSuggestionClick(item)}
-                        className={`flex items-center space-x-3 px-4 py-2.5 cursor-pointer transition-colors duration-150 ${
+                        onMouseEnter={() => setSelectedIndex(index)}
+                        role="option"
+                        aria-selected={isSelected}
+                        className={`w-full flex items-center space-x-3 px-4 py-2.5 text-left cursor-pointer transition-colors duration-150 ${
                           isSelected
                             ? isDarkMode ? 'bg-zinc-800' : 'bg-brand-50/80'
                             : isDarkMode ? 'hover:bg-zinc-850/60' : 'hover:bg-zinc-50'
@@ -251,7 +255,7 @@ const Header = () => {
                         <span className="text-xs font-bold text-brand-500">
                           ${item.discountPrice || item.price}
                         </span>
-                      </div>
+                      </button>
                     );
                   })}
                 </div>
@@ -356,6 +360,10 @@ const Header = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => setShowSuggestions(true)}
                 onKeyDown={handleKeyDown}
+                role="combobox"
+                aria-autocomplete="list"
+                aria-expanded={showSuggestions}
+                aria-label="Search products"
                 className={`w-full pl-4 pr-16 py-1.5 rounded-full text-sm font-sans transition-all duration-300 outline-none border focus:ring-1 focus:ring-brand-500 ${
                   isDarkMode 
                     ? 'bg-zinc-900/60 border-zinc-800 text-white placeholder-zinc-500 focus:border-zinc-700' 
@@ -549,6 +557,10 @@ const Header = () => {
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onFocus={() => setShowSuggestions(true)}
                     onKeyDown={handleKeyDown}
+                    role="combobox"
+                    aria-autocomplete="list"
+                    aria-expanded={showSuggestions}
+                    aria-label="Search products"
                     className={`w-full pl-4 pr-16 py-2 rounded-xl text-sm transition-all duration-300 outline-none border ${
                       isDarkMode 
                         ? 'bg-zinc-900 border-zinc-850 text-white placeholder-zinc-500' 
