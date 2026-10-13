@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { FiLogOut, FiUser, FiShoppingBag, FiHeart, FiChevronRight, FiPackage, FiClock, FiShoppingCart, FiMapPin, FiSave } from 'react-icons/fi';
+import { LuLogOut, LuUser, LuShoppingBag, LuHeart, LuChevronRight, LuPackage, LuClock, LuShoppingCart, LuMapPin, LuSave } from 'react-icons/lu';
 import apiClient from '../utils/api';
 import { useAuth } from '../hooks/useAuth';
 import { useCart } from '../hooks/useCart';
@@ -100,9 +100,9 @@ const UserDashboard = () => {
 
           <nav className="space-y-1.5 mb-6">
             {[
-              { id: 'orders', label: 'My Orders', icon: FiShoppingBag },
-              { id: 'profile', label: 'Profile & Address', icon: FiUser },
-              { id: 'wishlist', label: 'Saved Wishlist', icon: FiHeart }
+              { id: 'orders', label: 'My Orders', icon:  LuShoppingBag },
+              { id: 'profile', label: 'Profile & Address', icon:  LuUser },
+              { id: 'wishlist', label: 'Saved Wishlist', icon:  LuHeart }
             ].map(({ id, label, icon: Icon }) => (
               <button
                 key={id}
@@ -123,7 +123,7 @@ const UserDashboard = () => {
             onClick={handleLogout}
             className="w-full flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl border border-red-500/30 text-red-500 hover:bg-red-500/10 text-xs font-semibold transition"
           >
-            <FiLogOut size={16} />
+            <LuLogOut size={16} />
             <span>Logout</span>
           </button>
         </div>
@@ -163,14 +163,14 @@ const UserDashboard = () => {
                       <div className="flex justify-between items-start mb-3">
                         <div className="flex items-center space-x-3">
                           <div className="p-2.5 rounded-xl bg-brand-500/10 text-brand-500">
-                            <FiPackage size={18} />
+                            <LuPackage size={18} />
                           </div>
                           <div>
                             <p className="font-bold font-mono text-base group-hover:text-brand-500 transition">
                               {order.orderId}
                             </p>
                             <p className="text-xs text-zinc-400 flex items-center space-x-1 mt-0.5">
-                              <FiClock size={12} />
+                              <LuClock size={12} />
                               <span>{new Date(order.createdAt).toLocaleDateString()}</span>
                             </p>
                           </div>
@@ -185,7 +185,7 @@ const UserDashboard = () => {
                           }`}>
                             {order.orderStatus || 'Processing'}
                           </span>
-                          <FiChevronRight size={18} className="text-zinc-400 group-hover:text-brand-500 group-hover:translate-x-1 transition" />
+                          <LuChevronRight size={18} className="text-zinc-400 group-hover:text-brand-500 group-hover:translate-x-1 transition" />
                         </div>
                       </div>
 
@@ -219,7 +219,7 @@ const UserDashboard = () => {
                 </div>
               ) : (
                 <div className={`text-center py-16 rounded-2xl border ${isDarkMode ? 'border-zinc-850 bg-zinc-900/20' : 'border-zinc-200 bg-zinc-50'}`}>
-                  <FiShoppingBag className="mx-auto text-zinc-400 mb-3" size={32} />
+                  <LuShoppingBag className="mx-auto text-zinc-400 mb-3" size={32} />
                   <p className="text-sm font-semibold text-zinc-400">No orders found yet</p>
                   <Link
                     to="/products"
@@ -248,7 +248,7 @@ const UserDashboard = () => {
                   isDarkMode ? 'bg-darkCard/40 border-white/5 backdrop-blur-md' : 'bg-white border-zinc-200'
                 }`}>
                   <h3 className="text-base font-bold font-display mb-4 flex items-center space-x-2">
-                    <FiUser size={18} className="text-brand-500" />
+                    <LuUser size={18} className="text-brand-500" />
                     <span>Personal Information</span>
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -293,7 +293,7 @@ const UserDashboard = () => {
                   isDarkMode ? 'bg-darkCard/40 border-white/5 backdrop-blur-md' : 'bg-white border-zinc-200'
                 }`}>
                   <h3 className="text-base font-bold font-display mb-4 flex items-center space-x-2">
-                    <FiMapPin size={18} className="text-brand-500" />
+                    <LuMapPin size={18} className="text-brand-500" />
                     <span>Default Shipping Address</span>
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -381,7 +381,7 @@ const UserDashboard = () => {
                   type="submit"
                   className="bg-brand-500 hover:bg-brand-600 text-white px-6 py-3 rounded-xl font-semibold shadow-glow-primary transition flex items-center space-x-2 text-xs"
                 >
-                  <FiSave size={16} />
+                  <LuSave size={16} />
                   <span>Save Profile & Address</span>
                 </button>
               </form>
@@ -434,7 +434,7 @@ const UserDashboard = () => {
                           }}
                           className="w-full py-2 bg-brand-500 hover:bg-brand-600 text-white rounded-xl text-xs font-semibold shadow-glow-primary flex items-center justify-center space-x-1.5 transition"
                         >
-                          <FiShoppingCart size={14} />
+                          <LuShoppingCart size={14} />
                           <span>Add to Cart</span>
                         </button>
                       </div>
@@ -443,7 +443,7 @@ const UserDashboard = () => {
                 </div>
               ) : (
                 <div className={`text-center py-16 rounded-2xl border ${isDarkMode ? 'border-zinc-850 bg-zinc-900/20' : 'border-zinc-200 bg-zinc-50'}`}>
-                  <FiHeart className="mx-auto text-zinc-400 mb-3" size={32} />
+                  <LuHeart className="mx-auto text-zinc-400 mb-3" size={32} />
                   <p className="text-sm font-semibold text-zinc-400">Your wishlist is currently empty</p>
                   <Link
                     to="/products"

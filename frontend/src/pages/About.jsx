@@ -1,15 +1,15 @@
 import React from 'react';
-import { FiAward, FiUsers, FiGlobe, FiHeart } from 'react-icons/fi';
+import { LuAward, LuUsers, LuGlobe, LuHeart } from 'react-icons/lu';
 import { useTheme } from '../hooks/useTheme';
 
 const About = () => {
   const { isDarkMode } = useTheme();
 
   const stats = [
-    { icon: FiUsers, label: 'Active Users', value: '50K+' },
-    { icon: FiAward, label: 'Products', value: '10K+' },
-    { icon: FiGlobe, label: 'Countries Served', value: '25+' },
-    { icon: FiHeart, label: 'Happy Customers', value: '100K+' }
+    { icon:  LuUsers, label: 'Active Users', value: '50K+' },
+    { icon:  LuAward, label: 'Products', value: '10K+' },
+    { icon:  LuGlobe, label: 'Countries Served', value: '25+' },
+    { icon:  LuHeart, label: 'Happy Customers', value: '100K+' }
   ];
 
   const team = [
@@ -26,7 +26,7 @@ const About = () => {
         isDarkMode ? 'bg-zinc-950 border-zinc-900' : 'bg-zinc-50 border-zinc-200'
       }`}>
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full bg-brand-500/10 blur-[100px] pointer-events-none" />
-        
+
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <span className="text-xs uppercase tracking-widest font-semibold text-brand-500">Our Identity</span>
           <h1 className="text-4xl sm:text-5xl font-display font-bold tracking-tight text-zinc-900 dark:text-white mt-3 mb-6">
@@ -98,7 +98,7 @@ const About = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {[
-            { title: 'Customer First', desc: 'We put our customers at the heart of everything we do.' },
+            { title: 'Customer  First', desc: 'We put our customers at the heart of everything we do.' },
             { title: 'Premium Quality', desc: 'We never compromise on product authenticity and specifications.' },
             { title: 'Constant Innovation', desc: 'We continuously improve our platform to offer the fastest tools.' },
             { title: 'Absolute Integrity', desc: 'Honest, transparent, and ethical in all supply networks.' },

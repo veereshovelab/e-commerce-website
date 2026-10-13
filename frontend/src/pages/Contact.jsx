@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FiMail, FiPhone, FiMapPin, FiSend, FiClock } from 'react-icons/fi';
+import { LuMail, LuPhone, LuMapPin, LuSend, LuClock } from 'react-icons/lu';
 import { useTheme } from '../hooks/useTheme';
 import { toast } from 'react-toastify';
 
@@ -20,7 +20,7 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!formData.name || !formData.email || !formData.subject || !formData.message) {
       toast.error('Please fill all fields');
       return;
@@ -38,9 +38,9 @@ const Contact = () => {
   };
 
   const contactInfo = [
-    { icon: FiMail, label: 'Email', value: 'support@shopsphere.com' },
-    { icon: FiPhone, label: 'Phone', value: '+1 (555) 123-4567' },
-    { icon: FiMapPin, label: 'Address', value: '123 Commerce St, New York, NY 10001' }
+    { icon:  LuMail, label: 'Email', value: 'support@shopsphere.com' },
+    { icon:  LuPhone, label: 'Phone', value: '+1 (555) 123-4567' },
+    { icon:  LuMapPin, label: 'Address', value: '123 Commerce St, New York, NY 10001' }
   ];
 
   return (
@@ -96,7 +96,7 @@ const Contact = () => {
             <div className={`p-5 rounded-2xl border flex items-center space-x-3.5 ${
               isDarkMode ? 'bg-zinc-900/40 border-zinc-850 text-brand-400' : 'bg-brand-50/50 border-brand-100/50 text-brand-600'
             }`}>
-              <FiClock className="flex-shrink-0" size={18} />
+              <LuClock className="flex-shrink-0" size={18} />
               <p className="text-xs font-semibold uppercase tracking-wider">
                 Our average response time is under 4 hours.
               </p>
@@ -122,8 +122,8 @@ const Contact = () => {
                   onChange={handleChange}
                   placeholder="Sarah Jenkins"
                   className={`w-full px-4 py-2.5 text-sm rounded-xl outline-none border focus:ring-1 focus:ring-brand-500 ${
-                    isDarkMode 
-                      ? 'bg-zinc-900 border-zinc-800 text-white placeholder-zinc-650 focus:border-zinc-700' 
+                    isDarkMode
+                      ? 'bg-zinc-900 border-zinc-800 text-white placeholder-zinc-650 focus:border-zinc-700'
                       : 'bg-white border-zinc-200 text-zinc-900 placeholder-zinc-400 focus:border-zinc-300'
                   }`}
                 />
@@ -142,8 +142,8 @@ const Contact = () => {
                   onChange={handleChange}
                   placeholder="sarah@example.com"
                   className={`w-full px-4 py-2.5 text-sm rounded-xl outline-none border focus:ring-1 focus:ring-brand-500 ${
-                    isDarkMode 
-                      ? 'bg-zinc-900 border-zinc-800 text-white placeholder-zinc-650 focus:border-zinc-700' 
+                    isDarkMode
+                      ? 'bg-zinc-900 border-zinc-800 text-white placeholder-zinc-650 focus:border-zinc-700'
                       : 'bg-white border-zinc-200 text-zinc-900 placeholder-zinc-400 focus:border-zinc-300'
                   }`}
                 />
@@ -162,8 +162,8 @@ const Contact = () => {
                   onChange={handleChange}
                   placeholder="Need order update"
                   className={`w-full px-4 py-2.5 text-sm rounded-xl outline-none border focus:ring-1 focus:ring-brand-500 ${
-                    isDarkMode 
-                      ? 'bg-zinc-900 border-zinc-800 text-white placeholder-zinc-650 focus:border-zinc-700' 
+                    isDarkMode
+                      ? 'bg-zinc-900 border-zinc-800 text-white placeholder-zinc-650 focus:border-zinc-700'
                       : 'bg-white border-zinc-200 text-zinc-900 placeholder-zinc-400 focus:border-zinc-300'
                   }`}
                 />
@@ -182,8 +182,8 @@ const Contact = () => {
                   onChange={handleChange}
                   placeholder="Please describe how we can assist..."
                   className={`w-full px-4 py-2.5 text-sm rounded-xl outline-none border focus:ring-1 focus:ring-brand-500 resize-none ${
-                    isDarkMode 
-                      ? 'bg-zinc-900 border-zinc-800 text-white placeholder-zinc-650 focus:border-zinc-700' 
+                    isDarkMode
+                      ? 'bg-zinc-900 border-zinc-800 text-white placeholder-zinc-650 focus:border-zinc-700'
                       : 'bg-white border-zinc-200 text-zinc-900 placeholder-zinc-400 focus:border-zinc-300'
                   }`}
                 />
@@ -195,7 +195,7 @@ const Contact = () => {
                 disabled={loading}
                 className="w-full bg-brand-500 hover:bg-brand-600 disabled:bg-zinc-700 disabled:text-zinc-400 disabled:cursor-not-allowed text-white py-3 rounded-xl font-semibold shadow-glow-primary hover:shadow-lg transition flex items-center justify-center space-x-2 text-sm"
               >
-                <FiSend size={15} />
+                <LuSend size={15} />
                 <span>{loading ? 'Sending Request...' : 'Send Message'}</span>
               </button>
             </form>

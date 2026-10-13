@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FiFacebook, FiTwitter, FiInstagram, FiLinkedin, FiMail, FiPhone, FiMapPin, FiSend } from 'react-icons/fi';
+import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/fa6';
+import { LuMail, LuPhone, LuMapPin, LuSend } from 'react-icons/lu';
 import { motion } from 'framer-motion';
 import { useTheme } from '../hooks/useTheme';
 import { toast } from 'react-toastify';
@@ -20,8 +21,8 @@ const Footer = () => {
 
   return (
     <footer className={`border-t transition-colors duration-300 ${
-      isDarkMode 
-        ? 'bg-zinc-950 text-zinc-400 border-zinc-900' 
+      isDarkMode
+        ? 'bg-zinc-950 text-zinc-400 border-zinc-900'
         : 'bg-zinc-50 text-zinc-500 border-zinc-200'
     } mt-24`}>
       {/* Newsletter Section */}
@@ -44,8 +45,8 @@ const Footer = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className={`w-full pl-4 pr-12 py-3 rounded-xl text-sm outline-none border focus:ring-1 focus:ring-brand-500 transition-all ${
-                  isDarkMode 
-                    ? 'bg-zinc-900 border-zinc-800 text-white placeholder-zinc-500' 
+                  isDarkMode
+                    ? 'bg-zinc-900 border-zinc-800 text-white placeholder-zinc-500'
                     : 'bg-white border-zinc-200 text-zinc-900 placeholder-zinc-400'
                 }`}
               />
@@ -54,7 +55,7 @@ const Footer = () => {
                 className="absolute right-2 p-2 bg-brand-500 hover:bg-brand-600 text-white rounded-lg shadow-glow-primary transition"
                 title="Subscribe"
               >
-                <FiSend size={15} />
+                <LuSend size={15} />
               </button>
             </form>
           </div>
@@ -75,10 +76,10 @@ const Footer = () => {
             {/* Social Icons */}
             <div className="flex space-x-3.5">
               {[
-                { icon: FiFacebook, link: '#', title: 'Facebook' },
-                { icon: FiTwitter, link: '#', title: 'Twitter' },
-                { icon: FiInstagram, link: '#', title: 'Instagram' },
-                { icon: FiLinkedin, link: '#', title: 'LinkedIn' }
+                { icon: FaFacebookF, link: '#', title: 'Facebook' },
+                { icon: FaTwitter, link: '#', title: 'Twitter' },
+                { icon: FaInstagram, link: '#', title: 'Instagram' },
+                { icon: FaLinkedinIn, link: '#', title: 'LinkedIn' }
               ].map((social, index) => {
                 const IconComponent = social.icon;
                 return (
@@ -173,7 +174,7 @@ const Footer = () => {
             </h4>
             <div className="space-y-4 text-xs font-medium text-zinc-500 dark:text-zinc-400">
               <div className="flex items-start space-x-2.5">
-                <FiMail className="text-brand-500 flex-shrink-0 mt-0.5" size={14} />
+                <LuMail className="text-brand-500 flex-shrink-0 mt-0.5" size={14} />
                 <div>
                   <p className="font-semibold text-zinc-800 dark:text-zinc-200">Email</p>
                   <a href="mailto:support@shopsphere.com" className="hover:text-brand-500 dark:hover:text-brand-400 transition">
@@ -182,7 +183,7 @@ const Footer = () => {
                 </div>
               </div>
               <div className="flex items-start space-x-2.5">
-                <FiPhone className="text-brand-500 flex-shrink-0 mt-0.5" size={14} />
+                <LuPhone className="text-brand-500 flex-shrink-0 mt-0.5" size={14} />
                 <div>
                   <p className="font-semibold text-zinc-800 dark:text-zinc-200">Support Line</p>
                   <a href="tel:+15551234567" className="hover:text-brand-500 dark:hover:text-brand-400 transition">
@@ -191,7 +192,7 @@ const Footer = () => {
                 </div>
               </div>
               <div className="flex items-start space-x-2.5">
-                <FiMapPin className="text-brand-500 flex-shrink-0 mt-0.5" size={14} />
+                <LuMapPin className="text-brand-500 flex-shrink-0 mt-0.5" size={14} />
                 <div>
                   <p className="font-semibold text-zinc-800 dark:text-zinc-200">Headquarters</p>
                   <p className="text-zinc-400 dark:text-zinc-500 mt-0.5">123 Commerce St, New York, NY 10001</p>

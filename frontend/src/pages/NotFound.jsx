@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiHome } from 'react-icons/fi';
+import { LuHome } from 'react-icons/lu';
 import { useTheme } from '../hooks/useTheme';
 
 const NotFound = () => {
@@ -19,7 +19,7 @@ const NotFound = () => {
           onClick={() => navigate('/')}
           className="inline-flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition"
         >
-          <FiHome size={20} />
+          <LuHome size={20} />
           <span>Go Home</span>
         </button>
       </div>

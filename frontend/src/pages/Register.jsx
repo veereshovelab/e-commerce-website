@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FiArrowLeft } from 'react-icons/fi';
+import { LuArrowLeft } from 'react-icons/lu';
 import apiClient from '../utils/api';
 import { useAuth } from '../hooks/useAuth';
 import { useTheme } from '../hooks/useTheme';
@@ -51,7 +51,7 @@ const Register = () => {
   return (
     <div className="max-w-md mx-auto px-4 py-12">
       <Link to="/" className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 mb-8">
-        <FiArrowLeft />
+        <LuArrowLeft />
         <span>Back</span>
       </Link>
 

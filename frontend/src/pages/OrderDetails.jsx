@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { FiArrowLeft, FiPackage, FiMapPin, FiCreditCard, FiCalendar, FiPrinter, FiDownload, FiCheckCircle } from 'react-icons/fi';
+import { LuArrowLeft, LuPackage, LuMapPin, LuCreditCard, LuCalendar, LuPrinter, LuDownload, LuCheckCircle } from 'react-icons/lu';
 import { useTheme } from '../hooks/useTheme';
 import LoadingSpinner from '../components/LoadingSpinner';
 import Badge from '../components/Badge';
@@ -189,7 +189,7 @@ Support: support@shopsphere.com | www.shopsphere.com
           onClick={() => navigate('/dashboard')}
           className="flex items-center space-x-2 text-brand-500 hover:text-brand-600 font-medium transition-colors"
         >
-          <FiArrowLeft />
+          <LuArrowLeft />
           <span>Back to Orders</span>
         </button>
 
@@ -203,7 +203,7 @@ Support: support@shopsphere.com | www.shopsphere.com
             }`}
             title="Download Invoice TXT"
           >
-            <FiDownload size={14} />
+            <LuDownload size={14} />
             <span>Download Invoice</span>
           </button>
           <button
@@ -211,7 +211,7 @@ Support: support@shopsphere.com | www.shopsphere.com
             className="flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-bold bg-brand-500 hover:bg-brand-600 text-white shadow-glow-primary transition"
             title="Print Receipt"
           >
-            <FiPrinter size={14} />
+            <LuPrinter size={14} />
             <span>Print Receipt</span>
           </button>
         </div>
@@ -262,7 +262,7 @@ Support: support@shopsphere.com | www.shopsphere.com
         {/* Shipping Info */}
         <div className={`${isDarkMode ? 'bg-zinc-850 border-zinc-800' : 'bg-white border-zinc-200'} border rounded-2xl p-6 shadow-sm`}>
           <div className="flex items-center space-x-2 mb-4">
-            <FiMapPin className="text-brand-500" size={18} />
+            <LuMapPin className="text-brand-500" size={18} />
             <h3 className="text-lg font-bold font-display">Shipping Address</h3>
           </div>
           <div className="space-y-1.5 text-sm">
@@ -276,7 +276,7 @@ Support: support@shopsphere.com | www.shopsphere.com
         {/* Estimated Delivery */}
         <div className={`${isDarkMode ? 'bg-zinc-850 border-zinc-800' : 'bg-white border-zinc-200'} border rounded-2xl p-6 shadow-sm`}>
           <div className="flex items-center space-x-2 mb-4">
-            <FiCalendar className="text-emerald-500" size={18} />
+            <LuCalendar className="text-emerald-500" size={18} />
             <h3 className="text-lg font-bold font-display">Estimated Delivery</h3>
           </div>
           <p className="text-3xl font-bold text-emerald-500 mb-2 font-display">
@@ -291,7 +291,7 @@ Support: support@shopsphere.com | www.shopsphere.com
       {/* Order Items */}
       <div className={`${isDarkMode ? 'bg-zinc-850 border-zinc-800' : 'bg-white border-zinc-200'} border rounded-2xl p-6 mb-6 shadow-sm`}>
         <div className="flex items-center space-x-2 mb-4">
-          <FiPackage className="text-indigo-500" size={18} />
+          <LuPackage className="text-indigo-500" size={18} />
           <h3 className="text-lg font-bold font-display">Order Items ({order.products.length})</h3>
         </div>
         <div className="space-y-4">
@@ -311,7 +311,7 @@ Support: support@shopsphere.com | www.shopsphere.com
       {/* Order Summary Breakdown */}
       <div className={`${isDarkMode ? 'bg-zinc-850 border-zinc-800' : 'bg-white border-zinc-200'} border rounded-2xl p-6 shadow-sm`}>
         <div className="flex items-center space-x-2 mb-4">
-          <FiCreditCard className="text-purple-500" size={18} />
+          <LuCreditCard className="text-purple-500" size={18} />
           <h3 className="text-lg font-bold font-display">Order Summary</h3>
         </div>
         <div className="space-y-3 text-sm">

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FiTrash2, FiShoppingCart, FiArrowLeft, FiHeart } from 'react-icons/fi';
+import { LuTrash2, LuShoppingCart, LuArrowLeft, LuHeart } from 'react-icons/lu';
 import { useCart } from '../hooks/useCart';
 import { useTheme } from '../hooks/useTheme';
 import { toast } from 'react-toastify';
@@ -14,7 +14,7 @@ const Wishlist = () => {
     return (
       <div className="max-w-7xl mx-auto px-4 py-20 text-center">
         <div className="w-16 h-16 rounded-full bg-brand-500/10 text-brand-500 mx-auto flex items-center justify-center mb-4">
-          <FiHeart size={28} />
+          <LuHeart size={28} />
         </div>
         <h1 className="text-3xl font-bold font-display mb-2">Your Wishlist is Empty</h1>
         <p className={`${isDarkMode ? 'text-zinc-400' : 'text-zinc-600'} text-sm mb-8 max-w-md mx-auto`}>
@@ -41,7 +41,7 @@ const Wishlist = () => {
         onClick={() => navigate(-1)}
         className="flex items-center space-x-2 text-brand-500 hover:text-brand-600 mb-8 font-semibold text-xs transition-colors"
       >
-        <FiArrowLeft size={16} />
+        <LuArrowLeft size={16} />
         <span>Back to Store</span>
       </button>
 
@@ -61,7 +61,7 @@ const Wishlist = () => {
             }}
             className="flex items-center space-x-1.5 px-4 py-2 rounded-xl bg-brand-500 hover:bg-brand-600 text-white text-xs font-semibold shadow-glow-primary transition"
           >
-            <FiShoppingCart size={14} />
+            <LuShoppingCart size={14} />
             <span>Move All to Cart</span>
           </button>
           <button
@@ -71,7 +71,7 @@ const Wishlist = () => {
             }}
             className="flex items-center space-x-1.5 px-4 py-2 rounded-xl border border-red-500/30 text-red-500 hover:bg-red-500/10 text-xs font-semibold transition"
           >
-            <FiTrash2 size={14} />
+            <LuTrash2 size={14} />
             <span>Clear Wishlist</span>
           </button>
         </div>
@@ -127,7 +127,7 @@ const Wishlist = () => {
                 onClick={() => handleAddToCart(product)}
                 className="flex-1 bg-brand-500 hover:bg-brand-600 text-white py-2.5 rounded-xl text-xs font-semibold shadow-glow-primary transition flex items-center justify-center space-x-1.5"
               >
-                <FiShoppingCart size={14} />
+                <LuShoppingCart size={14} />
                 <span>Add to Cart</span>
               </button>
               <button
@@ -138,7 +138,7 @@ const Wishlist = () => {
                 className="p-2.5 rounded-xl border border-red-500/30 text-red-500 hover:bg-red-500/10 transition"
                 title="Remove from wishlist"
               >
-                <FiTrash2 size={16} />
+                <LuTrash2 size={16} />
               </button>
             </div>
           </div>

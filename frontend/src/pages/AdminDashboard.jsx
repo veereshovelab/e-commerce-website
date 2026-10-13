@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { FiLogOut, FiBox, FiShoppingBag, FiUsers, FiTrendingUp, FiEye, FiCheck, FiSearch, FiRefreshCw } from 'react-icons/fi';
+import { LuLogOut, LuBox, LuShoppingBag, LuUsers, LuTrendingUp, LuEye, LuCheck, LuSearch, LuRefreshCw } from 'react-icons/lu';
 import apiClient from '../utils/api';
 import { useAuth } from '../hooks/useAuth';
 import { useTheme } from '../hooks/useTheme';
@@ -100,13 +100,13 @@ const AdminDashboard = () => {
             }`}
             title="Refresh Data"
           >
-            <FiRefreshCw size={16} />
+            <LuRefreshCw size={16} />
           </button>
           <button
             onClick={handleLogout}
             className="flex items-center space-x-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2.5 rounded-xl text-xs font-semibold shadow-md transition"
           >
-            <FiLogOut size={16} />
+            <LuLogOut size={16} />
             <span>Logout</span>
           </button>
         </div>
@@ -119,7 +119,7 @@ const AdminDashboard = () => {
         }`}>
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider text-zinc-400">Total Users</span>
-            <div className="p-2 rounded-xl bg-blue-500/10 text-blue-500"><FiUsers size={18} /></div>
+            <div className="p-2 rounded-xl bg-blue-500/10 text-blue-500"><LuUsers size={18} /></div>
           </div>
           <p className="text-2xl font-bold font-display">{usersList.length || analytics?.totalUsers || 0}</p>
         </div>
@@ -129,7 +129,7 @@ const AdminDashboard = () => {
         }`}>
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider text-zinc-400">Total Products</span>
-            <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-500"><FiBox size={18} /></div>
+            <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-500"><LuBox size={18} /></div>
           </div>
           <p className="text-2xl font-bold font-display">{productsList.length || analytics?.totalProducts || 0}</p>
         </div>
@@ -139,7 +139,7 @@ const AdminDashboard = () => {
         }`}>
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider text-zinc-400">Total Orders</span>
-            <div className="p-2 rounded-xl bg-amber-500/10 text-amber-500"><FiShoppingBag size={18} /></div>
+            <div className="p-2 rounded-xl bg-amber-500/10 text-amber-500"><LuShoppingBag size={18} /></div>
           </div>
           <p className="text-2xl font-bold font-display">{ordersList.length || analytics?.totalOrders || 0}</p>
         </div>
@@ -149,7 +149,7 @@ const AdminDashboard = () => {
         }`}>
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider text-zinc-400">Total Revenue</span>
-            <div className="p-2 rounded-xl bg-brand-500/10 text-brand-500"><FiTrendingUp size={18} /></div>
+            <div className="p-2 rounded-xl bg-brand-500/10 text-brand-500"><LuTrendingUp size={18} /></div>
           </div>
           <p className="text-2xl font-bold font-display text-brand-500 font-mono">
             ${(analytics?.totalRevenue || 12450.80).toFixed(2)}
@@ -212,14 +212,14 @@ const AdminDashboard = () => {
             <div className="relative w-full sm:w-64">
               <input
                 type="text"
-                placeholder="Filter products..."
+                placeholder=" Filter products..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className={`w-full pl-9 pr-4 py-2 rounded-xl text-xs border outline-none ${
                   isDarkMode ? 'bg-zinc-900 border-zinc-800 text-white' : 'bg-zinc-50 border-zinc-200 text-zinc-900'
                 }`}
               />
-              <FiSearch className="absolute left-3 top-3 text-zinc-400" size={14} />
+              <LuSearch className="absolute left-3 top-3 text-zinc-400" size={14} />
             </div>
           </div>
 
@@ -256,7 +256,7 @@ const AdminDashboard = () => {
                     </td>
                     <td className="py-3 text-right pr-2">
                       <Link to={`/products/${p._id}`} className="text-brand-500 hover:underline font-semibold flex items-center justify-end space-x-1">
-                        <FiEye size={13} />
+                        <LuEye size={13} />
                         <span>View</span>
                       </Link>
                     </td>
@@ -345,7 +345,7 @@ const AdminDashboard = () => {
                     <td className="py-3 text-zinc-400">{u.createdAt}</td>
                     <td className="py-3 text-right pr-2">
                       <span className="inline-flex items-center space-x-1 text-emerald-500 font-bold">
-                        <FiCheck size={13} />
+                        <LuCheck size={13} />
                         <span>Active</span>
                       </span>
                     </td>

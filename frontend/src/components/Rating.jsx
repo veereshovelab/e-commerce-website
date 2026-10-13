@@ -1,5 +1,5 @@
 import React from 'react';
-import { FiStar } from 'react-icons/fi';
+import { LuStar } from 'react-icons/lu';
 import { useTheme } from '../hooks/useTheme';
 
 const Rating = ({ value = 0, count = 0, onChange, interactive = false, size = 'md' }) => {
@@ -26,7 +26,7 @@ const Rating = ({ value = 0, count = 0, onChange, interactive = false, size = 'm
             className={`transition-colors ${interactive ? 'cursor-pointer' : 'cursor-default'}`}
             disabled={!interactive}
           >
-            <FiStar
+            <LuStar
               className={`${sizes[size]} ${
                 star <= (hover || value) ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
               }`}

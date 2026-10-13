@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FiTrash2, FiArrowLeft, FiTag, FiCheck, FiX, FiTruck, FiGift, FiCopy, FiPercent } from 'react-icons/fi';
+import { LuTrash2, LuArrowLeft, LuTag, LuCheck, LuX, LuTruck, LuGift, LuCopy, LuPercent } from 'react-icons/lu';
 import { useCart } from '../hooks/useCart';
 import { useTheme } from '../hooks/useTheme';
 import { toast } from 'react-toastify';
@@ -73,7 +73,7 @@ const Cart = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <button onClick={() => navigate(-1)} className="flex items-center space-x-2 text-brand-500 hover:text-brand-600 mb-8 font-medium">
-        <FiArrowLeft />
+        <LuArrowLeft />
         <span>Back</span>
       </button>
 
@@ -140,7 +140,7 @@ const Cart = () => {
                   className="text-red-500 hover:text-red-600 p-1 rounded-lg transition"
                   title="Remove item"
                 >
-                  <FiTrash2 size={16} />
+                  <LuTrash2 size={16} />
                 </button>
               </div>
             </div>
@@ -156,7 +156,7 @@ const Cart = () => {
             {totalSavings > 0 && (
               <div className="mb-4 p-3 rounded-xl bg-gradient-to-r from-emerald-500/15 to-teal-500/15 border border-emerald-500/30 flex items-center justify-between text-xs text-emerald-600 dark:text-emerald-400 font-semibold">
                 <div className="flex items-center space-x-2">
-                  <FiPercent className="text-emerald-500 animate-pulse" size={16} />
+                  <LuPercent className="text-emerald-500 animate-pulse" size={16} />
                   <span>Total Savings on Order</span>
                 </div>
                 <span className="font-bold font-mono text-sm">${totalSavings.toFixed(2)}</span>
@@ -168,9 +168,9 @@ const Cart = () => {
               <div className="flex items-center justify-between text-xs font-semibold mb-2">
                 <div className="flex items-center space-x-1.5">
                   {subtotal >= 100 ? (
-                    <FiGift className="text-emerald-500 animate-bounce" size={16} />
+                    <LuGift className="text-emerald-500 animate-bounce" size={16} />
                   ) : (
-                    <FiTruck className="text-brand-500" size={16} />
+                    <LuTruck className="text-brand-500" size={16} />
                   )}
                   <span>
                     {subtotal >= 100 ? (
@@ -200,7 +200,7 @@ const Cart = () => {
               {appliedCoupon ? (
                 <div className="flex items-center justify-between p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs font-semibold">
                   <div className="flex items-center space-x-2">
-                    <FiCheck size={16} />
+                    <LuCheck size={16} />
                     <span>Coupon <strong>{appliedCoupon.code}</strong> Applied ({appliedCoupon.description})</span>
                   </div>
                   <button
@@ -211,7 +211,7 @@ const Cart = () => {
                     className="p-1 hover:bg-emerald-500/20 rounded-lg text-red-500"
                     title="Remove Coupon"
                   >
-                    <FiX size={14} />
+                    <LuX size={14} />
                   </button>
                 </div>
               ) : (
@@ -237,7 +237,7 @@ const Cart = () => {
               {/* Available Coupons Cards */}
               <div className="mt-4 space-y-2">
                 <p className="text-[10px] text-zinc-400 font-semibold flex items-center space-x-1 uppercase tracking-wider">
-                  <FiTag size={12} />
+                  <LuTag size={12} />
                   <span>Available Promo Codes</span>
                 </p>
                 <div className="grid grid-cols-1 gap-2 max-h-48 overflow-y-auto pr-1">
@@ -271,7 +271,7 @@ const Cart = () => {
                             className="p-1 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200"
                             title="Copy code"
                           >
-                            <FiCopy size={13} />
+                            <LuCopy size={13} />
                           </button>
                           <span className={`text-[10px] font-bold px-2 py-1 rounded-lg ${
                             isApplied

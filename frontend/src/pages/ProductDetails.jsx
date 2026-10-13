@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiShoppingCart, FiHeart, FiChevronRight, FiPlus, FiMinus, FiStar, FiSliders, FiTruck, FiShield, FiRotateCcw, FiShare2, FiClock, FiEdit3, FiCalendar } from 'react-icons/fi';
+import { LuShoppingCart, LuHeart, LuChevronRight, LuPlus, LuMinus, LuStar, LuSlidersHorizontal, LuTruck, LuShield, LuRotateCcw, LuShare2, LuClock, LuPenLine, LuCalendar } from 'react-icons/lu';
 import apiClient from '../utils/api';
 import { useCart } from '../hooks/useCart';
 import { useTheme } from '../hooks/useTheme';
@@ -149,9 +149,9 @@ const ProductDetails = () => {
       {/* Breadcrumb path */}
       <nav className="flex items-center space-x-2.5 mb-10 text-xs font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
         <button onClick={() => navigate('/')} className="hover:text-brand-500 transition">Home</button>
-        <FiChevronRight size={10} />
+        <LuChevronRight size={10} />
         <button onClick={() => navigate('/products')} className="hover:text-brand-500 transition">Products</button>
-        <FiChevronRight size={10} />
+        <LuChevronRight size={10} />
         <span className="truncate max-w-[200px] text-zinc-800 dark:text-zinc-300">{product.name}</span>
       </nav>
 
@@ -189,8 +189,8 @@ const ProductDetails = () => {
                   key={idx}
                   onClick={() => setSelectedImage(idx)}
                   className={`w-16 h-16 rounded-xl overflow-hidden border-2 flex-shrink-0 transition-all ${
-                    selectedImage === idx 
-                      ? 'border-brand-500 shadow-glow-primary scale-95' 
+                    selectedImage === idx
+                      ? 'border-brand-500 shadow-glow-primary scale-95'
                       : 'border-zinc-200 dark:border-zinc-800 hover:scale-95'
                   }`}
                 >
@@ -218,7 +218,7 @@ const ProductDetails = () => {
             <div className="flex items-center space-x-2.5 mb-6">
               <div className="flex text-yellow-400">
                 {[...Array(5)].map((_, i) => (
-                  <FiStar key={i} fill={i < Math.round(product.rating) ? 'currentColor' : 'none'} size={14} />
+                  <LuStar key={i} fill={i < Math.round(product.rating) ? 'currentColor' : 'none'} size={14} />
                 ))}
               </div>
               <span className={`text-xs font-semibold ${isDarkMode ? 'text-zinc-400' : 'text-zinc-500'}`}>
@@ -256,8 +256,8 @@ const ProductDetails = () => {
                     key={tab}
                     onClick={() => setActiveTab(tab)}
                     className={`pb-3 border-b-2 transition-all relative ${
-                      activeTab === tab 
-                        ? 'border-brand-500 text-brand-500 dark:text-brand-400' 
+                      activeTab === tab
+                        ? 'border-brand-500 text-brand-500 dark:text-brand-400'
                         : 'border-transparent text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300'
                     }`}
                   >
@@ -309,7 +309,7 @@ const ProductDetails = () => {
                       onClick={() => navigate(`/write-review?product=${encodeURIComponent(product.name)}`)}
                       className="text-xs font-semibold text-brand-500 hover:text-brand-600 flex items-center space-x-1.5 border border-brand-500/20 bg-brand-500/10 px-3 py-1 rounded-xl transition"
                     >
-                      <FiEdit3 size={13} />
+                      <LuPenLine size={13} />
                       <span>Write a Review</span>
                     </button>
                   </div>
@@ -334,8 +334,8 @@ const ProductDetails = () => {
                         onClick={() => navigate(`/write-review?product=${encodeURIComponent(product.name)}`)}
                         className="bg-brand-500 hover:bg-brand-600 text-white text-xs font-semibold px-4 py-2 rounded-xl shadow-glow-primary transition inline-flex items-center space-x-1.5"
                       >
-                        <FiEdit3 size={14} />
-                        <span>Write First Review</span>
+                        <LuPenLine size={14} />
+                        <span>Write  First Review</span>
                       </button>
                     </div>
                   )}
@@ -357,7 +357,7 @@ const ProductDetails = () => {
                     disabled={quantity <= 1}
                     className="p-2.5 hover:bg-zinc-200 dark:hover:bg-zinc-800 disabled:opacity-30"
                   >
-                    <FiMinus size={14} />
+                    <LuMinus size={14} />
                   </button>
                   <input
                     type="number"
@@ -369,7 +369,7 @@ const ProductDetails = () => {
                     onClick={() => setQuantity(quantity + 1)}
                     className="p-2.5 hover:bg-zinc-200 dark:hover:bg-zinc-800"
                   >
-                    <FiPlus size={14} />
+                    <LuPlus size={14} />
                   </button>
                 </div>
               </div>
@@ -382,7 +382,7 @@ const ProductDetails = () => {
                 disabled={product.stock === 0}
                 className="flex-1 bg-brand-500 hover:bg-brand-600 dark:btn-glow-primary disabled:bg-zinc-800 disabled:text-zinc-500 disabled:cursor-not-allowed text-white py-3.5 rounded-xl font-semibold shadow-glow-primary hover:shadow-lg transition duration-300 flex items-center justify-center space-x-2 text-sm"
               >
-                <FiShoppingCart size={18} />
+                <LuShoppingCart size={18} />
                 <span>Add to Shopping Cart</span>
               </motion.button>
               <motion.button
@@ -395,19 +395,19 @@ const ProductDetails = () => {
                 }`}
                 title={isInCompare(product._id) ? 'Remove from compare' : 'Compare product'}
               >
-                <FiSliders size={18} />
+                <LuSlidersHorizontal size={18} />
               </motion.button>
               <motion.button
                 whileTap={{ scale: 0.95 }}
                 onClick={handleWishlist}
                 className={`p-3.5 rounded-xl border text-sm transition flex items-center justify-center ${
-                  isInWishlist(product._id) 
-                    ? 'border-red-500 bg-red-500/10 text-red-500' 
+                  isInWishlist(product._id)
+                    ? 'border-red-500 bg-red-500/10 text-red-500'
                     : 'border-zinc-300 dark:border-white/10 dark:btn-glass-secondary'
                 }`}
                 title={isInWishlist(product._id) ? 'Remove from wishlist' : 'Add to wishlist'}
               >
-                <FiHeart fill={isInWishlist(product._id) ? 'currentColor' : 'none'} size={18} />
+                <LuHeart fill={isInWishlist(product._id) ? 'currentColor' : 'none'} size={18} />
               </motion.button>
               <motion.button
                 whileTap={{ scale: 0.95 }}
@@ -415,31 +415,31 @@ const ProductDetails = () => {
                 className="p-3.5 rounded-xl border border-zinc-300 dark:border-white/10 dark:btn-glass-secondary text-zinc-600 dark:text-zinc-300 hover:text-brand-500 transition flex items-center justify-center"
                 title="Share product link"
               >
-                <FiShare2 size={18} />
+                <LuShare2 size={18} />
               </motion.button>
             </div>
 
             {/* Delivery Perks & Express Dispatch Urgency Box */}
             <div className={`rounded-2xl border p-4 space-y-3 ${isDarkMode ? 'bg-zinc-900/40 border-zinc-800' : 'bg-zinc-50/80 border-zinc-200'}`}>
               <div className="flex items-center space-x-2 text-xs font-semibold text-amber-500 dark:text-amber-400">
-                <FiClock className="animate-pulse" size={16} />
+                <LuClock className="animate-pulse" size={16} />
                 <span>
                   Order within <strong className="font-mono text-sm">{String(timeLeft.hours).padStart(2, '0')}h {String(timeLeft.minutes).padStart(2, '0')}m {String(timeLeft.seconds).padStart(2, '0')}s</strong> for Express Dispatch!
                 </span>
               </div>
               <div className="grid grid-cols-3 gap-2 pt-2 border-t border-zinc-200 dark:border-zinc-800 text-[11px]">
                 <div className="flex flex-col items-center text-center p-2 rounded-xl bg-white/50 dark:bg-zinc-850/50">
-                  <FiTruck size={16} className="text-brand-500 mb-1" />
+                  <LuTruck size={16} className="text-brand-500 mb-1" />
                   <span className="font-semibold">Free Express Shipping</span>
                   <span className="text-[9px] text-brand-500 font-bold">Est. {getEstimatedDeliveryDate()}</span>
                 </div>
                 <div className="flex flex-col items-center text-center p-2 rounded-xl bg-white/50 dark:bg-zinc-850/50">
-                  <FiRotateCcw size={16} className="text-emerald-500 mb-1" />
+                  <LuRotateCcw size={16} className="text-emerald-500 mb-1" />
                   <span className="font-semibold">30-Day Returns</span>
                   <span className="text-[9px] text-zinc-400">Hassle free policy</span>
                 </div>
                 <div className="flex flex-col items-center text-center p-2 rounded-xl bg-white/50 dark:bg-zinc-850/50">
-                  <FiShield size={16} className="text-indigo-500 mb-1" />
+                  <LuShield size={16} className="text-indigo-500 mb-1" />
                   <span className="font-semibold">2-Year Warranty</span>
                   <span className="text-[9px] text-zinc-400">Full coverage</span>
                 </div>

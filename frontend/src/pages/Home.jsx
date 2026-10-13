@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FiArrowRight, FiCheckCircle, FiShield, FiTrendingUp, FiTruck } from 'react-icons/fi';
+import { LuArrowRight, LuCheckCircle, LuShield, LuTrendingUp, LuTruck } from 'react-icons/lu';
 import { motion } from 'framer-motion';
 import apiClient from '../utils/api';
 import ProductCard from '../components/ProductCard';
@@ -48,10 +48,10 @@ const Home = () => {
   };
 
   const stats = [
-    { icon: FiTruck, title: 'Free Global Shipping', desc: 'On orders over $150' },
-    { icon: FiCheckCircle, title: 'Authenticity Guaranteed', desc: '100% genuine products' },
-    { icon: FiShield, title: 'Secure Transactions', desc: 'End-to-end encrypted checkouts' },
-    { icon: FiTrendingUp, title: '24/7 Dedicated Support', desc: 'Help at any point of order' }
+    { icon:  LuTruck, title: 'Free Global Shipping', desc: 'On orders over $150' },
+    { icon:  LuCheckCircle, title: 'Authenticity Guaranteed', desc: '100% genuine products' },
+    { icon:  LuShield, title: 'Secure Transactions', desc: 'End-to-end encrypted checkouts' },
+    { icon:  LuTrendingUp, title: '24/7 Dedicated Support', desc: 'Help at any point of order' }
   ];
 
   const categories = [
@@ -66,8 +66,8 @@ const Home = () => {
     <div className="overflow-hidden">
       {/* Hero Section */}
       <section className={`relative min-h-[90vh] flex items-center justify-center py-24 px-4 sm:px-6 lg:px-8 border-b ${
-        isDarkMode 
-          ? 'bg-transparent border-white/5' 
+        isDarkMode
+          ? 'bg-transparent border-white/5'
           : 'bg-zinc-50 border-zinc-200'
       }`}>
         {/* Glow Spheres (Ambient Background Effects) */}
@@ -100,8 +100,8 @@ const Home = () => {
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
               <span className={`inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider mb-6 border ${
-                isDarkMode 
-                  ? 'bg-zinc-900/60 border-white/10 text-brand-400' 
+                isDarkMode
+                  ? 'bg-zinc-900/60 border-white/10 text-brand-400'
                   : 'bg-white border-zinc-200 text-brand-600'
               }`}>
                 <span>🚀 Introducing ShopSphere 2.0</span>
@@ -119,15 +119,15 @@ const Home = () => {
                     className="inline-flex items-center justify-center space-x-2 bg-brand-500 hover:bg-brand-600 text-white px-7 py-3.5 rounded-full font-medium shadow-glow-primary hover:shadow-lg hover:shadow-brand-500/25 transition duration-300 dark:btn-glow-primary w-full sm:w-auto"
                   >
                     <span>Explore Catalog</span>
-                    <FiArrowRight size={16} />
+                    <LuArrowRight size={16} />
                   </Link>
                 </motion.div>
                 <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
                   <Link
                     to="/about"
                     className={`inline-flex items-center justify-center border px-7 py-3.5 rounded-full font-medium transition duration-300 w-full sm:w-auto ${
-                      isDarkMode 
-                        ? 'btn-glass-secondary border-white/10 text-zinc-350' 
+                      isDarkMode
+                        ? 'btn-glass-secondary border-white/10 text-zinc-350'
                         : 'border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900 text-zinc-700'
                     }`}
                   >
@@ -146,8 +146,8 @@ const Home = () => {
             >
               {/* Vercel/Linear style grid overlay card */}
               <div className={`relative p-6 sm:p-8 rounded-3xl w-full max-w-[460px] border shadow-premium backdrop-blur-md transition-all ${
-                isDarkMode 
-                  ? 'bg-darkCard/50 border-white/5 shadow-glass-dark' 
+                isDarkMode
+                  ? 'bg-darkCard/50 border-white/5 shadow-glass-dark'
                   : 'bg-white/60 border-zinc-150'
               }`}>
                 <div className="absolute top-4 right-4 flex space-x-1">
@@ -221,8 +221,8 @@ const Home = () => {
                 <Link
                   to={`/products?category=${cat.name}`}
                   className={`block p-8 rounded-2xl border text-center transition-all duration-300 shadow-premium hover:shadow-premium-hover ${
-                    isDarkMode 
-                      ? 'bg-darkCard/30 border-white/5 hover:border-white/15 hover:shadow-glow-purple shadow-glass-dark' 
+                    isDarkMode
+                      ? 'bg-darkCard/30 border-white/5 hover:border-white/15 hover:shadow-glow-purple shadow-glass-dark'
                       : 'bg-white border-zinc-200 hover:border-zinc-300'
                   }`}
                 >
@@ -250,7 +250,7 @@ const Home = () => {
             </div>
             <Link to="/products" className="text-xs font-semibold text-brand-500 hover:text-brand-600 flex items-center space-x-1.5 transition">
               <span>View All Products</span>
-              <FiArrowRight size={14} />
+              <LuArrowRight size={14} />
             </Link>
           </div>
 
@@ -280,8 +280,8 @@ const Home = () => {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className={`relative overflow-hidden rounded-3xl p-8 md:p-12 lg:p-16 border shadow-premium transition-all ${
-            isDarkMode 
-              ? 'bg-gradient-to-br from-darkCardLt to-darkDeep border-white/10 shadow-glass-dark text-white' 
+            isDarkMode
+              ? 'bg-gradient-to-br from-darkCardLt to-darkDeep border-white/10 shadow-glass-dark text-white'
               : 'bg-zinc-900 border-zinc-800 text-white'
           }`}>
             {/* Ambient visual overlay */}
@@ -323,7 +323,7 @@ const Home = () => {
             </div>
             <Link to="/products" className="text-xs font-semibold text-brand-500 hover:text-brand-600 flex items-center space-x-1.5 transition">
               <span>View All Products</span>
-              <FiArrowRight size={14} />
+              <LuArrowRight size={14} />
             </Link>
           </div>
 
@@ -383,8 +383,8 @@ const Home = () => {
               <div
                 key={index}
                 className={`p-8 rounded-2xl border shadow-premium flex flex-col justify-between transition-all ${
-                  isDarkMode 
-                    ? 'bg-darkCard/40 border-white/5 backdrop-blur-md shadow-glass-dark hover:border-white/10' 
+                  isDarkMode
+                    ? 'bg-darkCard/40 border-white/5 backdrop-blur-md shadow-glass-dark hover:border-white/10'
                     : 'bg-white border-zinc-200'
                 }`}
               >

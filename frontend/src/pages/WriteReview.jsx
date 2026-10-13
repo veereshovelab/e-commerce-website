@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { FiArrowLeft, FiThumbsUp, FiCheckCircle } from 'react-icons/fi';
+import { LuArrowLeft, LuThumbsUp, LuCheckCircle } from 'react-icons/lu';
 import apiClient from '../utils/api';
 import { useTheme } from '../hooks/useTheme';
 import { useAuth } from '../hooks/useAuth';
@@ -56,7 +56,7 @@ const WriteReview = () => {
         onClick={() => navigate(-1)}
         className="flex items-center space-x-2 text-brand-500 hover:text-brand-600 mb-8 font-semibold text-xs transition"
       >
-        <FiArrowLeft size={16} />
+        <LuArrowLeft size={16} />
         <span>Back</span>
       </button>
 
@@ -125,7 +125,7 @@ const WriteReview = () => {
 
         {/* Info Badge */}
         <div className="flex items-center space-x-2 p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-xs font-semibold">
-          <FiCheckCircle size={16} />
+          <LuCheckCircle size={16} />
           <span>Verified purchase review guarantee</span>
         </div>
 
@@ -136,7 +136,7 @@ const WriteReview = () => {
             disabled={loading}
             className="flex-1 bg-brand-500 hover:bg-brand-600 disabled:bg-zinc-400 text-white font-bold py-3.5 rounded-xl text-xs shadow-glow-primary transition flex items-center justify-center space-x-2"
           >
-            <FiThumbsUp size={16} />
+            <LuThumbsUp size={16} />
             <span>{loading ? 'Submitting...' : 'Submit Review'}</span>
           </button>
           <button

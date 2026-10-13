@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiX, FiShoppingCart, FiHeart, FiPlus, FiMinus, FiShield, FiTruck, FiExternalLink } from 'react-icons/fi';
+import { LuX, LuShoppingCart, LuHeart, LuPlus, LuMinus, LuShield, LuTruck, LuExternalLink } from 'react-icons/lu';
 import { useCart } from '../hooks/useCart';
 import { useTheme } from '../hooks/useTheme';
 import { toast } from 'react-toastify';
@@ -80,7 +80,7 @@ const QuickViewModal = ({ product, isOpen, onClose }) => {
               }`}
               title="Close modal"
             >
-              <FiX size={20} />
+              <LuX size={20} />
             </motion.button>
 
             <div className="grid grid-cols-1 md:grid-cols-2">
@@ -179,11 +179,11 @@ const QuickViewModal = ({ product, isOpen, onClose }) => {
                   {/* Feature Badges */}
                   <div className="grid grid-cols-2 gap-2 mb-6 text-[11px] text-zinc-500 dark:text-zinc-400">
                     <div className="flex items-center space-x-1.5 bg-zinc-100 dark:bg-zinc-800/60 p-2 rounded-lg">
-                      <FiTruck className="text-brand-500" size={14} />
+                      <LuTruck className="text-brand-500" size={14} />
                       <span>Fast Express Shipping</span>
                     </div>
                     <div className="flex items-center space-x-1.5 bg-zinc-100 dark:bg-zinc-800/60 p-2 rounded-lg">
-                      <FiShield className="text-emerald-500" size={14} />
+                      <LuShield className="text-emerald-500" size={14} />
                       <span>2-Year Warranty</span>
                     </div>
                   </div>
@@ -202,7 +202,7 @@ const QuickViewModal = ({ product, isOpen, onClose }) => {
                         disabled={quantity <= 1}
                         className="w-7 h-7 rounded-lg flex items-center justify-center text-zinc-500 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-200 dark:hover:bg-zinc-700 disabled:opacity-40 transition-colors"
                       >
-                        <FiMinus size={14} />
+                        <LuMinus size={14} />
                       </button>
                       <span className="w-8 text-center text-xs font-bold font-mono">
                         {quantity}
@@ -211,7 +211,7 @@ const QuickViewModal = ({ product, isOpen, onClose }) => {
                         onClick={() => setQuantity(quantity + 1)}
                         className="w-7 h-7 rounded-lg flex items-center justify-center text-zinc-500 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
                       >
-                        <FiPlus size={14} />
+                        <LuPlus size={14} />
                       </button>
                     </div>
                   </div>
@@ -224,7 +224,7 @@ const QuickViewModal = ({ product, isOpen, onClose }) => {
                       disabled={product.stock === 0}
                       className="flex-1 bg-brand-500 text-white py-3 px-4 rounded-xl hover:bg-brand-600 disabled:bg-zinc-700 disabled:text-zinc-400 disabled:cursor-not-allowed font-medium text-sm shadow-glow-primary hover:shadow-lg transition flex items-center justify-center space-x-2"
                     >
-                      <FiShoppingCart size={16} />
+                      <LuShoppingCart size={16} />
                       <span>{product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}</span>
                     </motion.button>
 
@@ -238,7 +238,7 @@ const QuickViewModal = ({ product, isOpen, onClose }) => {
                       }`}
                       title="Add to Wishlist"
                     >
-                      <FiHeart fill={isInWishlist(product._id) ? 'currentColor' : 'none'} size={18} />
+                      <LuHeart fill={isInWishlist(product._id) ? 'currentColor' : 'none'} size={18} />
                     </motion.button>
                   </div>
 
@@ -250,7 +250,7 @@ const QuickViewModal = ({ product, isOpen, onClose }) => {
                       className="inline-flex items-center space-x-1.5 text-xs font-semibold text-brand-500 hover:text-brand-600 transition-colors"
                     >
                       <span>View Full Product Details</span>
-                      <FiExternalLink size={12} />
+                      <LuExternalLink size={12} />
                     </Link>
                   </div>
                 </div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
 import { useTheme } from '../hooks/useTheme';
 
 const slideVariants = {
@@ -89,7 +89,7 @@ const Carousel = ({ items = [], renderItem, autoPlay = false, interval = 5000 })
             }`}
             title="Previous slide"
           >
-            <FiChevronLeft size={18} />
+            <LuChevronLeft size={18} />
           </motion.button>
 
           <motion.button
@@ -103,7 +103,7 @@ const Carousel = ({ items = [], renderItem, autoPlay = false, interval = 5000 })
             }`}
             title="Next slide"
           >
-            <FiChevronRight size={18} />
+            <LuChevronRight size={18} />
           </motion.button>
 
           {/* Indicators */}

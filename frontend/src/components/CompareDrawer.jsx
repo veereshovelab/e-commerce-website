@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiX, FiMaximize2, FiTrash2, FiSliders } from 'react-icons/fi';
+import { LuX, LuMaximize2, LuTrash2, LuSlidersHorizontal } from 'react-icons/lu';
 import { useCompare } from '../hooks/useCompare';
 import { useTheme } from '../hooks/useTheme';
 
@@ -28,7 +28,7 @@ const CompareDrawer = () => {
           {/* Header info */}
           <div className="flex items-center space-x-2">
             <div className="p-2 rounded-xl bg-brand-500/10 text-brand-500 font-bold">
-              <FiSliders size={18} />
+              <LuSlidersHorizontal size={18} />
             </div>
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-brand-500">
@@ -57,7 +57,7 @@ const CompareDrawer = () => {
                   className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white transition-opacity duration-200"
                   title="Remove from comparison"
                 >
-                  <FiX size={14} />
+                  <LuX size={14} />
                 </button>
               </div>
             ))}
@@ -83,13 +83,13 @@ const CompareDrawer = () => {
               }`}
               title="Clear comparison list"
             >
-              <FiTrash2 size={16} />
+              <LuTrash2 size={16} />
             </button>
             <button
               onClick={openCompareModal}
               className="flex items-center space-x-1.5 px-4 py-2 bg-brand-500 hover:bg-brand-600 text-white rounded-xl text-xs font-semibold shadow-glow-primary transition"
             >
-              <FiMaximize2 size={14} />
+              <LuMaximize2 size={14} />
               <span>Compare Now</span>
             </button>
           </div>

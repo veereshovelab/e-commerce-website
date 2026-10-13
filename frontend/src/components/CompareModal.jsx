@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiX, FiShoppingCart, FiCheck, FiTrash2 } from 'react-icons/fi';
+import { LuX, LuShoppingCart, LuCheck, LuTrash2 } from 'react-icons/lu';
 import { useCompare } from '../hooks/useCompare';
 import { useCart } from '../hooks/useCart';
 import { useTheme } from '../hooks/useTheme';
@@ -52,7 +52,7 @@ const CompareModal = () => {
                 onClick={clearCompare}
                 className="px-3 py-1.5 rounded-xl border border-red-500/30 text-red-500 hover:bg-red-500/10 text-xs font-semibold flex items-center space-x-1"
               >
-                <FiTrash2 size={13} />
+                <LuTrash2 size={13} />
                 <span>Clear All</span>
               </button>
               <button
@@ -61,7 +61,7 @@ const CompareModal = () => {
                   isDarkMode ? 'border-zinc-800 hover:bg-zinc-800' : 'border-zinc-200 hover:bg-zinc-100'
                 }`}
               >
-                <FiX size={18} />
+                <LuX size={18} />
               </button>
             </div>
           </div>
@@ -86,7 +86,7 @@ const CompareModal = () => {
                       className="absolute top-2 right-2 p-1.5 rounded-full bg-red-500/10 text-red-500 hover:bg-red-500/20 transition"
                       title="Remove product"
                     >
-                      <FiX size={14} />
+                      <LuX size={14} />
                     </button>
 
                     <div>
@@ -134,7 +134,7 @@ const CompareModal = () => {
                           }`}>
                             {product.stock > 0 ? (
                               <>
-                                <FiCheck size={12} />
+                                <LuCheck size={12} />
                                 <span>In Stock ({product.stock})</span>
                               </>
                             ) : (
@@ -155,7 +155,7 @@ const CompareModal = () => {
                           : 'bg-zinc-300 dark:bg-zinc-800 text-zinc-500 cursor-not-allowed'
                       }`}
                     >
-                      <FiShoppingCart size={14} />
+                      <LuShoppingCart size={14} />
                       <span>{product.stock > 0 ? 'Add to Cart' : 'Out of Stock'}</span>
                     </button>
                   </div>

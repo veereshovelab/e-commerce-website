@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiClock, FiX, FiTrash2, FiShoppingCart, FiChevronRight, FiEye } from 'react-icons/fi';
+import { LuClock, LuX, LuTrash2, LuShoppingCart, LuChevronRight, LuEye } from 'react-icons/lu';
 import { useCart } from '../hooks/useCart';
 import { useTheme } from '../hooks/useTheme';
 import { toast } from 'react-toastify';
@@ -76,7 +76,7 @@ const RecentlyViewedDrawer = () => {
             title="View Recently Viewed Products"
           >
             <div className="relative">
-              <FiClock size={15} className="text-brand-500" />
+              <LuClock size={15} className="text-brand-500" />
               <span className="absolute -top-1.5 -right-2 bg-brand-500 text-white text-[9px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
                 {items.length}
               </span>
@@ -113,7 +113,7 @@ const RecentlyViewedDrawer = () => {
               <div className="flex items-center justify-between p-4 sm:p-5 border-b border-zinc-200 dark:border-zinc-800">
                 <div className="flex items-center space-x-2">
                   <div className="p-2 rounded-xl bg-brand-500/10 text-brand-500">
-                    <FiClock size={16} />
+                    <LuClock size={16} />
                   </div>
                   <div>
                     <h3 className="font-display font-bold text-sm sm:text-base">Recently Viewed Products</h3>
@@ -127,7 +127,7 @@ const RecentlyViewedDrawer = () => {
                     className="flex items-center space-x-1 text-xs text-zinc-400 hover:text-red-500 px-2.5 py-1.5 rounded-lg hover:bg-red-500/10 transition"
                     title="Clear viewing history"
                   >
-                    <FiTrash2 size={13} />
+                    <LuTrash2 size={13} />
                     <span className="hidden sm:inline">Clear History</span>
                   </button>
                   <button
@@ -136,7 +136,7 @@ const RecentlyViewedDrawer = () => {
                       isDarkMode ? 'hover:bg-zinc-800 text-zinc-400' : 'hover:bg-zinc-100 text-zinc-600'
                     }`}
                   >
-                    <FiX size={18} />
+                    <LuX size={18} />
                   </button>
                 </div>
               </div>
@@ -181,7 +181,7 @@ const RecentlyViewedDrawer = () => {
                           onClick={(e) => handleAddToCart(e, item)}
                           className="flex-1 py-1.5 px-2 bg-brand-500 hover:bg-brand-600 text-white rounded-lg text-[10px] font-semibold flex items-center justify-center space-x-1 shadow-glow-primary transition"
                         >
-                          <FiShoppingCart size={11} />
+                          <LuShoppingCart size={11} />
                           <span>Add to Cart</span>
                         </button>
                         <Link
@@ -194,7 +194,7 @@ const RecentlyViewedDrawer = () => {
                           }`}
                           title="View Product Details"
                         >
-                          <FiEye size={12} />
+                          <LuEye size={12} />
                         </Link>
                       </div>
                     </div>
@@ -211,7 +211,7 @@ const RecentlyViewedDrawer = () => {
                   className="text-brand-500 font-semibold flex items-center space-x-1 hover:underline"
                 >
                   <span>Browse All Products</span>
-                  <FiChevronRight size={14} />
+                  <LuChevronRight size={14} />
                 </Link>
               </div>
             </motion.div>

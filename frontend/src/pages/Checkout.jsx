@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiArrowLeft, FiCreditCard, FiSmartphone, FiGlobe, FiPocket, FiLock, FiCheck, FiTag, FiX, FiPercent, FiMapPin } from 'react-icons/fi';
+import { LuArrowLeft, LuCreditCard, LuSmartphone, LuGlobe, LuWallet, LuLock, LuCheck, LuTag, LuX, LuPercent, LuMapPin } from 'react-icons/lu';
 import apiClient from '../utils/api';
 import { useCart } from '../hooks/useCart';
 import { useAuth } from '../hooks/useAuth';
@@ -9,17 +9,17 @@ import { toast } from 'react-toastify';
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const { 
-    cart, 
-    getCartTotal, 
-    clearCart, 
-    appliedCoupon, 
-    applyCoupon, 
-    removeCoupon, 
-    getDiscountAmount, 
-    getSavingsTotal, 
-    getFinalTotal, 
-    VALID_COUPONS 
+  const {
+    cart,
+    getCartTotal,
+    clearCart,
+    appliedCoupon,
+    applyCoupon,
+    removeCoupon,
+    getDiscountAmount,
+    getSavingsTotal,
+    getFinalTotal,
+    VALID_COUPONS
   } = useCart();
   const { user, isAuthenticated } = useAuth();
   const { isDarkMode } = useTheme();
@@ -185,7 +185,7 @@ const Checkout = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <button onClick={() => navigate('/cart')} className="flex items-center space-x-2 text-brand-500 hover:text-brand-600 mb-8 font-medium">
-        <FiArrowLeft />
+        <LuArrowLeft />
         <span>Back to Cart</span>
       </button>
 
@@ -220,7 +220,7 @@ const Checkout = () => {
                     }}
                     className="flex items-center space-x-1.5 text-xs font-semibold text-brand-500 bg-brand-500/10 border border-brand-500/20 px-3 py-1 rounded-xl hover:bg-brand-500 hover:text-white transition cursor-pointer"
                   >
-                    <FiMapPin size={13} />
+                    <LuMapPin size={13} />
                     <span>Autofill Saved Address</span>
                   </button>
                 )}
@@ -343,17 +343,17 @@ const Checkout = () => {
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold font-display">Payment Method</h2>
                 <span className="flex items-center space-x-1 text-xs font-semibold text-emerald-500 bg-emerald-500/10 px-2.5 py-1 rounded-full">
-                  <FiLock size={12} />
+                  <LuLock size={12} />
                   <span>256-Bit Encrypted</span>
                 </span>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
                 {[
-                  { id: 'card', label: 'Credit / Debit Card', icon: FiCreditCard },
-                  { id: 'upi', label: 'UPI / Instant Pay', icon: FiSmartphone },
-                  { id: 'netbanking', label: 'Net Banking', icon: FiGlobe },
-                  { id: 'wallet', label: 'Digital Wallet', icon: FiPocket }
+                  { id: 'card', label: 'Credit / Debit Card', icon:  LuCreditCard },
+                  { id: 'upi', label: 'UPI / Instant Pay', icon:  LuSmartphone },
+                  { id: 'netbanking', label: 'Net Banking', icon:  LuGlobe },
+                  { id: 'wallet', label: 'Digital Wallet', icon:  LuWallet }
                 ].map(({ id, label, icon: Icon }) => (
                   <label
                     key={id}
@@ -511,7 +511,7 @@ const Checkout = () => {
                           }`}
                         >
                           <span>{w.name}</span>
-                          {formData.paymentDetails.selectedWallet === w.id && <FiCheck size={14} />}
+                          {formData.paymentDetails.selectedWallet === w.id && <LuCheck size={14} />}
                         </button>
                       ))}
                     </div>
@@ -538,7 +538,7 @@ const Checkout = () => {
           {totalSavings > 0 && (
             <div className="mb-4 p-3 rounded-xl bg-gradient-to-r from-emerald-500/15 to-teal-500/15 border border-emerald-500/30 flex items-center justify-between text-xs text-emerald-600 dark:text-emerald-400 font-semibold">
               <div className="flex items-center space-x-1.5">
-                <FiPercent className="text-emerald-500 animate-pulse" size={15} />
+                <LuPercent className="text-emerald-500 animate-pulse" size={15} />
                 <span>Total Order Savings</span>
               </div>
               <span className="font-bold font-mono text-sm">${totalSavings.toFixed(2)}</span>
@@ -562,7 +562,7 @@ const Checkout = () => {
             {appliedCoupon ? (
               <div className="flex items-center justify-between p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs font-semibold">
                 <div className="flex items-center space-x-1.5 truncate">
-                  <FiCheck size={15} />
+                  <LuCheck size={15} />
                   <span className="truncate">Coupon <strong>{appliedCoupon.code}</strong> Applied</span>
                 </div>
                 <button
@@ -574,7 +574,7 @@ const Checkout = () => {
                   className="p-1 hover:bg-emerald-500/20 rounded-lg text-red-500"
                   title="Remove Coupon"
                 >
-                  <FiX size={14} />
+                  <LuX size={14} />
                 </button>
               </div>
             ) : (

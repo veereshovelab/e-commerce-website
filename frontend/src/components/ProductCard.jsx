@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FiShoppingCart, FiHeart, FiEye, FiSliders } from 'react-icons/fi';
+import { LuShoppingCart, LuHeart, LuEye, LuSlidersHorizontal } from 'react-icons/lu';
 import { motion } from 'framer-motion';
 import { useCart } from '../hooks/useCart';
 import { useTheme } from '../hooks/useTheme';
@@ -78,7 +78,7 @@ const ProductCard = ({ product }) => {
             } transition-all duration-300`}
             title={isInCompare(product._id) ? 'Remove from compare' : 'Compare product'}
           >
-            <FiSliders size={15} />
+            <LuSlidersHorizontal size={15} />
           </motion.button>
 
           <motion.button
@@ -94,7 +94,7 @@ const ProductCard = ({ product }) => {
             } transition-all duration-300`}
             title="Wishlist"
           >
-            <FiHeart fill={isInWishlist(product._id) ? 'currentColor' : 'none'} size={15} />
+            <LuHeart fill={isInWishlist(product._id) ? 'currentColor' : 'none'} size={15} />
           </motion.button>
         </div>
 
@@ -137,7 +137,7 @@ const ProductCard = ({ product }) => {
               className="p-3 rounded-xl bg-white text-zinc-900 hover:bg-zinc-100 shadow-xl transition-all duration-300 transform translate-y-3 group-hover:translate-y-0 flex items-center justify-center"
               title="Quick View"
             >
-              <FiEye size={18} />
+              <LuEye size={18} />
             </motion.button>
             {product.stock > 0 && (
               <motion.button
@@ -147,7 +147,7 @@ const ProductCard = ({ product }) => {
                 className="p-3 rounded-xl bg-brand-500 text-white hover:bg-brand-600 shadow-xl shadow-glow-primary transition-all duration-300 transform translate-y-3 group-hover:translate-y-0 delay-75 flex items-center justify-center"
                 title="Add to Cart"
               >
-                <FiShoppingCart size={18} />
+                <LuShoppingCart size={18} />
               </motion.button>
             )}
           </div>
@@ -167,7 +167,7 @@ const ProductCard = ({ product }) => {
             <div className="flex items-center space-x-1.5 mb-3">
               <div className="flex text-yellow-400">
                   {[...Array(5)].map((_, i) => (
-                    <FiStar
+                    <LuStar
                       key={i}
                       size={12}
                       fill={i < Math.round(product.rating) ? 'currentColor' : 'none'}

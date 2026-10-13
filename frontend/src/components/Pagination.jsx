@@ -1,5 +1,5 @@
 import React from 'react';
-import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
 import { useTheme } from '../hooks/useTheme';
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
@@ -8,10 +8,10 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const getPageNumbers = () => {
     const pages = [];
     const maxPagesToShow = 5;
-    
+
     let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
     let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
-    
+
     if (endPage - startPage < maxPagesToShow - 1) {
       startPage = Math.max(1, endPage - maxPagesToShow + 1);
     }
@@ -41,7 +41,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         disabled={currentPage === 1}
         className={`p-2 rounded-lg ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : `${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`} transition`}
       >
-        <FiChevronLeft size={20} />
+        <LuChevronLeft size={20} />
       </button>
 
       {/* Page Numbers */}
@@ -70,7 +70,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         disabled={currentPage === totalPages}
         className={`p-2 rounded-lg ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : `${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`} transition`}
       >
-        <FiChevronRight size={20} />
+        <LuChevronRight size={20} />
       </button>
     </div>
   );

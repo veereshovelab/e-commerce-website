@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
-  FiCheck,
-  FiClock,
-  FiPackage,
-  FiTruck,
-  FiMapPin,
-  FiHome,
-  FiCopy,
-  FiCheckCircle,
-  FiExternalLink
-} from 'react-icons/fi';
+   LuCheck,
+   LuClock,
+   LuPackage,
+   LuTruck,
+   LuMapPin,
+   LuHome,
+   LuCopy,
+   LuCheckCircle,
+   LuExternalLink
+} from 'react-icons/lu';
 import { useTheme } from '../hooks/useTheme';
 import { toast } from 'react-toastify';
 
@@ -19,35 +19,35 @@ const STEPS = [
     id: 'placed',
     title: 'Order Placed',
     description: 'Your order has been received',
-    icon: FiPackage,
+    icon:  LuPackage,
     defaultDate: 'Jun 6, 2024 - 10:30 AM'
   },
   {
     id: 'processing',
     title: 'Processing',
     description: 'Items packed and prepared',
-    icon: FiClock,
+    icon:  LuClock,
     defaultDate: 'Jun 6, 2024 - 02:15 PM'
   },
   {
     id: 'shipped',
     title: 'Shipped',
     description: 'In transit to distribution hub',
-    icon: FiTruck,
+    icon:  LuTruck,
     defaultDate: 'Jun 7, 2024 - 08:45 AM'
   },
   {
     id: 'out_for_delivery',
     title: 'Out for Delivery',
     description: 'With local courier',
-    icon: FiMapPin,
+    icon:  LuMapPin,
     defaultDate: 'Jun 8, 2024 - 09:00 AM'
   },
   {
     id: 'delivered',
     title: 'Delivered',
     description: 'Package delivered safely',
-    icon: FiHome,
+    icon:  LuHome,
     defaultDate: 'Jun 8, 2024 - 03:20 PM'
   }
 ];
@@ -113,12 +113,12 @@ const OrderTrackingTimeline = ({
               className="text-zinc-400 hover:text-brand-500 transition-colors p-1"
               title="Copy tracking number"
             >
-              {copied ? <FiCheckCircle className="text-green-500" size={14} /> : <FiCopy size={14} />}
+              {copied ? <LuCheckCircle className="text-green-500" size={14} /> : <LuCopy size={14} />}
             </button>
           </div>
 
           <div className="flex items-center space-x-1.5 text-xs font-medium bg-brand-500/10 text-brand-500 px-3 py-1.5 rounded-xl border border-brand-500/20">
-            <FiTruck size={14} />
+            <LuTruck size={14} />
             <span>{carrier}</span>
           </div>
         </div>
@@ -137,7 +137,7 @@ const OrderTrackingTimeline = ({
             {/* Background Line */}
             <div className="absolute top-6 left-[10%] right-[10%] h-1 bg-zinc-200 dark:bg-zinc-800 rounded-full z-0" />
 
-            {/* Active Filled Line */}
+            {/* Active  Filled Line */}
             <motion.div
               initial={{ width: '0%' }}
               animate={{
@@ -167,7 +167,7 @@ const OrderTrackingTimeline = ({
                           : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-600 border border-zinc-200 dark:border-zinc-700'
                       }`}
                     >
-                      {isCompleted ? <FiCheck size={20} strokeWidth={3} /> : <Icon size={20} />}
+                      {isCompleted ? <LuCheck size={20} strokeWidth={3} /> : <Icon size={20} />}
                     </motion.div>
 
                     {/* Step Title & Subtext */}
@@ -223,7 +223,7 @@ const OrderTrackingTimeline = ({
                         : 'bg-zinc-200 dark:bg-zinc-800 text-zinc-400'
                     }`}
                   >
-                    {isCompleted ? <FiCheck size={14} /> : <Icon size={14} />}
+                    {isCompleted ? <LuCheck size={14} /> : <Icon size={14} />}
                   </div>
 
                   <div>

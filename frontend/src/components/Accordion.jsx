@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FiChevronDown } from 'react-icons/fi';
+import { LuChevronDown } from 'react-icons/lu';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../hooks/useTheme';
 
@@ -21,20 +21,20 @@ const Accordion = ({ items }) => {
             <button
               onClick={() => setOpenIndex(isOpen ? -1 : index)}
               className={`w-full flex items-center justify-between p-5 text-left transition-colors duration-300 outline-none ${
-                isDarkMode 
-                  ? isOpen ? 'bg-zinc-900 text-brand-400' : 'hover:bg-zinc-900/60 text-white' 
+                isDarkMode
+                  ? isOpen ? 'bg-zinc-900 text-brand-400' : 'hover:bg-zinc-900/60 text-white'
                   : isOpen ? 'bg-zinc-50 text-brand-600' : 'hover:bg-zinc-50 text-zinc-800'
               }`}
             >
               <span className="font-display font-semibold text-sm">{item.title}</span>
-              <FiChevronDown
+              <LuChevronDown
                 className={`transition-transform duration-300 ${
                   isOpen ? 'rotate-180 text-brand-500' : 'text-zinc-400'
                 }`}
                 size={16}
               />
             </button>
-            
+
             <AnimatePresence initial={false}>
               {isOpen && (
                 <motion.div

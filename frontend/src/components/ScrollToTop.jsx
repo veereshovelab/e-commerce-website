@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiArrowUp } from 'react-icons/fi';
+import { LuArrowUp } from 'react-icons/lu';
 import { useTheme } from '../hooks/useTheme';
 
 const ScrollToTop = () => {
@@ -52,7 +52,7 @@ const ScrollToTop = () => {
           }`}
           title="Scroll to Top"
         >
-          <FiArrowUp size={18} />
+          <LuArrowUp size={18} />
         </motion.button>
       )}
     </AnimatePresence>

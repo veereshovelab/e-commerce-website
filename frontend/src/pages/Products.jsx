@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiFilter, FiX, FiSearch } from 'react-icons/fi';
+import { LuFilter, LuX, LuSearch } from 'react-icons/lu';
 import apiClient from '../utils/api';
 import ProductCard from '../components/ProductCard';
 import Skeleton from '../components/Skeleton';
@@ -119,7 +119,7 @@ const Products = () => {
   const filterSidebarContent = (
     <div className="space-y-6">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="font-display font-bold text-lg text-zinc-900 dark:text-white">Filters</h2>
+        <h2 className="font-display font-bold text-lg text-zinc-900 dark:text-white"> Filters</h2>
         {(filters.search || filters.category || filters.brand || filters.minPrice || filters.maxPrice || filters.sort) && (
           <button
             onClick={clearFilters}
@@ -130,7 +130,7 @@ const Products = () => {
         )}
       </div>
 
-      {/* Search Filter */}
+      {/* Search  Filter */}
       <div>
         <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-2">
           Search
@@ -142,16 +142,16 @@ const Products = () => {
             onChange={(e) => handleFilterChange('search', e.target.value)}
             placeholder="Search keywords..."
             className={`w-full pl-3 pr-10 py-2.5 text-sm rounded-xl outline-none border transition-all focus:ring-1 focus:ring-brand-500/50 ${
-              isDarkMode 
-                ? 'bg-darkDeep border-white/10 text-white placeholder-zinc-500 focus:border-brand-500' 
+              isDarkMode
+                ? 'bg-darkDeep border-white/10 text-white placeholder-zinc-500 focus:border-brand-500'
                 : 'bg-white border-zinc-200 text-zinc-900 placeholder-zinc-400 focus:border-zinc-300'
             }`}
           />
-          <FiSearch className="absolute right-3.5 top-3.5 text-zinc-400" size={14} />
+          <LuSearch className="absolute right-3.5 top-3.5 text-zinc-400" size={14} />
         </div>
       </div>
 
-      {/* Category Filter */}
+      {/* Category  Filter */}
       <div>
         <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-550 mb-2">
           Category
@@ -160,8 +160,8 @@ const Products = () => {
           value={filters.category}
           onChange={(e) => handleFilterChange('category', e.target.value)}
           className={`w-full px-3 py-2.5 text-sm rounded-xl outline-none border transition-all focus:ring-1 focus:ring-brand-500/50 ${
-            isDarkMode 
-              ? 'bg-darkDeep border-white/10 text-white focus:border-brand-500' 
+            isDarkMode
+              ? 'bg-darkDeep border-white/10 text-white focus:border-brand-500'
               : 'bg-white border-zinc-200 text-zinc-900 focus:border-zinc-300'
           }`}
         >
@@ -172,7 +172,7 @@ const Products = () => {
         </select>
       </div>
 
-      {/* Brand Filter */}
+      {/* Brand  Filter */}
       <div>
         <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-550 mb-2">
           Brand
@@ -181,8 +181,8 @@ const Products = () => {
           value={filters.brand}
           onChange={(e) => handleFilterChange('brand', e.target.value)}
           className={`w-full px-3 py-2.5 text-sm rounded-xl outline-none border transition-all focus:ring-1 focus:ring-brand-500/50 ${
-            isDarkMode 
-              ? 'bg-darkDeep border-white/10 text-white focus:border-brand-500' 
+            isDarkMode
+              ? 'bg-darkDeep border-white/10 text-white focus:border-brand-500'
               : 'bg-white border-zinc-200 text-zinc-900 focus:border-zinc-300'
           }`}
         >
@@ -193,7 +193,7 @@ const Products = () => {
         </select>
       </div>
 
-      {/* Price Range Filter */}
+      {/* Price Range  Filter */}
       <div>
         <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-550 mb-2">
           Price Range
@@ -205,8 +205,8 @@ const Products = () => {
             value={filters.minPrice}
             onChange={(e) => handleFilterChange('minPrice', e.target.value)}
             className={`w-full px-3 py-2.5 text-sm rounded-xl outline-none border transition-all focus:ring-1 focus:ring-brand-500/50 ${
-              isDarkMode 
-                ? 'bg-darkDeep border-white/10 text-white placeholder-zinc-500 focus:border-brand-500' 
+              isDarkMode
+                ? 'bg-darkDeep border-white/10 text-white placeholder-zinc-500 focus:border-brand-500'
                 : 'bg-white border-zinc-200 text-zinc-900 placeholder-zinc-400 focus:border-zinc-300'
             }`}
           />
@@ -216,15 +216,15 @@ const Products = () => {
             value={filters.maxPrice}
             onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
             className={`w-full px-3 py-2.5 text-sm rounded-xl outline-none border transition-all focus:ring-1 focus:ring-brand-500/50 ${
-              isDarkMode 
-                ? 'bg-darkDeep border-white/10 text-white placeholder-zinc-500 focus:border-brand-500' 
+              isDarkMode
+                ? 'bg-darkDeep border-white/10 text-white placeholder-zinc-500 focus:border-brand-500'
                 : 'bg-white border-zinc-200 text-zinc-900 placeholder-zinc-400 focus:border-zinc-300'
             }`}
           />
         </div>
       </div>
 
-      {/* Sort Filter */}
+      {/* Sort  Filter */}
       <div>
         <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-550 mb-2">
           Sort By
@@ -233,8 +233,8 @@ const Products = () => {
           value={filters.sort}
           onChange={(e) => handleFilterChange('sort', e.target.value)}
           className={`w-full px-3 py-2.5 text-sm rounded-xl outline-none border transition-all focus:ring-1 focus:ring-brand-500/50 ${
-            isDarkMode 
-              ? 'bg-darkDeep border-white/10 text-white focus:border-brand-500' 
+            isDarkMode
+              ? 'bg-darkDeep border-white/10 text-white focus:border-brand-500'
               : 'bg-white border-zinc-200 text-zinc-900 focus:border-zinc-300'
           }`}
         >
@@ -258,31 +258,31 @@ const Products = () => {
           </h1>
         </div>
 
-        {/* Filters Toggle Button for Mobile */}
+        {/*  Filters Toggle Button for Mobile */}
         <div className="flex items-center space-x-3 md:hidden">
           <button
             onClick={() => setIsSidebarOpen(true)}
             className={`flex items-center space-x-2 px-4 py-2.5 rounded-xl border text-sm font-semibold transition ${
-              isDarkMode 
-                ? 'border-zinc-850 bg-zinc-900 text-white hover:bg-zinc-800' 
+              isDarkMode
+                ? 'border-zinc-850 bg-zinc-900 text-white hover:bg-zinc-800'
                 : 'border-zinc-200 bg-white text-zinc-850 hover:bg-zinc-50'
             }`}
           >
-            <FiFilter size={16} />
-            <span>Filters</span>
+            <LuFilter size={16} />
+            <span> Filters</span>
           </button>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-10">
-        {/* Desktop Filters Panel */}
+        {/* Desktop  Filters Panel */}
         <aside className={`hidden lg:block lg:col-span-1 p-6 rounded-2xl border sticky top-24 h-fit max-h-[85vh] overflow-y-auto transition-all ${
           isDarkMode ? 'bg-darkCard/40 border-white/5 backdrop-blur-md shadow-glass-dark' : 'bg-white border-zinc-200 shadow-premium'
         }`}>
           {filterSidebarContent}
         </aside>
 
-        {/* Mobile Flyout Filters Sidebar */}
+        {/* Mobile Flyout  Filters Sidebar */}
         <AnimatePresence>
           {isSidebarOpen && (
             <>
@@ -311,7 +311,7 @@ const Products = () => {
                     isDarkMode ? 'hover:bg-zinc-800' : 'hover:bg-zinc-100'
                   }`}
                 >
-                  <FiX size={18} />
+                  <LuX size={18} />
                 </button>
                 <div className="pt-6">
                   {filterSidebarContent}
@@ -353,7 +353,7 @@ const Products = () => {
                 onClick={clearFilters}
                 className="mt-4 bg-brand-500 hover:bg-brand-600 text-white text-xs font-semibold px-4 py-2 rounded-xl shadow-glow-primary"
               >
-                Reset Filters
+                Reset  Filters
               </button>
             </motion.div>
           )}

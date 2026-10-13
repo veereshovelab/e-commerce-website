@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { 
-  FiMenu, FiX, FiSearch, FiShoppingCart, FiUser, FiLogOut, 
-  FiMoon, FiSun, FiHeart, FiSliders, FiClock, FiTrendingUp, FiLoader, FiTrash2,
-  FiMonitor, FiShoppingBag
-} from 'react-icons/fi';
+import {
+   LuMenu, LuX, LuSearch, LuShoppingCart, LuUser, LuLogOut,
+   LuMoon, LuSun, LuHeart, LuSlidersHorizontal, LuClock, LuTrendingUp, LuLoader, LuTrash2,
+   LuMonitor, LuShoppingBag
+} from 'react-icons/lu';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../hooks/useAuth';
 import { useCart } from '../hooks/useCart';
@@ -217,7 +217,7 @@ const Header = () => {
             <div className="py-2">
               {isLoading ? (
                 <div className="flex items-center justify-center py-6 space-x-2 text-zinc-400">
-                  <FiLoader className="animate-spin text-brand-500" size={18} />
+                  <LuLoader className="animate-spin text-brand-500" size={18} />
                   <span className="text-xs font-medium">Searching products...</span>
                 </div>
               ) : suggestions.length > 0 ? (
@@ -271,7 +271,7 @@ const Header = () => {
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <span className="flex items-center space-x-1.5 text-[11px] font-semibold tracking-wider text-zinc-400 uppercase">
-                      <FiClock size={12} />
+                      <LuClock size={12} />
                       <span>Recent Searches</span>
                     </span>
                     <button
@@ -296,7 +296,7 @@ const Header = () => {
                           className="text-zinc-400 hover:text-red-500 p-0.5"
                           title="Remove item"
                         >
-                          <FiTrash2 size={12} />
+                          <LuTrash2 size={12} />
                         </button>
                       </div>
                     ))}
@@ -306,7 +306,7 @@ const Header = () => {
 
               <div>
                 <div className="flex items-center space-x-1.5 text-[11px] font-semibold tracking-wider text-zinc-400 uppercase mb-2">
-                  <FiTrendingUp size={12} />
+                  <LuTrendingUp size={12} />
                   <span>Popular Categories</span>
                 </div>
                 <div className="flex flex-wrap gap-1.5">
@@ -334,8 +334,8 @@ const Header = () => {
 
   return (
     <header className={`sticky top-0 z-50 w-full border-b backdrop-blur-lg transition-all duration-300 ${
-      isDarkMode 
-        ? 'bg-darkDeep/60 border-white/5 text-white shadow-glass-dark' 
+      isDarkMode
+        ? 'bg-darkDeep/60 border-white/5 text-white shadow-glass-dark'
         : 'bg-white/80 border-zinc-200 text-zinc-900 shadow-premium'
     }`}>
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -343,7 +343,7 @@ const Header = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 group" aria-label="ShopSphere home">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-500 text-white shadow-glow-primary transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-105">
-              <FiShoppingBag size={18} />
+              <LuShoppingBag size={18} />
             </span>
             <span className="text-xl font-bold font-display tracking-tight bg-gradient-to-r from-brand-500 to-indigo-500 bg-clip-text text-transparent">
               ShopSphere
@@ -365,13 +365,13 @@ const Header = () => {
                 aria-expanded={showSuggestions}
                 aria-label="Search products"
                 className={`w-full pl-4 pr-16 py-1.5 rounded-full text-sm font-sans transition-all duration-300 outline-none border focus:ring-1 focus:ring-brand-500 ${
-                  isDarkMode 
-                    ? 'bg-zinc-900/60 border-zinc-800 text-white placeholder-zinc-500 focus:border-zinc-700' 
+                  isDarkMode
+                    ? 'bg-zinc-900/60 border-zinc-800 text-white placeholder-zinc-500 focus:border-zinc-700'
                     : 'bg-zinc-100/60 border-zinc-200 text-zinc-900 placeholder-zinc-400 focus:border-zinc-300'
                 }`}
               />
               <div className="absolute right-3.5 top-2 flex items-center space-x-1.5 text-zinc-400">
-                {isLoading && <FiLoader size={14} className="animate-spin text-brand-500" />}
+                {isLoading && <LuLoader size={14} className="animate-spin text-brand-500" />}
                 {searchQuery && (
                   <button
                     type="button"
@@ -383,11 +383,11 @@ const Header = () => {
                     className="hover:text-zinc-600 dark:hover:text-zinc-200"
                     title="Clear search"
                   >
-                    <FiX size={14} />
+                    <LuX size={14} />
                   </button>
                 )}
                 <button type="submit" className="hover:text-zinc-600 dark:hover:text-zinc-200 transition-colors">
-                  <FiSearch size={15} />
+                  <LuSearch size={15} />
                 </button>
               </div>
             </form>
@@ -414,8 +414,8 @@ const Header = () => {
               className={`relative p-2 rounded-full border transition-colors duration-300 flex items-center justify-center ${
                 themeMode === 'system'
                   ? 'border-brand-500/50 bg-brand-500/10 text-brand-500 hover:bg-brand-500/20'
-                  : isDarkMode 
-                    ? 'border-zinc-800 hover:bg-zinc-900 text-amber-400' 
+                  : isDarkMode
+                    ? 'border-zinc-800 hover:bg-zinc-900 text-amber-400'
                     : 'border-zinc-200 hover:bg-zinc-100 text-zinc-700'
               }`}
               title={`Current Mode: ${themeMode.toUpperCase()} (Click to toggle Light -> Dark -> System)`}
@@ -429,11 +429,11 @@ const Header = () => {
                   transition={{ duration: 0.2 }}
                 >
                   {themeMode === 'system' ? (
-                    <FiMonitor size={17} />
+                    <LuMonitor size={17} />
                   ) : isDarkMode ? (
-                    <FiSun size={17} />
+                    <LuSun size={17} />
                   ) : (
-                    <FiMoon size={17} />
+                    <LuMoon size={17} />
                   )}
                 </motion.div>
               </AnimatePresence>
@@ -448,7 +448,7 @@ const Header = () => {
               }`}
               title="Compare Products"
             >
-              <FiSliders size={17} />
+              <LuSlidersHorizontal size={17} />
               {compareList.length > 0 && (
                 <span className="absolute -top-1 -right-1 bg-indigo-500 text-white text-[9px] font-bold rounded-full w-4.5 h-4.5 flex items-center justify-center shadow-glow-primary">
                   {compareList.length}
@@ -460,7 +460,7 @@ const Header = () => {
             <Link to="/wishlist" title="Wishlist" aria-label="Wishlist" className={`relative p-2 rounded-full border hidden sm:block ${
               isDarkMode ? 'border-zinc-800 hover:bg-zinc-900 text-zinc-400 hover:text-white' : 'border-zinc-200 hover:bg-zinc-100 text-zinc-600 hover:text-zinc-900'
             }`}>
-              <FiHeart size={17} />
+              <LuHeart size={17} />
               {wishlist.length > 0 && (
                 <span className="absolute -top-1 -right-1 bg-brand-500 text-white text-[9px] font-bold rounded-full w-4.5 h-4.5 flex items-center justify-center shadow-glow-primary">
                   {wishlist.length}
@@ -472,7 +472,7 @@ const Header = () => {
             <Link to="/cart" title="Shopping Cart" aria-label="Shopping Cart" className={`relative p-2 rounded-full border ${
               isDarkMode ? 'border-zinc-800 hover:bg-zinc-900 text-zinc-400 hover:text-white' : 'border-zinc-200 hover:bg-zinc-100 text-zinc-600 hover:text-zinc-900'
             }`}>
-              <FiShoppingCart size={17} />
+              <LuShoppingCart size={17} />
               <AnimatePresence>
                 {getCartItemsCount() > 0 && (
                   <motion.span
@@ -493,7 +493,7 @@ const Header = () => {
                 <Link to="/dashboard" className={`hidden sm:flex items-center space-x-1.5 p-1.5 pl-2.5 pr-2.5 rounded-full border text-xs font-medium ${
                   isDarkMode ? 'border-zinc-800 hover:bg-zinc-900' : 'border-zinc-200 hover:bg-zinc-100'
                 }`}>
-                  <FiUser size={14} className="text-zinc-400" />
+                  <LuUser size={14} className="text-zinc-400" />
                   <span className="truncate max-w-[80px]">{user?.name?.split(' ')[0]}</span>
                 </Link>
                 <motion.button
@@ -504,7 +504,7 @@ const Header = () => {
                   }`}
                   title="Logout"
                 >
-                  <FiLogOut size={16} />
+                  <LuLogOut size={16} />
                 </motion.button>
               </div>
             ) : (
@@ -529,7 +529,7 @@ const Header = () => {
                 isDarkMode ? 'border-zinc-800 hover:bg-zinc-900' : 'border-zinc-200 hover:bg-zinc-100'
               }`}
             >
-              {isMenuOpen ? <FiX size={18} /> : <FiMenu size={18} />}
+              {isMenuOpen ? <LuX size={18} /> : <LuMenu size={18} />}
             </motion.button>
           </div>
         </div>
@@ -562,13 +562,13 @@ const Header = () => {
                     aria-expanded={showSuggestions}
                     aria-label="Search products"
                     className={`w-full pl-4 pr-16 py-2 rounded-xl text-sm transition-all duration-300 outline-none border ${
-                      isDarkMode 
-                        ? 'bg-zinc-900 border-zinc-850 text-white placeholder-zinc-500' 
+                      isDarkMode
+                        ? 'bg-zinc-900 border-zinc-850 text-white placeholder-zinc-500'
                         : 'bg-zinc-50 border-zinc-200 text-zinc-900 placeholder-zinc-400'
                     }`}
                   />
                   <div className="absolute right-3.5 top-2.5 flex items-center space-x-1.5 text-zinc-400">
-                    {isLoading && <FiLoader size={14} className="animate-spin text-brand-500" />}
+                    {isLoading && <LuLoader size={14} className="animate-spin text-brand-500" />}
                     {searchQuery && (
                       <button
                         type="button"
@@ -580,11 +580,11 @@ const Header = () => {
                         className="hover:text-zinc-600 dark:hover:text-zinc-200"
                         title="Clear search"
                       >
-                        <FiX size={14} />
+                        <LuX size={14} />
                       </button>
                     )}
                     <button type="submit" className="hover:text-zinc-600 dark:hover:text-zinc-200 transition-colors">
-                      <FiSearch size={15} />
+                      <LuSearch size={15} />
                     </button>
                   </div>
                 </form>
@@ -630,7 +630,7 @@ const Header = () => {
                         : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
                     }`}
                   >
-                    <FiSun size={13} className="text-amber-500" />
+                    <LuSun size={13} className="text-amber-500" />
                     <span>Light</span>
                   </button>
 
@@ -642,7 +642,7 @@ const Header = () => {
                         : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
                     }`}
                   >
-                    <FiMoon size={13} className="text-indigo-400" />
+                    <LuMoon size={13} className="text-indigo-400" />
                     <span>Dark</span>
                   </button>
 
@@ -654,7 +654,7 @@ const Header = () => {
                         : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
                     }`}
                   >
-                    <FiMonitor size={13} className="text-brand-500" />
+                    <LuMonitor size={13} className="text-brand-500" />
                     <span>System</span>
                   </button>
                 </div>
