@@ -1,6 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { LuArrowRight, LuCheckCircle, LuShield, LuTrendingUp, LuTruck } from 'react-icons/lu';
+import {
+  LuArrowRight,
+  LuBookOpen,
+  LuCheckCircle,
+  LuDumbbell,
+  LuHome,
+  LuLaptop,
+  LuShield,
+  LuShirt,
+  LuTrendingUp,
+  LuTruck
+} from 'react-icons/lu';
 import { motion } from 'framer-motion';
 import apiClient from '../utils/api';
 import ProductCard from '../components/ProductCard';
@@ -55,17 +66,17 @@ const Home = () => {
   ];
 
   const categories = [
-    { name: 'Electronics', icon: '💻', count: '1.2k+ products', bgGradient: 'from-blue-500/10 to-indigo-500/10' },
-    { name: 'Fashion', icon: '👕', count: '4.8k+ products', bgGradient: 'from-pink-500/10 to-rose-500/10' },
-    { name: 'Home', icon: '🏡', count: '850+ products', bgGradient: 'from-amber-500/10 to-orange-500/10' },
-    { name: 'Sports', icon: '⚽', count: '620+ products', bgGradient: 'from-emerald-500/10 to-teal-500/10' },
-    { name: 'Books', icon: '📚', count: '2.1k+ products', bgGradient: 'from-violet-500/10 to-purple-500/10' }
+    { name: 'Electronics', icon: LuLaptop, count: '1.2k+ products', bgGradient: 'from-blue-500/10 to-indigo-500/10' },
+    { name: 'Fashion', icon: LuShirt, count: '4.8k+ products', bgGradient: 'from-pink-500/10 to-rose-500/10' },
+    { name: 'Home', icon: LuHome, count: '850+ products', bgGradient: 'from-amber-500/10 to-orange-500/10' },
+    { name: 'Sports', icon: LuDumbbell, count: '620+ products', bgGradient: 'from-emerald-500/10 to-teal-500/10' },
+    { name: 'Books', icon: LuBookOpen, count: '2.1k+ products', bgGradient: 'from-violet-500/10 to-purple-500/10' }
   ];
 
   return (
     <div className="overflow-hidden">
       {/* Hero Section */}
-      <section className={`relative min-h-[90vh] flex items-center justify-center py-24 px-4 sm:px-6 lg:px-8 border-b ${
+      <section className={`relative min-h-[90vh] flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8 border-b ${
         isDarkMode
           ? 'bg-transparent border-white/5'
           : 'bg-zinc-50 border-zinc-200'
@@ -104,13 +115,14 @@ const Home = () => {
                   ? 'bg-zinc-900/60 border-white/10 text-brand-400'
                   : 'bg-white border-zinc-200 text-brand-600'
               }`}>
-                <span>🚀 Introducing ShopSphere 2.0</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-brand-500 animate-pulse" />
+                <span>New season, thoughtfully curated</span>
               </span>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6 leading-[1.08] text-zinc-950 dark:text-white">
-                Next-<span className="text-gradient font-extrabold">Gen</span> E-<span className="text-gradient font-extrabold">Commerce</span> Experience.
+                A better way to<br /><span className="text-gradient font-extrabold">find your next favorite.</span>
               </h1>
               <p className="text-base sm:text-lg mb-10 leading-relaxed text-zinc-500 dark:text-zinc-400 max-w-lg">
-                Discover a curated universe of premium products from elite brands. Immerse yourself in Stripe-like speed and Apple-grade precision.
+                Discover considered pieces for work, home, and everywhere in between. Premium products, transparent pricing, and a checkout that stays out of your way.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
@@ -135,6 +147,22 @@ const Home = () => {
                   </Link>
                 </motion.div>
               </div>
+              <div className="mt-10 flex items-center gap-6 border-t border-zinc-200/80 dark:border-white/10 pt-5">
+                <div>
+                  <p className="font-display text-xl font-bold text-zinc-900 dark:text-white">25k+</p>
+                  <p className="text-[10px] uppercase tracking-wider text-zinc-400">happy shoppers</p>
+                </div>
+                <div className="h-8 w-px bg-zinc-200 dark:bg-white/10" />
+                <div>
+                  <p className="font-display text-xl font-bold text-zinc-900 dark:text-white">4.9/5</p>
+                  <p className="text-[10px] uppercase tracking-wider text-zinc-400">average rating</p>
+                </div>
+                <div className="h-8 w-px bg-zinc-200 dark:bg-white/10" />
+                <div>
+                  <p className="font-display text-xl font-bold text-zinc-900 dark:text-white">48h</p>
+                  <p className="text-[10px] uppercase tracking-wider text-zinc-400">dispatch promise</p>
+                </div>
+              </div>
             </motion.div>
 
             {/* Right Graphics */}
@@ -144,8 +172,7 @@ const Home = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="relative flex items-center justify-center animate-float-slow"
             >
-              {/* Vercel/Linear style grid overlay card */}
-              <div className={`relative p-6 sm:p-8 rounded-3xl w-full max-w-[460px] border shadow-premium backdrop-blur-md transition-all ${
+              <div className={`relative p-3 sm:p-4 rounded-[2rem] w-full max-w-[460px] border shadow-premium backdrop-blur-md transition-all ${
                 isDarkMode
                   ? 'bg-darkCard/50 border-white/5 shadow-glass-dark'
                   : 'bg-white/60 border-zinc-150'
@@ -155,17 +182,22 @@ const Home = () => {
                   <div className="w-2.5 h-2.5 rounded-full bg-yellow-500" />
                   <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
                 </div>
-                <img
-                  src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=600&auto=format&fit=crop"
-                  alt="Modern Storefront Analytics mockup"
-                  className="rounded-2xl shadow-sm border border-zinc-200 dark:border-white/5 w-full mb-6 filter dark:brightness-90"
-                />
-                <div>
-                  <p className="text-xs font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest mb-1">Elite Standard</p>
-                  <p className="font-display font-bold text-lg text-zinc-800 dark:text-white">ShopSphere Premium Hub</p>
-                  <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-2 leading-relaxed">
-                    Instantly load listings, compare dimensions, and finalize checkouts in milliseconds. Designed to perform beautifully on all mobile and desktop devices.
-                  </p>
+                <div className="relative overflow-hidden rounded-[1.5rem]">
+                  <img
+                    src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=900&auto=format&fit=crop"
+                    alt="Curated fashion collection"
+                    className="h-[420px] w-full object-cover filter dark:brightness-90"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-brand-300">The edit / 01</p>
+                    <p className="mt-2 font-display text-2xl font-bold">Quiet confidence.</p>
+                    <p className="mt-1 text-xs text-white/70">Everyday essentials, elevated.</p>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between px-2 pb-1 pt-4 text-xs">
+                  <span className="font-medium text-zinc-500 dark:text-zinc-400">Curated weekly</span>
+                  <span className="flex items-center gap-1.5 font-semibold text-brand-500"><span className="h-1.5 w-1.5 rounded-full bg-emerald-400" /> In stock now</span>
                 </div>
               </div>
             </motion.div>
@@ -226,8 +258,8 @@ const Home = () => {
                       : 'bg-white border-zinc-200 hover:border-zinc-300'
                   }`}
                 >
-                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${cat.bgGradient} flex items-center justify-center text-2xl mx-auto mb-4`}>
-                    {cat.icon}
+                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${cat.bgGradient} flex items-center justify-center mx-auto mb-4`}>
+                    <cat.icon size={24} strokeWidth={1.7} className="text-zinc-700 dark:text-zinc-200" />
                   </div>
                   <p className="font-display font-semibold text-sm text-zinc-800 dark:text-white">{cat.name}</p>
                   <p className="text-[10px] text-zinc-400 dark:text-zinc-400 mt-1 uppercase tracking-wider">{cat.count}</p>
