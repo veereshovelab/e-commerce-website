@@ -80,11 +80,14 @@ const Home = () => {
   return (
     <div className="overflow-hidden">
       {/* Hero Section */}
-      <section className={`relative min-h-[90vh] flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8 border-b ${
+      <section
+        aria-labelledby="home-hero-title"
+        className={`relative min-h-[90vh] flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8 border-b ${
         isDarkMode
           ? 'bg-transparent border-white/5'
           : 'bg-zinc-50 border-zinc-200'
-      }`}>
+        }`}
+      >
         {/* Glow Spheres (Ambient Background Effects) */}
         <motion.div
           animate={prefersReducedMotion ? undefined : {
@@ -122,7 +125,7 @@ const Home = () => {
                 <span className="w-1.5 h-1.5 rounded-full bg-brand-500 animate-pulse" />
                 <span>New season, thoughtfully curated</span>
               </span>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6 leading-[1.08] text-zinc-950 dark:text-white">
+              <h1 id="home-hero-title" className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6 leading-[1.08] text-zinc-950 dark:text-white">
                 A better way to<br /><span className="text-gradient font-extrabold">find your next favorite.</span>
               </h1>
               <p className="text-base sm:text-lg mb-10 leading-relaxed text-zinc-500 dark:text-zinc-400 max-w-lg">
@@ -190,6 +193,10 @@ const Home = () => {
                   <img
                     src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=900&auto=format&fit=crop"
                     alt="Curated fashion collection"
+                    width="900"
+                    height="1200"
+                    fetchPriority="high"
+                    decoding="async"
                     className="h-[420px] w-full object-cover filter dark:brightness-90"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent" />
