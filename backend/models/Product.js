@@ -146,4 +146,8 @@ productSchema.pre('save', function(next) {
   next();
 });
 
+productSchema.index({ category: 1, brand: 1, createdAt: -1 });
+productSchema.index({ featured: 1, createdAt: -1 });
+productSchema.index({ trending: 1, createdAt: -1 });
+
 module.exports = mongoose.model('Product', productSchema);

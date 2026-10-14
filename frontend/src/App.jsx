@@ -2,7 +2,7 @@
  * Main Application Component
  * Handles global routing, contextual state providers, dynamic page transitions, and toast notifications.
  */
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -23,22 +23,22 @@ import RecentlyViewedDrawer from './components/RecentlyViewedDrawer';
 import ScrollToTop from './components/ScrollToTop';
 
 // Pages
-import Home from './pages/Home';
-import Products from './pages/Products';
-import ProductDetails from './pages/ProductDetails';
-import Cart from './pages/Cart';
-import Checkout from './pages/Checkout';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import UserDashboard from './pages/UserDashboard';
-import AdminDashboard from './pages/AdminDashboard';
-import Wishlist from './pages/Wishlist';
-import OrderDetails from './pages/OrderDetails';
-import WriteReview from './pages/WriteReview';
-import About from './pages/About';
-import Contact from './pages/Contact';
-import FAQ from './pages/FAQ';
-import NotFound from './pages/NotFound';
+const Home = lazy(() => import('./pages/Home'));
+const Products = lazy(() => import('./pages/Products'));
+const ProductDetails = lazy(() => import('./pages/ProductDetails'));
+const Cart = lazy(() => import('./pages/Cart'));
+const Checkout = lazy(() => import('./pages/Checkout'));
+const Login = lazy(() => import('./pages/Login'));
+const Register = lazy(() => import('./pages/Register'));
+const UserDashboard = lazy(() => import('./pages/UserDashboard'));
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
+const Wishlist = lazy(() => import('./pages/Wishlist'));
+const OrderDetails = lazy(() => import('./pages/OrderDetails'));
+const WriteReview = lazy(() => import('./pages/WriteReview'));
+const About = lazy(() => import('./pages/About'));
+const Contact = lazy(() => import('./pages/Contact'));
+const FAQ = lazy(() => import('./pages/FAQ'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 const PageWrapper = ({ children }) => (
   <motion.div
@@ -57,24 +57,32 @@ function AnimatedRoutes() {
 
   return (
     <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
-        <Route path="/products" element={<PageWrapper><Products /></PageWrapper>} />
-        <Route path="/products/:id" element={<PageWrapper><ProductDetails /></PageWrapper>} />
-        <Route path="/cart" element={<PageWrapper><Cart /></PageWrapper>} />
-        <Route path="/checkout" element={<PageWrapper><Checkout /></PageWrapper>} />
-        <Route path="/wishlist" element={<PageWrapper><Wishlist /></PageWrapper>} />
-        <Route path="/orders/:orderId" element={<PageWrapper><OrderDetails /></PageWrapper>} />
-        <Route path="/write-review" element={<PageWrapper><WriteReview /></PageWrapper>} />
-        <Route path="/login" element={<PageWrapper><Login /></PageWrapper>} />
-        <Route path="/register" element={<PageWrapper><Register /></PageWrapper>} />
-        <Route path="/dashboard" element={<PageWrapper><UserDashboard /></PageWrapper>} />
-        <Route path="/admin" element={<PageWrapper><AdminDashboard /></PageWrapper>} />
-        <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
-        <Route path="/contact" element={<PageWrapper><Contact /></PageWrapper>} />
-        <Route path="/faq" element={<PageWrapper><FAQ /></PageWrapper>} />
-        <Route path="*" element={<PageWrapper><NotFound /></PageWrapper>} />
-      </Routes>
+      <Suspense
+        fallback={
+          <div className="flex min-h-[50vh] items-center justify-center" aria-label="Loading page">
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-zinc-200 border-t-blue-600" />
+          </div>
+        }
+      >
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
+          <Route path="/products" element={<PageWrapper><Products /></PageWrapper>} />
+          <Route path="/products/:id" element={<PageWrapper><ProductDetails /></PageWrapper>} />
+          <Route path="/cart" element={<PageWrapper><Cart /></PageWrapper>} />
+          <Route path="/checkout" element={<PageWrapper><Checkout /></PageWrapper>} />
+          <Route path="/wishlist" element={<PageWrapper><Wishlist /></PageWrapper>} />
+          <Route path="/orders/:orderId" element={<PageWrapper><OrderDetails /></PageWrapper>} />
+          <Route path="/write-review" element={<PageWrapper><WriteReview /></PageWrapper>} />
+          <Route path="/login" element={<PageWrapper><Login /></PageWrapper>} />
+          <Route path="/register" element={<PageWrapper><Register /></PageWrapper>} />
+          <Route path="/dashboard" element={<PageWrapper><UserDashboard /></PageWrapper>} />
+          <Route path="/admin" element={<PageWrapper><AdminDashboard /></PageWrapper>} />
+          <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
+          <Route path="/contact" element={<PageWrapper><Contact /></PageWrapper>} />
+          <Route path="/faq" element={<PageWrapper><FAQ /></PageWrapper>} />
+          <Route path="*" element={<PageWrapper><NotFound /></PageWrapper>} />
+        </Routes>
+      </Suspense>
     </AnimatePresence>
   );
 }

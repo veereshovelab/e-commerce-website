@@ -36,9 +36,6 @@ exports.getAllProducts = async (req, res) => {
       if (maxPrice) query.price.$lte = maxPrice;
     }
 
-    // Total count for pagination
-    const totalProducts = await Product.countDocuments(query);
-
     // Execute query
     let products = Product.find(query);
 
@@ -53,7 +50,10 @@ exports.getAllProducts = async (req, res) => {
     // Pagination
     products = products.skip((currentPage - 1) * pageLimit).limit(pageLimit);
 
-    const data = await products;
+    const [totalProducts, data] = await Promise.all([
+      Product.countDocuments(query),
+      products.lean()
+    ]);
 
     res.status(200).json({
       success: true,
