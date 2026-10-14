@@ -199,6 +199,7 @@ button, a, input, select, textarea {
   background: radial-gradient(circle, rgba(139, 92, 246, 0.25) 0%, rgba(59, 130, 246, 0) 70%);
   filter: blur(80px);
   animation: pulseGlow 8s infinite alternate ease-in-out;
+  will-change: transform, opacity;
   pointer-events: none;
 }
 
@@ -216,11 +217,23 @@ button, a, input, select, textarea {
 /* Floating element animation */
 .animate-float-slow {
   animation: floatSlow 6s ease-in-out infinite;
+  will-change: transform;
 }
 
 @keyframes floatSlow {
   0%, 100% {
     transform: translateY(0px) rotate(0deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
   }
   50% {
     transform: translateY(-12px) rotate(1deg);
@@ -253,4 +266,3 @@ button, a, input, select, textarea {
 .shimmer-glow:hover::after {
   transform: rotate(30deg) translateY(100%);
 }
-

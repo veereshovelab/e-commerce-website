@@ -12,17 +12,35 @@ import {
   LuTrendingUp,
   LuTruck
 } from 'react-icons/lu';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import apiClient from '../utils/api';
 import ProductCard from '../components/ProductCard';
 import Skeleton from '../components/Skeleton';
 import { useTheme } from '../hooks/useTheme';
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 }
+  }
+};
+
+const itemVariants = {
+  hidden: { y: 16, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: { type: 'spring', stiffness: 140, damping: 20 }
+  }
+};
 
 const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [trendingProducts, setTrendingProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const { isDarkMode } = useTheme();
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -43,20 +61,6 @@ const Home = () => {
 
     fetchProducts();
   }, []);
-
-  // Framer Motion Variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.15 }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1, transition: { type: 'spring', stiffness: 100 } }
-  };
 
   const stats = [
     { icon:  LuTruck, title: 'Free Global Shipping', desc: 'On orders over $150' },
@@ -83,7 +87,7 @@ const Home = () => {
       }`}>
         {/* Glow Spheres (Ambient Background Effects) */}
         <motion.div
-          animate={{
+          animate={prefersReducedMotion ? undefined : {
             scale: [1, 1.15, 1],
             x: [0, 20, 0],
             y: [0, -15, 0],
@@ -92,7 +96,7 @@ const Home = () => {
           className="absolute top-1/4 left-1/4 w-[450px] h-[450px] rounded-full bg-brand-500/10 dark:bg-brand-500/5 blur-[120px] pointer-events-none"
         />
         <motion.div
-          animate={{
+          animate={prefersReducedMotion ? undefined : {
             scale: [1, 1.2, 1],
             x: [0, -25, 0],
             y: [0, 20, 0],
@@ -106,9 +110,9 @@ const Home = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Left Content */}
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              initial={prefersReducedMotion ? false : { opacity: 0, x: -30 }}
+              animate={prefersReducedMotion ? undefined : { opacity: 1, x: 0 }}
+              transition={prefersReducedMotion ? undefined : { duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             >
               <span className={`inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider mb-6 border ${
                 isDarkMode
@@ -125,7 +129,7 @@ const Home = () => {
                 Discover considered pieces for work, home, and everywhere in between. Premium products, transparent pricing, and a checkout that stays out of your way.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                <motion.div whileHover={prefersReducedMotion ? undefined : { scale: 1.03 }} whileTap={prefersReducedMotion ? undefined : { scale: 0.97 }}>
                   <Link
                     to="/products"
                     className="inline-flex items-center justify-center space-x-2 bg-brand-500 hover:bg-brand-600 text-white px-7 py-3.5 rounded-full font-medium shadow-glow-primary hover:shadow-lg hover:shadow-brand-500/25 transition duration-300 dark:btn-glow-primary w-full sm:w-auto"
@@ -134,7 +138,7 @@ const Home = () => {
                     <LuArrowRight size={16} />
                   </Link>
                 </motion.div>
-                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                <motion.div whileHover={prefersReducedMotion ? undefined : { scale: 1.03 }} whileTap={prefersReducedMotion ? undefined : { scale: 0.97 }}>
                   <Link
                     to="/about"
                     className={`inline-flex items-center justify-center border px-7 py-3.5 rounded-full font-medium transition duration-300 w-full sm:w-auto ${
@@ -167,10 +171,10 @@ const Home = () => {
 
             {/* Right Graphics */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative flex items-center justify-center animate-float-slow"
+              initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.95, y: 20 }}
+              animate={prefersReducedMotion ? undefined : { opacity: 1, scale: 1, y: 0 }}
+              transition={prefersReducedMotion ? undefined : { duration: 0.6, delay: 0.1 }}
+              className={`relative flex items-center justify-center${prefersReducedMotion ? '' : ' animate-float-slow'}`}
             >
               <div className={`relative p-3 sm:p-4 rounded-[2rem] w-full max-w-[460px] border shadow-premium backdrop-blur-md transition-all ${
                 isDarkMode
@@ -246,8 +250,8 @@ const Home = () => {
             {categories.map((cat, idx) => (
               <motion.div
                 key={cat.name}
-                whileHover={{ scale: 1.02, y: -4 }}
-                transition={{ duration: 0.3 }}
+                whileHover={prefersReducedMotion ? undefined : { scale: 1.02, y: -4 }}
+                transition={prefersReducedMotion ? undefined : { duration: 0.2 }}
                 className="relative"
               >
                 <Link
