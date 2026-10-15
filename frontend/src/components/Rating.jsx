@@ -20,11 +20,13 @@ const Rating = ({ value = 0, count = 0, onChange, interactive = false, size = 'm
         {stars.map((star) => (
           <button
             key={star}
+            type="button"
             onClick={() => interactive && onChange?.(star)}
             onMouseEnter={() => interactive && setHover(star)}
             onMouseLeave={() => interactive && setHover(0)}
             className={`transition-colors ${interactive ? 'cursor-pointer' : 'cursor-default'}`}
             disabled={!interactive}
+            aria-label={`${star} star${star === 1 ? '' : 's'}`}
           >
             <LuStar
               className={`${sizes[size]} ${

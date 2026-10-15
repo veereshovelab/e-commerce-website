@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { LuArrowLeft, LuThumbsUp, LuCheckCircle } from 'react-icons/lu';
-import apiClient from '../utils/api';
 import { useTheme } from '../hooks/useTheme';
 import { useAuth } from '../hooks/useAuth';
 import Rating from '../components/Rating';
@@ -76,50 +75,62 @@ const WriteReview = () => {
       >
         {/* Rating */}
         <div>
-          <label className="block text-sm font-semibold mb-3 font-display">Select Overall Rating</label>
-          <Rating
-            value={formData.rating}
-            onChange={(rating) => setFormData(prev => ({ ...prev, rating }))}
-            interactive={true}
-            size="lg"
-          />
+          <span id="rating-label" className="block text-sm font-semibold mb-3 font-display">
+            Select Overall Rating
+          </span>
+          <div role="group" aria-labelledby="rating-label">
+            <Rating
+              value={formData.rating}
+              onChange={(rating) => setFormData(prev => ({ ...prev, rating }))}
+              interactive={true}
+              size="lg"
+            />
+          </div>
         </div>
 
         {/* Title */}
         <div>
-          <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">Review Headline</label>
+          <label htmlFor="review-title" className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
+            Review Headline
+          </label>
           <input
+            id="review-title"
             type="text"
             name="title"
             value={formData.title}
             onChange={handleChange}
             placeholder="e.g. Incredible build quality & super fast dispatch!"
-            maxLength="100"
+            maxLength={100}
+            required
             className={`w-full px-4 py-2.5 rounded-xl border text-sm outline-none transition focus:ring-1 focus:ring-brand-500 ${
               isDarkMode ? 'bg-zinc-900 border-zinc-800 text-white' : 'bg-zinc-50 border-zinc-300 text-zinc-900'
             }`}
           />
-          <p className="text-[10px] text-zinc-400 mt-1 font-mono text-right">
-            {formData.title.length}/100
+          <p className="text-[10px] text-zinc-400 mt-1 font-mono text-right" aria-live="polite">
+            {formData.title.length}/100 characters
           </p>
         </div>
 
         {/* Comment */}
         <div>
-          <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">Detailed Comments</label>
+          <label htmlFor="review-comment" className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
+            Detailed Comments
+          </label>
           <textarea
+            id="review-comment"
             name="comment"
             value={formData.comment}
             onChange={handleChange}
             placeholder="What did you like or dislike about this product? How was the packaging and delivery?"
-            rows="5"
-            maxLength="1000"
+            rows={5}
+            maxLength={1000}
+            required
             className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition focus:ring-1 focus:ring-brand-500 resize-none ${
               isDarkMode ? 'bg-zinc-900 border-zinc-800 text-white' : 'bg-zinc-50 border-zinc-300 text-zinc-900'
             }`}
           />
-          <p className="text-[10px] text-zinc-400 mt-1 font-mono text-right">
-            {formData.comment.length}/1000
+          <p className="text-[10px] text-zinc-400 mt-1 font-mono text-right" aria-live="polite">
+            {formData.comment.length}/1000 characters
           </p>
         </div>
 
