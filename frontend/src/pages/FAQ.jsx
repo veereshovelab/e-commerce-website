@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useTheme } from '../hooks/useTheme';
 import Accordion from '../components/Accordion';
 
@@ -92,12 +93,12 @@ const FAQ = () => {
           <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mb-6 max-w-sm mx-auto">
             If you could not find the answer to your questions, our support team is available 24/7.
           </p>
-          <a
-            href="/contact"
+          <Link
+            to="/contact"
             className="inline-block bg-brand-500 hover:bg-brand-600 text-white text-xs font-semibold px-6 py-3 rounded-full shadow-glow-primary transition"
           >
             Contact Customer Support
-          </a>
+          </Link>
         </div>
       </div>
     </div>

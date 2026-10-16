@@ -98,7 +98,7 @@ const About = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {[
-            { title: 'Customer  First', desc: 'We put our customers at the heart of everything we do.' },
+            { title: 'Customer First', desc: 'We put our customers at the heart of everything we do.' },
             { title: 'Premium Quality', desc: 'We never compromise on product authenticity and specifications.' },
             { title: 'Constant Innovation', desc: 'We continuously improve our platform to offer the fastest tools.' },
             { title: 'Absolute Integrity', desc: 'Honest, transparent, and ethical in all supply networks.' },
