@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { LuSearch, LuX, LuHelpCircle } from 'react-icons/lu';
 import { useTheme } from '../hooks/useTheme';
 import Accordion from '../components/Accordion';
 
 const FAQ = () => {
   const { isDarkMode } = useTheme();
+  const [searchQuery, setSearchQuery] = useState('');
 
   const faqs = [
     {
@@ -49,11 +51,31 @@ const FAQ = () => {
     }
   ];
 
-  const categories = [
+  const categories = useMemo(() => [
     { title: 'Ordering & Operations', faqs: faqs.slice(0, 3) },
     { title: 'Shipping & Logistical Details', faqs: faqs.slice(3, 6) },
     { title: 'Account Security & Support', faqs: faqs.slice(6, 10) }
-  ];
+  ], []);
+
+  const filteredCategories = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return categories;
+
+    return categories
+      .map(category => {
+        const matchingFaqs = category.faqs.filter(
+          faq =>
+            faq.title.toLowerCase().includes(query) ||
+            faq.content.toLowerCase().includes(query)
+        );
+        return { ...category, faqs: matchingFaqs };
+      })
+      .filter(category => category.faqs.length > 0);
+  }, [searchQuery, categories]);
+
+  const totalMatches = useMemo(() => {
+    return filteredCategories.reduce((acc, cat) => acc + cat.faqs.length, 0);
+  }, [filteredCategories]);
 
   return (
     <div className="min-h-screen">
@@ -69,21 +91,80 @@ const FAQ = () => {
             Frequently Asked Questions
           </h1>
           <p className="text-base sm:text-lg leading-relaxed text-zinc-500 dark:text-zinc-400 max-w-xl mx-auto">
-            Find answers to operations, safety, configurations, and general queries.
+            Find quick answers to operations, shipping, accounts, and order management.
           </p>
+
+          {/* Search Bar */}
+          <div className="max-w-xl mx-auto mt-8">
+            <div className="relative flex items-center">
+              <LuSearch className="absolute left-4 text-zinc-400 pointer-events-none" size={18} />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search questions (e.g. shipping, return, payment)..."
+                className={`w-full pl-11 pr-10 py-3.5 rounded-2xl text-sm outline-none border transition-all shadow-sm ${
+                  isDarkMode
+                    ? 'bg-zinc-900/80 border-zinc-800 text-white placeholder-zinc-500 focus:border-brand-500 focus:ring-1 focus:ring-brand-500'
+                    : 'bg-white border-zinc-200 text-zinc-900 placeholder-zinc-400 focus:border-brand-500 focus:ring-1 focus:ring-brand-500'
+                }`}
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-3.5 p-1 rounded-full text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 transition"
+                  aria-label="Clear search query"
+                >
+                  <LuX size={16} />
+                </button>
+              )}
+            </div>
+            {searchQuery.trim() && (
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-2 text-center">
+                Found {totalMatches} {totalMatches === 1 ? 'result' : 'results'} for "{searchQuery}"
+              </p>
+            )}
+          </div>
         </div>
       </section>
 
       {/* FAQ content */}
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        {categories.map((category, index) => (
-          <div key={index} className="mb-16 last:mb-0">
-            <h2 className="text-lg font-display font-bold text-zinc-800 dark:text-white mb-6 uppercase tracking-wider">
-              {category.title}
-            </h2>
-            <Accordion items={category.faqs} />
+        {filteredCategories.length === 0 ? (
+          <div className={`p-10 rounded-3xl border text-center my-6 ${
+            isDarkMode ? 'bg-zinc-900/40 border-zinc-800' : 'bg-white border-zinc-200'
+          }`}>
+            <div className="w-12 h-12 rounded-full bg-brand-500/10 text-brand-500 mx-auto flex items-center justify-center mb-3">
+              <LuHelpCircle size={24} />
+            </div>
+            <h3 className="font-display font-bold text-lg text-zinc-900 dark:text-white mb-2">No matching questions</h3>
+            <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mb-6 max-w-sm mx-auto">
+              We couldn't find any questions matching "{searchQuery}". Try a different search term or get in touch with our team.
+            </p>
+            <button
+              type="button"
+              onClick={() => setSearchQuery('')}
+              className="inline-block bg-brand-500 hover:bg-brand-600 text-white text-xs font-semibold px-5 py-2.5 rounded-xl shadow-glow-primary transition"
+            >
+              Clear Search Filter
+            </button>
           </div>
-        ))}
+        ) : (
+          filteredCategories.map((category, index) => (
+            <div key={category.title || index} className="mb-14 last:mb-0">
+              <div className="flex items-center justify-between mb-5">
+                <h2 className="text-sm sm:text-base font-display font-bold text-zinc-800 dark:text-white uppercase tracking-wider">
+                  {category.title}
+                </h2>
+                <span className="text-xs font-medium text-zinc-400">
+                  {category.faqs.length} {category.faqs.length === 1 ? 'item' : 'items'}
+                </span>
+              </div>
+              <Accordion items={category.faqs} />
+            </div>
+          ))
+        )}
 
         {/* Support CTA Callout */}
         <div className={`p-8 rounded-3xl border text-center shadow-premium mt-16 ${
