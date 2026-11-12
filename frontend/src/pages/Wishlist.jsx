@@ -5,6 +5,9 @@ import { useCart } from '../hooks/useCart';
 import { useTheme } from '../hooks/useTheme';
 import { toast } from 'react-toastify';
 
+/**
+ * Wishlist page component displaying saved items and actions to move them to cart.
+ */
 const Wishlist = () => {
   const { wishlist, removeFromWishlist, clearWishlist, moveAllWishlistToCart, addToCart } = useCart();
   const { isDarkMode } = useTheme();
