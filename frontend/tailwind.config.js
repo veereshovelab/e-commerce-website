@@ -1,3 +1,4 @@
+// Tailwind CSS configuration for e-commerce frontend
 module.exports = {
   content: [
     "./index.html",
