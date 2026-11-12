@@ -2,7 +2,7 @@ const Order = require('../models/Order');
 const Product = require('../models/Product');
 const User = require('../models/User');
 
-// Create order
+// Create a new order
 exports.createOrder = async (req, res) => {
   try {
     const { products, shippingAddress, billingAddress, orderSummary, paymentMethod, notes, orderNotes } = req.body;
@@ -25,7 +25,7 @@ exports.createOrder = async (req, res) => {
       }
     }
 
-    // Create order
+    // Create a new order
     const order = await Order.create({
       user: req.user._id,
       products,
