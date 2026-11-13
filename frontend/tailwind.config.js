@@ -60,6 +60,26 @@ module.exports = {
         'glow-primary': '0 0 20px rgba(139, 92, 246, 0.15)',
         'glow-secondary': '0 0 20px rgba(59, 130, 246, 0.15)',
         'glow-purple': '0 0 25px rgba(139, 92, 246, 0.35)',
+      },
+      animation: {
+        'pulse-slow': 'pulseGlow 7s ease-in-out infinite',
+        'float-gentle': 'floatGentle 5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite',
+        'shimmer-slide': 'shimmerSlide 2.5s infinite',
+        'fade-in-up': 'fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+      },
+      keyframes: {
+        floatGentle: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-8px)' },
+        },
+        shimmerSlide: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
+        fadeInUp: {
+          '0%': { opacity: '0', transform: 'translateY(12px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
       }
     }
   },

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import {
   LuAward,
   LuUsers,
@@ -68,20 +69,31 @@ const About = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className={`relative py-24 px-4 sm:px-6 lg:px-8 border-b ${
+      <section className={`relative py-24 px-4 sm:px-6 lg:px-8 border-b overflow-hidden ${
         isDarkMode ? 'bg-zinc-950 border-zinc-900' : 'bg-zinc-50 border-zinc-200'
       }`}>
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full bg-brand-500/10 blur-[100px] pointer-events-none" />
+        <motion.div 
+          animate={{ scale: [1, 1.2, 1], opacity: [0.35, 0.55, 0.35] }}
+          transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute top-1/3 left-1/2 -translate-x-1/2 w-80 h-80 rounded-full bg-brand-500/15 blur-[110px] pointer-events-none" 
+        />
 
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <span className="text-xs uppercase tracking-widest font-semibold text-brand-500">Our Identity</span>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="max-w-4xl mx-auto text-center relative z-10"
+        >
+          <span className="inline-block text-xs uppercase tracking-widest font-semibold text-brand-500 px-3 py-1 rounded-full bg-brand-500/10 mb-2">
+            Our Identity
+          </span>
           <h1 className="text-4xl sm:text-5xl font-display font-bold tracking-tight text-zinc-900 dark:text-white mt-3 mb-6">
             About ShopSphere
           </h1>
           <p className="text-base sm:text-lg leading-relaxed text-zinc-500 dark:text-zinc-400 max-w-2xl mx-auto">
             Your trusted destination for premium products, crafted with precision and delivered with peerless speed and service.
           </p>
-        </div>
+        </motion.div>
       </section>
 
       {/* Statistics */}
@@ -90,10 +102,17 @@ const About = () => {
           {stats.map((stat, index) => {
             const Icon = stat.icon;
             return (
-              <div
+              <motion.div
                 key={index}
-                className={`p-6 rounded-2xl border text-center shadow-premium transition-all duration-300 hover:-translate-y-1 ${
-                  isDarkMode ? 'bg-zinc-900/40 border-zinc-850' : 'bg-white border-zinc-200'
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                whileHover={{ y: -5, scale: 1.02 }}
+                className={`p-6 rounded-2xl border text-center shadow-premium transition-all duration-300 ${
+                  isDarkMode 
+                    ? 'bg-zinc-900/40 border-zinc-850 hover:border-brand-500/30 hover:shadow-[0_8px_25px_-6px_rgba(139,92,246,0.25)]' 
+                    : 'bg-white border-zinc-200 hover:border-brand-500/30 hover:shadow-xl'
                 }`}
               >
                 <div className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-4 text-brand-500 bg-brand-500/10">
@@ -101,7 +120,7 @@ const About = () => {
                 </div>
                 <p className="text-3xl font-display font-bold text-zinc-900 dark:text-white">{stat.value}</p>
                 <p className="text-xs font-semibold text-zinc-400 dark:text-zinc-500 mt-1 uppercase tracking-wider">{stat.label}</p>
-              </div>
+              </motion.div>
             );
           })}
         </div>
@@ -146,12 +165,17 @@ const About = () => {
           {values.map((val, index) => {
             const Icon = val.icon;
             return (
-              <div
+              <motion.div
                 key={index}
-                className={`p-6 rounded-2xl border shadow-premium transition-all duration-300 hover:-translate-y-1 ${
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: index * 0.06, ease: [0.16, 1, 0.3, 1] }}
+                whileHover={{ y: -6, scale: 1.015 }}
+                className={`p-6 rounded-2xl border shadow-premium transition-all duration-300 ${
                   isDarkMode
-                    ? 'bg-zinc-900/40 border-zinc-850 hover:border-zinc-700'
-                    : 'bg-white border-zinc-200 hover:border-zinc-300'
+                    ? 'bg-zinc-900/40 border-zinc-850 hover:border-brand-500/30 hover:shadow-[0_8px_25px_-6px_rgba(139,92,246,0.25)]'
+                    : 'bg-white border-zinc-200 hover:border-brand-500/30 hover:shadow-xl'
                 }`}
               >
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-4 text-brand-500 bg-brand-500/10">
@@ -159,7 +183,7 @@ const About = () => {
                 </div>
                 <h3 className="font-display font-bold text-base text-zinc-800 dark:text-white mb-2">{val.title}</h3>
                 <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">{val.desc}</p>
-              </div>
+              </motion.div>
             );
           })}
         </div>
@@ -180,10 +204,17 @@ const About = () => {
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {team.map((member, index) => (
-              <div
+              <motion.div
                 key={index}
-                className={`p-8 rounded-2xl border text-center shadow-premium transition-all duration-300 hover:-translate-y-1 ${
-                  isDarkMode ? 'bg-zinc-900/60 border-zinc-850' : 'bg-white border-zinc-200'
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                whileHover={{ y: -6, scale: 1.02 }}
+                className={`p-8 rounded-2xl border text-center shadow-premium transition-all duration-300 ${
+                  isDarkMode 
+                    ? 'bg-zinc-900/60 border-zinc-850 hover:border-brand-500/30 hover:shadow-[0_8px_25px_-6px_rgba(139,92,246,0.25)]' 
+                    : 'bg-white border-zinc-200 hover:border-brand-500/30 hover:shadow-xl'
                 }`}
               >
                 <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${member.bg} flex items-center justify-center font-bold font-display text-lg text-brand-500 mx-auto mb-4`}>
@@ -191,7 +222,7 @@ const About = () => {
                 </div>
                 <h3 className="font-display font-bold text-sm text-zinc-800 dark:text-white">{member.name}</h3>
                 <p className="text-xs text-zinc-400 dark:text-zinc-500 mt-1 uppercase tracking-wider">{member.role}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>

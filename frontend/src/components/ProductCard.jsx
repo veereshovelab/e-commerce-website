@@ -56,11 +56,13 @@ const ProductCard = ({ product }) => {
   return (
     <>
       <motion.div
-        whileHover={{ y: -5, scale: 1.01 }}
+        whileHover={{ y: -6, scale: 1.015 }}
         whileTap={{ scale: 0.985 }}
-        transition={{ type: 'spring', stiffness: 320, damping: 28 }}
-        className={`group relative rounded-2xl overflow-hidden border transform-gpu ${
-          isDarkMode ? 'bg-darkCard/40 border-white/5 backdrop-blur-md shadow-glass-dark hover:border-white/10 hover:shadow-glow-purple' : 'bg-white border-zinc-200 shadow-premium hover:shadow-premium-hover'
+        transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+        className={`group relative rounded-2xl overflow-hidden border transform-gpu transition-shadow duration-500 ${
+          isDarkMode
+            ? 'bg-darkCard/40 border-white/5 backdrop-blur-md shadow-glass-dark hover:border-brand-500/30 hover:shadow-[0_12px_32px_-8px_rgba(139,92,246,0.28)]'
+            : 'bg-white border-zinc-200/90 shadow-premium hover:shadow-[0_16px_36px_-10px_rgba(0,0,0,0.12)] hover:border-zinc-300'
         } flex flex-col h-full`}
       >
         {/* Wishlist & Compare Buttons (Floating) */}
@@ -103,7 +105,7 @@ const ProductCard = ({ product }) => {
           <img
             src={product.thumbnail || product.images?.[0] || 'https://via.placeholder.com/300'}
             alt={product.name}
-            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-108"
+            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.07] will-change-transform"
             loading="lazy"
           />
 
